@@ -1,0 +1,145 @@
+﻿
+<div class="main-content" ng-controller="PersonController"> 
+    <h4 class="des border-b">
+        人员资料列表
+    </h4>
+    <form class="form-horizontal" ng-submit="onSearch()">
+        <div class="search-ban">
+            <div class="col-label-search">
+                人员编号
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="PersonID" ng-model="Record.PersonID" placeholder="请输入人员编码">
+            </div>
+            <div class="col-label-search">
+                机构名称
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="OrgName" ng-model="Record.OrgName" placeholder="请输入机构名称">
+            </div>
+            <div class="col-label-search">
+                人员名称
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="UserName" ng-model="Record.UserName" placeholder="请输入人员名称">
+            </div>
+            <div class="col-label-search">
+                标签
+            </div>
+            <div class="col-date-search">
+                <select id="Tag" name="Tag" class="form-control" ng-model="Record.Tag" ng-change="onTagChange()">
+                    <option value="0">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="1" style="background-color:red">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="2" style="background-color:yellow">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="3" style="background-color:blue">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="4" style="background-color:green">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="5" style="background-color:white">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                </select>
+            </div>
+            <div class="col-label-search">
+                邮箱
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="Email" ng-model="Record.Email" placeholder="请输入邮箱">
+            </div>
+            <div class="div-clear"></div>
+            <div class="col-label-search">
+                手机号码
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="Mobile" ng-model="Record.Mobile" placeholder="请输入手机号码">
+            </div>
+            <div class="col-label-search">
+                电话号码
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="Tel" ng-model="Record.Tel" placeholder="请输入电话号码">
+            </div>
+
+            <div class="col-label-search">
+                联系地址
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="ContactAddress" ng-model="Record.ContactAddress" placeholder="请输入联系地址">
+            </div>
+            
+            <div class="col-date-search">
+                <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+            </div>
+            <div class="col-date-search">
+                <button class="btn base" type="button" ng-click="showEdit()" style="padding:5px 10px;">新增</button>
+            </div>
+            <div class="div-clear"></div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>来源</th>
+                    <th>人员编号</th>
+                    <th>人员名</th>
+                    <th>英文名</th>
+                    <th>机构名称</th>
+                    <th>标签</th>
+                    <th>电话</th>
+                    <th>手机号</th>
+                    <th>出生年月</th>
+                    <th>国籍</th>
+                    <th style="text-align:center">{{'lblOperator'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody ng-show="ListItems == null || ListItems.length == 0">
+                <tr>
+                    <td colspan="5">{{'msgNoData'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr ng-repeat="item in ListItems">
+                    <td>{{item.FromType}}</td>
+                    <td>{{item.PersonID}}</td>
+                    <td>{{item.NameCN}}</td>
+                    <td>{{item.NameEN}}</td>
+                    <td>{{item.OrgName}}</td>
+                    <td class="TagClass{{item.Tag}}"></td>
+                    <td>{{item.Tel1}}</td>
+                    <td>{{item.Mobile1}}</td>
+                    <td>{{item.Birth}}</td>
+                    <td>{{item.Nationality}}</td>
+                    <td style="text-align:center">
+                        <a class="btn btn-info" ui-sref='Index.PersonEdit({PersonID:"{{item.PersonID}}"})'>
+                            <i class="glyphicon glyphicon-edit"></i>
+                            编辑
+                        </a>
+                        <a class="btn btn-info" ui-sref='Index.PersonDetail({PersonID:"{{item.PersonID}}"})'>
+                            <i class="glyphicon glyphicon-edit"></i>
+                            详情
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="CurrentPage"
+                   page-Size="pageSize"
+                   total-Count="totalCount" on-change="onSearch()" />
+
+    </form>
+</div>
+<style>
+    .TagClass1 {
+        background-color: red
+    }
+    .TagClass2 {
+        background-color: yellow
+    }
+    .TagClass3 {
+        background-color: blue
+    }
+    .TagClass4 {
+        background-color: green
+    }
+    .TagClass5 {
+        background-color: white
+    }
+</style>

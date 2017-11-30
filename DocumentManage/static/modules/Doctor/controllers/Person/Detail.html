@@ -1,0 +1,306 @@
+﻿<div class="main-content" ng-controller="PersonDetailController">
+    <div style="font-size:20px;font-weight:bold;line-height:40px">
+        <div style="text-align:center">人员资料详情</div>
+    </div>
+    <div class="main-content-title clearfix" style="margin-bottom:10px">
+        <div id="ptitle" class="pull-left"></div>
+    </div>
+    <form form-validate id="myForm">
+        <div class="form-horizontal">
+            <div class="doctor-input add-form m-t-25">
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">来源</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.FromType}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">人员编号</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.PersonID}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">机构名称</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.OrgName}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">中文名</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.NameCN}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">英文名</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.NameEN}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">标签</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="Tag" name="Tag" class="form-control" ng-model="Record.Tag">
+                                <option value="">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="1" style="background-color:red">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="2" style="background-color:yellow">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="3" style="background-color:blue">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="4" style="background-color:green">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="5" style="background-color:white">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">部门</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Department}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">护照号码</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.PassportCode}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">护照复印件</span>
+                        </div>
+                        <div class="col-md-8">
+                            <a ng-href="{{Record.PassportUrl}}">护照复印件</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">护照有效期</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.PassportDate}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">签发日期</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.PassportSignDate}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">签发地</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.PassportSignAdress}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">护照类别</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.PassportType}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">头衔</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Title}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">主要职务</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Duty}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">头像</span>
+                        </div>
+                        <div class="col-md-8">
+                            <a ng-href="{{Record.PhotoUrl}}">头像</a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">身份证号</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.IDNumber}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">身份证复印件</span>
+                        </div>
+                        <div class="col-md-8">
+                            <a ng-href="{{Record.IDNumberUrl}}">身份证复印件</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">邮箱</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Email}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">电话1</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Tel1}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">电话2</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Tel2}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">手机1</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Mobile1}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">手机2</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Mobile2}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">联系地址</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.ContactAddress}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">出生年月</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Birth}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">性别</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Sex}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">国籍</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Nationality}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">喜好</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Fancy}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">忌讳</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Taboo}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">接待规格</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.RecLevel}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">其他说明</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Remark}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <input type="button" class="btn btn-default" ng-click="GoBack()" value="{{'btnBack' | translate}}" />
+        </div>
+    </form>
+</div>
+<style>
+    .dropdown-menu {
+        overflow: scroll;
+        height: 200px
+    }
+</style>

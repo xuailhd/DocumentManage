@@ -1,0 +1,42 @@
+﻿<div ng-controller="IndexController" id="space" im-init>
+    <div class="notifications top-right"></div>    
+    <div id="contentDiv">
+        <div class="content menuBg">
+            <div class="nav-menu noborder">
+                <div class="user-info">         
+                    <div class="user-info-img">
+                        <a ui-sref="Doctor.PersonalInfo">
+                            <img id="PhotoUrl" ng-src="/static/images/unknow.png"/>
+                        </a>
+                    </div>
+                    <div class="user-info-msg">
+                        <div class="user-info-hello">
+                            {{loginInfo.UserName}}
+                        </div>
+                        <div class="user-info-action">
+                            <a ui-sref="Doctor.PersonalInfo" id="PersonalInfo">[ {{'个人资料'|translate}} ]</a>                           
+                            <a ui-sref="Doctor.ChangePassword">[ {{'lblChangePassword'|translate}} ]</a>
+                            <a ng-click="fn.onLogout()">[ {{'lblLogout'|translate}} ]</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-list">
+                    <ul ng-init="fn.onOpenMenu(Modules[0])">
+                        <li ng-repeat="item in Modules">
+                            <a ng-class="{'current':currentMenu==item.AuthUrl}" 
+                               ng-click="fn.onOpenMenu(item)" 
+                               target="{{item.Target}}"
+                               href="{{item.AuthUrl}}"><i class="{{item.CSSClass}}"></i>{{item.AuthName}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="ui-view insertContentBox">
+            </div>
+        </div>
+    </div> 
+</div>
+<script type="text/javascript">
+    $(".personCenter").addClass("active");
+    $(".nav-ban ul li a").removeClass("active");
+</script>

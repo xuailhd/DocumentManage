@@ -1,0 +1,934 @@
+﻿<div  class="main-content" ng-controller="RecordEditController">
+    <div style="font-size:20px;font-weight:bold;line-height:40px">
+        <div style="text-align:center">档案编辑</div>
+    </div>
+    <div class="main-content-title clearfix" style="margin-bottom:10px">
+        <div id="ptitle" class="pull-left"></div>
+    </div>
+    <div class="form-horizontal">
+        <div class="doctor-input add-form m-t-25">
+            <form form-validate id="myForm">
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">来源</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="VisitType" name="VisitType" class="form-control" ng-model="Record.VisitType" ng-change="getWaterNo()">
+                                <option value="出访">出访</option>
+                                <option value="来访">来访</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>档案编号</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="VisitID" class="form-control" name="VisitID" type="text" ng-model="Record.VisitID" disabled />
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>档案名称</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="VisitName" class="form-control" name="VisitName" type="text" ng-model="Record.VisitName" 
+                                   validate="{required:true, messages:{required:'请输入档案名称'}}"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right"><em>*</em>访问目的</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="VisitFor" name="VisitFor" class="form-control" ng-model="Record.VisitFor">
+                            <option value="友好访问">友好访问</option>
+                            <option value="会议">会议</option>
+                            <option value="特别活动">特别活动</option>
+                            <option value="培训">培训</option>
+                            <option value="讲课">讲课</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">主要经办部门</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="MianDepartment" name="MianDepartment" class="form-control" ng-model="Record.MianDepartment">    
+                            <option value="财政部">财政部</option>
+                            <option value="教育部">教育部</option>
+                            <option value="农业部">农业部</option>
+                            <option value="文化部">文化部</option>
+                            <option value="外交部">外交部</option>
+                            <option value="国防部">国防部</option>
+                            <option value="司法部">司法部</option>
+                            <option value="交通运输部">交通运输部</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">主要经办人</span>
+                    </div>
+                    <div class="col-md-7">
+                        <input id="MianPersonStr" class="form-control" name="MianPersonStr" type="text" ng-model="Record.MianPersonStr" />
+                    </div>
+                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                        <a ng-click="onAddMianPerson()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                        <a ng-click="onCleanMianPerson()">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">接待机构</span>
+                    </div>
+                    <div class="col-md-7">
+                        <input id="OurOrgStr" class="form-control" name="OurOrgStr" type="text" ng-model="Record.OurOrgStr" />
+                    </div>
+                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                        <a ng-click="onAddOurOrg()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                        <a ng-click="onCleanOurOrg()">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">主要接待人员</span>
+                    </div>
+                    <div class="col-md-7">
+                        <input id="OurPersonStr" class="form-control" name="OurPersonStr" type="text" ng-model="Record.OurPersonStr" />
+                    </div>
+                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                        <a ng-click="onAddOurPerson()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                        <a ng-click="onCleanOurPerson()">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">其他接待人员</span>
+                    </div>
+                    <div class="col-md-7">
+                        <input id="OurOtherPersonStr" class="form-control" name="OurOtherPersonStr" type="text" ng-model="Record.OurOtherPersonStr" />
+                    </div>
+                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                        <a ng-click="onAddOurOtherPerson()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                        <a ng-click="onCleanOurOtherPerson()">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">来访机构</span>
+                    </div>
+                    <div class="col-md-7">
+                        <input id="TheyOrgStr" class="form-control" name="TheyOrgStr" type="text" ng-model="Record.TheyOrgStr" />
+                    </div>
+                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                        <a ng-click="onAddTheyOrg()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                        <a ng-click="onCleanTheyOrg()">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">领队</span>
+                    </div>
+                    <div class="col-md-7">
+                        <input id="TheyPersonStr" class="form-control" name="TheyPersonStr" type="text" ng-model="Record.TheyPersonStr" />
+                    </div>
+                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                        <a ng-click="onAddTheyPerson()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                        <a ng-click="onCleanTheyPerson()">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">其他人员</span>
+                    </div>
+                    <div class="col-md-7">
+                        <input id="TheyOtherPersonStr" class="form-control" name="TheyOtherPersonStr" type="text" ng-model="Record.TheyOtherPersonStr" />
+                    </div>
+                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                        <a ng-click="onAddTheyOtherPerson()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                        <a ng-click="onCleanTheyOtherPerson()">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">邀请机构</span>
+                    </div>
+                    <div class="col-md-7">
+                        <input id="BeViOrgStr" class="form-control" name="BeViOrgStr" type="text" ng-model="Record.BeViOrgStr" />
+                    </div>
+                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                        <a ng-click="onAddBeViOrg()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                        <a ng-click="onCleanBeViOrg()">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">访问性质</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="VisType" name="VisType" class="form-control" ng-model="Record.VisType">
+                            <option value="正式">正式</option>
+                            <option value="散客">散客</option>
+                            <option value="上级安排">上级安排</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">费用承担</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="FeeType" name="FeeType" class="form-control" ng-model="Record.FeeType">
+                            <option value="公费">公费</option>
+                            <option value="自费">自费</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">支付方式</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="PayType" name="PayType" class="form-control" ng-model="Record.PayType">
+                            <option value="报销">报销</option>
+                            <option value="预付">预付</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">接待标准</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="TakeLevel" name="TakeLevel" class="form-control" ng-model="Record.TakeLevel">
+                            <option value="一级">一级</option>
+                            <option value="二级">二级</option>
+                            <option value="三级">三级</option>
+                            <option value="四级">四级</option>
+                            <option value="五级">五级</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">是否成行</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="IsLine" name="IsLine" class="form-control" ng-model="Record.IsLine">
+                            <option value="是">是</option>
+                            <option value="否">否</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">外方评分</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="AnsLevel" name="AnsLevel" class="form-control" ng-model="Record.AnsLevel">
+                            <option value="一星">一星</option>
+                            <option value="二星">二星</option>
+                            <option value="三星">三星</option>
+                            <option value="四星">四星</option>
+                            <option value="五星">五星</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">访问标注</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="VisitTag" name="VisitTag" class="form-control" ng-model="Record.VisitTag">
+                            <option value="全国两会">全国两会</option>
+                            <option value="国宗">国宗</option>
+                            <option value="统战部">统战部</option>
+                            <option value="政府机构">政府机构</option>
+                            <option value="访问院校">访问院校</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">备注</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Remark" class="form-control" name="Remark" type="text" ng-model="Record.Remark" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-md-offset-1 col-md-10">
+                <label>
+                    行程 {{Record.FromDate}}-{{Record.EndDate}}
+                </label>
+                <form form-validate id="myForm1">
+                    <table class="table table-responsive table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-left">序号</th>
+                                <th class="text-center">开始日期</th>
+                                <th class="text-center">结束日期</th>
+                                <th class="text-center">地点</th>
+                                <th class="text-center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in Record.VisitDetails">
+                                <td class="col-1 text-left">
+                                    {{item.No}}
+                                </td>
+                                <td class="text-left">
+                                    <input class="form-control" type="date" name="{{'FromDate'+$index}}" ng-model="item.FromDate"
+                                           ng-change="onFromChange(item.FromDate)" validate="{required:true, messages:{required:'请输入开始日期'}}" />
+                                </td>
+                                <td class="text-left">
+                                    <input class="form-control" type="date" name="{{'EndDate'+$index}}" ng-model="item.EndDate"
+                                           ng-change="onEndChange(item.EndDate)" validate="{required:true, messages:{required:'请输入结束日期'}}" />
+                                </td>
+                                <td class="text-left">
+                                    <input class="form-control" type="text" name="{{'Adress'+$index}}" ng-model="item.Adress"
+                                           validate="{required:true, messages:{required:'请输入地址'}}" />
+                                </td>
+                                <td class="col-1 text-left">
+                                    <button class="btn btn-md btn-danger" ng-click="onRemoveVisitDetail(item.No)">删除</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    <button type="button" class="btn btn-block btn-default" ng-click="onAddVisitDetail()">+添加行程</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">上级往来文件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.SJWLFiles">
+                            <li id="SJWLFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a><a ng-click="delSJWLUrl(item.FileUrl,$index)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <form name="SJWLUrl_form" enctype="multipart/form-data">
+                            <input type="file"
+                                   id="SJWLUrl_file"
+                                   multiple
+                                   class="form-control"
+                                   name="SJWLUrl" />
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">来宾往来文件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.LBWLFiles">
+                            <li id="LBWLFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a><a ng-click="delLBWLUrl(item.FileUrl,$index)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <form name="LBWLUrl_form" enctype="multipart/form-data">
+                            <input type="file"
+                                   id="LBWLUrl_file"
+                                   multiple
+                                   class="form-control"
+                                   name="LBWLUrl" />
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">内部管理文件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.NBGLFiles">
+                            <li id="NBGLFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a><a ng-click="delNBGLUrl(item.FileUrl,$index)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <form name="NBGLUrl_form" enctype="multipart/form-data">
+                            <input type="file"
+                                   id="NBGLUrl_file"
+                                   multiple
+                                   class="form-control"
+                                   name="NBGLUrl" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">会议相关文件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.HYXGFiles">
+                            <li id="HYXGFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a><a ng-click="delHYXGUrl(item.FileUrl,$index)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <form name="HYXGUrl_form" enctype="multipart/form-data">
+                            <input type="file"
+                                   id="HYXGUrl_file"
+                                   multiple
+                                   class="form-control"
+                                   name="HYXGUrl" />
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">新闻稿</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.NewsFiles">
+                            <li id="NewsFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a><a ng-click="delNewsUrl(item.FileUrl,$index)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <form name="NewsUrl_form" enctype="multipart/form-data">
+                            <input type="file"
+                                   id="NewsUrl_file"
+                                   multiple
+                                   class="form-control"
+                                   name="NewsUrl" />
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">其他文件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.OtherFiles">
+                            <li id="OtherFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a><a ng-click="delOtherUrl(item.FileUrl,$index)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <form name="OtherUrl_form" enctype="multipart/form-data">
+                            <input type="file"
+                                   id="OtherUrl_file"
+                                   multiple
+                                   class="form-control"
+                                   name="OtherUrl" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="div-clear"></div>
+    <div class="text-center">
+        <input type="button" class="btn btn-info m-r-5" value="{{'btnSave'|translate}}" ng-click="onSubmit()" />
+        <input type="button" class="btn btn-default" ng-click="GoBack()" value="{{'btnBack' | translate}}" />
+    </div>
+
+    <div class="modal fade" id="modal-selectMainPerson" role="dialog">
+        <div class="modal-dialog" style="width:90%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">{{'主要经办人'|translate}}</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="col-date-search">
+                        <input type="text" class="form-control" ng-model="Record.MainPersonName" placeholder="请输入人员名称">
+                    </div>
+                    <div class="col-date-search">
+                        <button class="btn base" type="button" ng-click="onGetMainPerson(Record.MainPersonName)" style="padding:5px 10px;">过滤</button>
+                    </div>
+                    <table class="table table-responsive table-bordered table-hover table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60">选择</th>
+                                <th class="text-left">人员编码</th>
+                                <th class="text-left">姓名</th>
+                                <th class="text-left">英文名</th>
+                                <th class="text-center" width="100">所属机构</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in mainPersons" ng-dblclick="item.Selected=(!item.Selected)">
+                                <td>
+                                    <input type="checkbox" ng-model="item.Selected"/>
+                                </td>
+                                <td class="text-left">
+                                    {{item.PersonID}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.NameCN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.NameEN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.OrgName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" ng-click="onMainPersonSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-selectOurPerson" role="dialog">
+        <div class="modal-dialog" style="width:90%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">{{'主要接待人员'|translate}}</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="col-date-search">
+                        <input type="text" class="form-control" ng-model="Record.OurPersonName" placeholder="请输入人员名称">
+                    </div>
+                    <div class="col-date-search">
+                        <button class="btn base" type="button" ng-click="onGetOurPerson(Record.OurPersonName)" style="padding:5px 10px;">过滤</button>
+                    </div>
+                    <table class="table table-responsive table-bordered table-hover table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60">选择</th>
+                                <th class="text-left">人员编码</th>
+                                <th class="text-left">姓名</th>
+                                <th class="text-left">英文名</th>
+                                <th class="text-center" width="100">所属机构</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ourPersons" ng-dblclick="item.Selected=(!item.Selected)">
+                                <td>
+                                    <input type="checkbox" ng-model="item.Selected" />
+                                </td>
+                                <td class="text-left">
+                                    {{item.PersonID}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.NameCN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.NameEN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.OrgName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" ng-click="onOurPersonSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-selectOurOtherPerson" role="dialog">
+        <div class="modal-dialog" style="width:90%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">{{'其他接待人员'|translate}}</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="col-date-search">
+                        <input type="text" class="form-control" ng-model="Record.OurOtherPersonName" placeholder="请输入人员名称">
+                    </div>
+                    <div class="col-date-search">
+                        <button class="btn base" type="button" ng-click="onGetOurOtherPerson(Record.OurOtherPersonName)" style="padding:5px 10px;">过滤</button>
+                    </div>
+                    <table class="table table-responsive table-bordered table-hover table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60">选择</th>
+                                <th class="text-left">人员编码</th>
+                                <th class="text-left">姓名</th>
+                                <th class="text-left">英文名</th>
+                                <th class="text-center" width="100">所属机构</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ourOtherPersons" ng-dblclick="item.Selected=(!item.Selected)">
+                                <td>
+                                    <input type="checkbox" ng-model="item.Selected" />
+                                </td>
+                                <td class="text-left">
+                                    {{item.PersonID}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.NameCN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.NameEN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.OrgName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" ng-click="onOurOtherPersonSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-selectTheyPerson" role="dialog">
+        <div class="modal-dialog" style="width:90%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">{{'领队'|translate}}</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="col-date-search">
+                        <input type="text" class="form-control" ng-model="Record.TheyPersonName" placeholder="请输入人员名称">
+                    </div>
+                    <div class="col-date-search">
+                        <button class="btn base" type="button" ng-click="onGetTheyPerson(Record.TheyPersonName)" style="padding:5px 10px;">过滤</button>
+                    </div>
+                    <table class="table table-responsive table-bordered table-hover table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60">选择</th>
+                                <th class="text-left">人员编码</th>
+                                <th class="text-left">姓名</th>
+                                <th class="text-left">英文名</th>
+                                <th class="text-center" width="100">所属机构</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in theyPersons" ng-dblclick="item.Selected=(!item.Selected)">
+                                <td>
+                                    <input type="checkbox" ng-model="item.Selected" />
+                                </td>
+                                <td class="text-left">
+                                    {{item.PersonID}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.NameCN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.NameEN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.OrgName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" ng-click="onTheyPersonSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-selectTheyOtherPerson" role="dialog">
+        <div class="modal-dialog" style="width:90%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">{{'其他接待人员'|translate}}</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="col-date-search">
+                        <input type="text" class="form-control" ng-model="Record.TheyOtherPersonName" placeholder="请输入人员名称">
+                    </div>
+                    <div class="col-date-search">
+                        <button class="btn base" type="button" ng-click="onGetTheyOtherPerson(Record.TheyOtherPersonName)" style="padding:5px 10px;">过滤</button>
+                    </div>
+                    <table class="table table-responsive table-bordered table-hover table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60">选择</th>
+                                <th class="text-left">人员编码</th>
+                                <th class="text-left">姓名</th>
+                                <th class="text-left">英文名</th>
+                                <th class="text-center" width="100">所属机构</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in theyOtherPersons" ng-dblclick="item.Selected=(!item.Selected)">
+                                <td>
+                                    <input type="checkbox" ng-model="item.Selected" />
+                                </td>
+                                <td class="text-left">
+                                    {{item.PersonID}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.NameCN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.NameEN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.OrgName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" ng-click="onTheyOtherPersonSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-selectOurOrg" role="dialog">
+        <div class="modal-dialog" style="width:90%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">{{'接待机构'|translate}}</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="col-date-search">
+                        <input type="text" class="form-control" ng-model="Record.OurOrgName" placeholder="请输入机构姓名">
+                    </div>
+                    <div class="col-date-search">
+                        <button class="btn base" type="button" ng-click="onGetOurOrg(Record.OurOrgName)" style="padding:5px 10px;">过滤</button>
+                    </div>
+                    <table class="table table-responsive table-bordered table-hover table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60">选择</th>
+                                <th class="text-left">机构编码</th>
+                                <th class="text-left">机构名称</th>
+                                <th class="text-left">英文名称</th>
+                                <th class="text-center" width="100">中方/外方</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ourOrgs" ng-dblclick="item.Selected=(!item.Selected)">
+                                <td>
+                                    <input type="checkbox" ng-model="item.Selected" />
+                                </td>
+                                <td class="text-left">
+                                    {{item.OrgID}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.OrgName}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.OrgNameEN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.FromType}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" ng-click="onOurOrgSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-selectTheyOrg" role="dialog">
+        <div class="modal-dialog" style="width:90%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">{{'接待机构'|translate}}</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="col-date-search">
+                        <input type="text" class="form-control" ng-model="Record.TheyOrgName" placeholder="请输入机构姓名">
+                    </div>
+                    <div class="col-date-search">
+                        <button class="btn base" type="button" ng-click="onGetTheyOrg(Record.TheyOrgName)" style="padding:5px 10px;">过滤</button>
+                    </div>
+                    <table class="table table-responsive table-bordered table-hover table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60">选择</th>
+                                <th class="text-left">机构编码</th>
+                                <th class="text-left">机构名称</th>
+                                <th class="text-left">英文名称</th>
+                                <th class="text-center" width="100">中方/外方</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in theyOrgs" ng-dblclick="item.Selected=(!item.Selected)">
+                                <td>
+                                    <input type="checkbox" ng-model="item.Selected" />
+                                </td>
+                                <td class="text-left">
+                                    {{item.OrgID}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.OrgName}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.OrgNameEN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.FromType}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" ng-click="onTheyOrgSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-selectBeViOrg" role="dialog">
+        <div class="modal-dialog" style="width:90%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">{{'接待机构'|translate}}</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="col-date-search">
+                        <input type="text" class="form-control" ng-model="Record.BeViOrgName" placeholder="请输入机构姓名">
+                    </div>
+                    <div class="col-date-search">
+                        <button class="btn base" type="button" ng-click="onGetBeViOrg(Record.BeViOrgName)" style="padding:5px 10px;">过滤</button>
+                    </div>
+                    <table class="table table-responsive table-bordered table-hover table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60">选择</th>
+                                <th class="text-left">机构编码</th>
+                                <th class="text-left">机构名称</th>
+                                <th class="text-left">英文名称</th>
+                                <th class="text-center" width="100">中方/外方</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in beViOrgs" ng-dblclick="item.Selected=(!item.Selected)">
+                                <td>
+                                    <input type="checkbox" ng-model="item.Selected" />
+                                </td>
+                                <td class="text-left">
+                                    {{item.OrgID}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.OrgName}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.OrgNameEN}}
+                                </td>
+                                <td width="text-left">
+                                    {{item.FromType}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" ng-click="onBeViOrgSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .dropdown-menu {overflow:scroll;height:200px}
+    em{color:#f00;width:8px;vertical-align:middle;text-align:center;display:inline;font-style:normal}
+</style>

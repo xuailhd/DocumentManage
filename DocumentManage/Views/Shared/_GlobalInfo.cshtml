@@ -1,0 +1,16 @@
+﻿@{
+    var CurrentUserID = DocumentManage.SecurityHelper.LoginUser.UserID;
+    var userService = new DocumentManage.Services.UserService();
+
+    var _menuModules = Newtonsoft.Json.JsonConvert.SerializeObject(userService.GetUserAuths(new DocumentManage.Dtos.RequestAuthDTO() { Type = 0, UserID = CurrentUserID }));
+    var _funModules = Newtonsoft.Json.JsonConvert.SerializeObject(userService.GetUserAuths(new DocumentManage.Dtos.RequestAuthDTO() { Type = 1, UserID = CurrentUserID }));
+}
+
+<script type="text/javascript">
+
+    // 菜单权限
+    var golbal_Modules = @Html.Raw(_menuModules);
+
+    // 功能权限
+    var global_Permission = @Html.Raw(_funModules);
+</script>

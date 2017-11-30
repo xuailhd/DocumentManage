@@ -1,0 +1,81 @@
+﻿
+<div class="main-content" ng-controller="QueryController"> 
+    <h4 class="des border-b">
+        档案库
+    </h4>
+    <form class="form-horizontal" ng-submit="onSearch()">
+        <div class="search-ban">
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="Keyword" ng-model="Keyword" placeholder="{{'lblInserKey' | translate}}">
+            </div>
+            <div class="col-date-search">
+                <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+            </div>
+            <div class="col-date-search">
+                <button class="btn base" type="button" ng-click="showEdit()" style="padding:5px 10px;">录入</button>
+            </div>
+            <div class="div-clear"></div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>访问类型</th>
+                    <th>档案编号</th>
+                    <th>档案名称</th>
+                    <th>主要经办部门</th>
+                    <th>主要经办人</th>
+                    <th>接待机构</th>
+                    <th>主要接待人员</th>
+                    <th>来访机构</th>
+                    <th>领队</th>
+                    <th>总日程</th>
+                    <th>邀请机构</th>
+                    <th>访问性质</th>
+                    <th>费用承担</th>
+                    <th style="text-align:center">{{'lblOperator'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody ng-show="ListItems == null || ListItems.length == 0">
+                <tr>
+                    <td colspan="5">{{'msgNoData'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr ng-repeat="item in ListItems">
+                    <td>{{item.VisitType}}</td>
+                    <td>{{item.VisitID}}</td>
+                    <td>{{item.VisitName}}</td>
+                    <td>{{item.MianDepartment}}</td>
+                    <td>{{item.MianPersonName}}</td>
+                    <td>{{item.OurOrgName}}</td>
+                    <td>{{item.OurPerson}}</td>
+                    <td>{{item.TheyOrg}}</td>
+                    <td>{{item.TheyPerson}}</td>
+                    <td>{{item.AllDate}}</td>
+                    <td>{{item.BeviOrgName}}</td>
+                    <td>{{item.VisType}}</td>
+                    <td>{{item.FeeType}}</td>
+                    <td style="text-align:center">
+                        <a class="btn btn-info" ui-sref='Index.RecordEdit({VisitID:"{{item.VisitID}}"})'>
+                            <i class="glyphicon glyphicon-edit"></i>
+                            编辑
+                        </a>
+                        <a class="btn btn-info" ui-sref='Index.RecordDetail({VisitID:"{{item.VisitID}}"})'>
+                            <i class="glyphicon glyphicon-edit"></i>
+                            详情
+                        </a>
+                        <button class="btn btn-sm base" ng-click="showDetail(item)">详情</button>
+                        <!--<button class="btn btn-sm btn-success" ng-click="consultation(item)">{'发起会诊' | translate}</button>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="CurrentPage"
+                   page-Size="pageSize"
+                   total-Count="totalCount" on-change="onSearch()" />
+
+    </form>
+</div>

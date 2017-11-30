@@ -1,0 +1,134 @@
+﻿
+<div class="main-content" ng-controller="OrgController"> 
+    <h4 class="des border-b">
+        机构列表
+    </h4>
+    <form class="form-horizontal" ng-submit="onSearch()">
+        <div class="search-ban">
+            <div class="col-label-search">
+                机构编号
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="OrgID" ng-model="Record.OrgID" placeholder="请输入机构编码">
+            </div>
+            <div class="col-label-search">
+                机构名称
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="OrgName" ng-model="Record.OrgName" placeholder="请输入机构名称">
+            </div>
+            <div class="col-label-search">
+                标签
+            </div>
+            <div class="col-date-search">
+                <select id="Tag" name="Tag" class="form-control" ng-model="Record.Tag" ng-change="onTagChange()">
+                    <option value="">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="1" style="background-color:red">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="2" style="background-color:yellow">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="3" style="background-color:blue">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="4" style="background-color:green">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="5" style="background-color:white">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                </select>
+            </div>
+            <div class="col-label-search">
+                机构级别
+            </div>
+            <div class="col-date-search">
+                <select id="Level" name="Level" class="form-control" ng-model="Record.Level">
+                    <option value="国家" selected>国家</option>
+                    <option value="世界">世界</option>
+                </select>
+            </div>
+            <div class="col-label-search">
+                机构地址
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="Address" ng-model="Record.Address" placeholder="请输入机构地址">
+            </div>
+            <div class="col-label-search">
+                洲
+            </div>
+            <div class="col-date-search">
+                <select id="Continent" name="Continent" class="form-control" ng-model="Record.Continent" ng-change="onContinentChange()">
+                    <option value="">请选择洲</option>
+                    <option value="亚洲">亚洲</option>
+                    <option value="欧洲">欧洲</option>
+                    <option value="美洲">美洲</option>
+                    <option value="非洲">非洲</option>
+                    <option value="大洋洲">大洋洲</option>
+                </select>
+            </div>
+
+            <div class="col-label-search">
+                国家
+            </div>
+            <div class="col-date-search">
+                <input class="form-control"
+                       type="text"
+                       id="Country"
+                       name="Country"
+                       placeholder="请输入国家"
+                       ng-model="Record.Country"
+                       typeahead="detail as detail for detail in getCountrys($viewValue)"
+                       typeahead-editable="false"
+                       typeahead-on-select="onCountrySelect($model, $label)"
+                       validate="{required:true, messages:{required:'请输入国家'}}" />
+            </div>
+
+            <div class="col-date-search">
+                <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+            </div>
+            <div class="col-date-search">
+                <button class="btn base" type="button" ng-click="showEdit()" style="padding:5px 10px;">新增</button>
+            </div>
+            <div class="div-clear"></div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>来源</th>
+                    <th>机构编号</th>
+                    <th>机构名称</th>
+                    <th>英文名称</th>
+                    <th>标签</th>
+                    <th>机构级别</th>
+                    <th>国家</th>
+                    <th>机构地址</th>
+                    <th>联系人</th>
+                    <th>联系电话</th>
+                    <th style="text-align:center">{{'lblOperator'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody ng-show="ListItems == null || ListItems.length == 0">
+                <tr>
+                    <td colspan="5">{{'msgNoData'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr ng-repeat="item in ListItems">
+                    <td>{{item.FromType}}</td>
+                    <td>{{item.OrgID}}</td>
+                    <td>{{item.OrgName}}</td>
+                    <td>{{item.OrgNameEN}}</td>
+                    <td>{{item.Tag}}</td>
+                    <td>{{item.Level}}</td>
+                    <td>{{item.Country}}</td>
+                    <td>{{item.Address}}</td>
+                    <td>{{item.ContactPerson1}}</td>
+                    <td>{{item.Tel1}}</td>
+                    <td style="text-align:center">
+                        <button class="btn btn-sm base" ng-click="showDetail(item)">详情</button>
+                        <!--<button class="btn btn-sm btn-success" ng-click="consultation(item)">{'发起会诊' | translate}</button>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="CurrentPage"
+                   page-Size="pageSize"
+                   total-Count="totalCount" on-change="onSearch()" />
+
+    </form>
+</div>

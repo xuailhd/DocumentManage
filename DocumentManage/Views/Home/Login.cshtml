@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>出入登记系统</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link href="~/Static/framework/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Static/styles/layout.base.css" rel="stylesheet" />
+    <link href="../../Static/styles/login.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/framework/require/require.js" data-main="/static/modules/Home/pubconfig"></script>
+
+</head>
+<body>
+    <div class="loginHeaderBox">
+        <div class="headerBox">
+            <div class="changeLangBox">
+                
+            </div>
+            <div class="logo fl">
+                <a href="#"><img src="/static/images/kmlogo.png"></a>
+            </div>
+            <div class="fr toRegister"><span></span></div>
+        </div>
+    </div>
+
+    <div class="loginBox">
+        <div class="loginContBox">
+            <form role="form" id="loginform" form-validate>
+                <div class="TitleBox">
+                    <h3>登录</h3>
+                </div>
+                <div class="loginInputBox">
+                    <div class="loginInput fl">
+                        <div class="inputTitle fl">账号：</div>
+                        <div class="inputCont fl"><input type="text" value="" placeholder="请输入登录账号" id="UserID" name="UserID" maxlength="20" /></div>
+                    </div>
+                    <div class="loginInput fl">
+                        <div class="inputTitle fl">密码：</div>
+                        <div class="inputCont fl"><input type="password" id="Password" name="Password" placeholder="请输入登录密码" maxlength="18" /></div>
+                    </div>
+                </div>
+
+                <div class="loginBtnBox">
+                    <button type="submit" class="btn loginBtn">登录</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="bottom" style="margin-top:0;">
+        <div class="bottom-box">
+            <div class="service-tel">
+                公司电话：<span class="tel">0755-110</span>
+            </div>
+            <div class="about">
+                关于 | 意见和建议
+            </div>
+            <div class="copyright">
+                Copyright ©2015-2017 ,某某公司 <a href="http://www.miibeian.gov.cn/" target="_blank">粤ICP备0000001号</a>
+                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44000000000000"
+                   style="display:inline-block;">粤公网安备 44000000000000号<img src="~/static/images/beian.png" /></a>
+            </div>
+        </div>
+    </div>
+    <script>
+    require(["pubconfig"], function () {
+        require(["/static/modules/Home/userLogin.js"], function () {
+
+        });
+    })
+
+    </script>
+</body>
+</html>

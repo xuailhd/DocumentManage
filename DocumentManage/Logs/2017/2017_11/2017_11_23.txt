@@ -1,0 +1,15 @@
+ERROR 2017-11-23 21:51:09,256 [67   ] DefaultLogger                            - 未能找到路径中的某个部分。
+System.IO.DirectoryNotFoundException: 未能找到路径中的某个部分。
+   在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.File.InternalMove(String sourceFileName, String destFileName, Boolean checkHost)
+   在 DocumentManage.Services.PersonService.Edit(PersonInfo request, String operUserID, String& reason) 位置 F:\others\DocumentManage\DocumentManage\Services\PersonService.cs:行号 112
+ERROR 2017-11-23 21:53:46,631 [114  ] DefaultLogger                            - 未能找到路径中的某个部分。
+System.IO.DirectoryNotFoundException: 未能找到路径中的某个部分。
+   在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.File.InternalMove(String sourceFileName, String destFileName, Boolean checkHost)
+   在 DocumentManage.Services.PersonService.Edit(PersonInfo request, String operUserID, String& reason) 位置 F:\others\DocumentManage\DocumentManage\Services\PersonService.cs:行号 112
+ERROR 2017-11-23 21:54:21,960 [76   ] DefaultLogger                            - 未能找到路径中的某个部分。
+System.IO.DirectoryNotFoundException: 未能找到路径中的某个部分。
+   在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.File.InternalMove(String sourceFileName, String destFileName, Boolean checkHost)
+   在 DocumentManage.Services.PersonService.Edit(PersonInfo request, String operUserID, String& reason) 位置 F:\others\DocumentManage\DocumentManage\Services\PersonService.cs:行号 112

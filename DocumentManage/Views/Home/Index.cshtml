@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html class="full-height-layout">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!--布局样式-->
+    <title>出入登记系统</title>
+    <link href="~/static/framework/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/static/styles/font-awesome.min.css" rel="stylesheet"/>
+    <link href="~/static/styles/layer.space.home.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/static/images/logo.ico" type="image/x-icon" />
+    @Html.Partial("~/Views/Shared/_GlobalInfo.cshtml")
+</head>
+<body class="fixed-sidebar gray-bg">
+    <div class="ui-view"></div>
+    <script type="text/javascript" src="/static/framework/require/require.js"></script>
+    <script>
+        require(["/static/modules/Doctor/app.js?V=@Guid.NewGuid()"], function () { });
+    </script>
+</body>
+</html>

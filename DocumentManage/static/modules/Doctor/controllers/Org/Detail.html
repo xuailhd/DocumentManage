@@ -1,0 +1,245 @@
+﻿<div class="main-content" ng-controller="RecordDetailController">
+    <div style="font-size:20px;font-weight:bold;line-height:40px">
+        <div style="text-align:center">档案详情</div>
+    </div>
+    <div class="main-content-title clearfix" style="margin-bottom:10px">
+        <div id="ptitle" class="pull-left"></div>
+    </div>
+    <form form-validate id="myForm">
+        <div class="form-horizontal">
+            <div class="doctor-input add-form m-t-25">
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">来源</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.FromType}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">机构编号</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.OrgID}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">机构名称</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.OrgName}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">中文简称</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.ShortNameCN}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">英文名称</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.OrgNameEN}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">英文简称</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.ShortNameEN}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">标签</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="Tag" name="Tag" class="form-control" ng-model="Record.Tag">
+                                <option value="">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="1" style="background-color:red">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="2" style="background-color:yellow">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="3" style="background-color:blue">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="4" style="background-color:green">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="5" style="background-color:white">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">机构级别</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Level}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">机构地址</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Address}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">洲</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Continent}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">国</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Country}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">省</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Province}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">机构性质</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.OrgType}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">机构背景</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.OrgBack}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">机构简介</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.OrgInfo}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">办公地址</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.WorkAddress}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">办公时间</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.WorkTime}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">联系人1</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.ContactPerson1}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">联系人2</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.ContactPerson2}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">联系电话1</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Tel1}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">联系电话2</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Tel2}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">邮箱1</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Email1}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">邮箱2</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Email2}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">备注</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.Remark}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <input type="button" class="btn btn-default" ng-click="GoBack()" value="{{'btnBack' | translate}}" />
+        </div>
+    </form>
+</div>
+<style>
+    .dropdown-menu {
+        overflow: scroll;
+        height: 200px
+    }
+</style>

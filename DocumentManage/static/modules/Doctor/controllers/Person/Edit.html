@@ -1,0 +1,370 @@
+﻿<div  class="main-content" ng-controller="PersonEditController">
+    <div style="font-size:20px;font-weight:bold;line-height:40px">
+        <div style="text-align:center">人员资料编辑</div>
+    </div>
+    <div class="main-content-title clearfix" style="margin-bottom:10px">
+        <div id="ptitle" class="pull-left"></div>
+    </div>
+    
+    <div class="form-horizontal">
+        <div class="doctor-input add-form m-t-25">
+            <form form-validate id="myForm">
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>来源</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="FromType" name="FromType" class="form-control" ng-model="Record.FromType" ng-change="getWaterNo()">
+                                <option value="外方">外方</option>
+                                <option value="中方">中方</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>人员编号</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="OrgID" class="form-control" name="OrgID" type="text" ng-model="Record.PersonID" disabled />
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>机构名称</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control"
+                                    type="text"
+                                    id="OrgName"
+                                    name="OrgName"
+                                    placeholder="请输入机构名称"
+                                    ng-model="Record.OrgName"
+                                    typeahead="detail as detail.OrgName for detail in getOrgs($viewValue)"
+                                    typeahead-editable="false"
+                                    typeahead-on-select="onOrgSelect($model, $label)"
+                                    validate="{required:true, messages:{required:'请输入机构名称'}}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>中文名</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="NameCN" class="form-control" name="NameCN" type="text" ng-model="Record.NameCN"
+                                    validate="{required:true, messages:{required:'请输入中文名'}}" />
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">英文名</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="NameEN" class="form-control" name="NameEN" type="text" ng-model="Record.NameEN" />
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">标签</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="Tag" name="Tag" class="form-control" ng-model="Record.Tag"
+                                    ng-change="onTagChange()">
+                                <option value="">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="1" style="background-color:red">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="2" style="background-color:yellow">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="3" style="background-color:blue">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="4" style="background-color:green">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="5" style="background-color:white">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">部门</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Department" class="form-control" name="Department" type="text" ng-model="Record.Department" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">护照号码</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="PassportCode" class="form-control" name="PassportCode" type="text" ng-model="Record.PassportCode" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">护照复印件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.PassportFiles" >
+                            <li id="PassportFile{{$index}}"><a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a><a ng-click="delPassportUrl(item.FileUrl,$index)">
+                                <span class="glyphicon glyphicon-remove"></span></a></li>
+                        </ul>
+                            
+                        <form name="PassportUrl_form" enctype="multipart/form-data">
+                            <input type="file"
+                                    id="PassportUrl_file"
+                                    multiple
+                                    class="form-control"
+                                    name="PassportUrl"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">护照有效期</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="PassportDate" class="form-control" name="PassportDate" type="date" ng-model="Record.PassportDate" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">签发日期</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="PassportSignDate" class="form-control" name="PassportSignDate" type="date" ng-model="Record.PassportSignDate" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">签发地</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="PassportSignAdress" class="form-control" name="PassportSignAdress" type="text" ng-model="Record.PassportSignAdress" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">护照类别</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="PassportType" name="PassportType" class="form-control" ng-model="Record.PassportType">
+                            <option value="因公">因公</option>
+                            <option value="因私">因私</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">头衔</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Title" class="form-control" name="Title" type="text" ng-model="Record.Title" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">主要职务</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Duty" class="form-control" name="Duty" type="text" ng-model="Record.Duty" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">头像</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.PhotoFiles">
+                            <li id="PhotoFile{{$index}}"><a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a><a ng-click="delPhotoUrl(item.FileUrl,$index)">
+                                <span class="glyphicon glyphicon-remove"></span></a></li>
+                        </ul>
+                        <form name="PhotoUrl_form" enctype="multipart/form-data">
+                            <input type="file"
+                                    id="PhotoUrl_file"
+                                    multiple
+                                    class="form-control"
+                                    name="PhotoUrl" />
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">身份证号</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="IDNumber" class="form-control" name="IDNumber" type="text" ng-model="Record.IDNumber" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">身份证复印件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.IDNumberFiles">
+                            <li id="IDNumber{{$index}}"><a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a><a ng-click="delIDNumberUrl(item.FileUrl,$index)">
+                                <span class="glyphicon glyphicon-remove"></span></a></li>
+                        </ul>
+
+                        <form name="IDNumberUrl_form" enctype="multipart/form-data">
+                            <input type="file"
+                                    id="IDNumberUrl_file"
+                                    multiple
+                                    class="form-control"
+                                    name="IDNumberUrl" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">邮箱</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Email" class="form-control" name="Email" type="text" ng-model="Record.Email" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">电话1</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Tel1" class="form-control" name="Tel1" type="text" ng-model="Record.Tel1" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">电话2</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Tel2" class="form-control" name="Tel2" type="text" ng-model="Record.Tel2" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">手机1</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Mobile1" class="form-control" name="Mobile1" type="text" ng-model="Record.Mobile1" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">手机2</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Mobile2" class="form-control" name="Mobile2" type="text" ng-model="Record.Mobile2" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">联系地址</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="ContactAddress" class="form-control" name="ContactAddress" type="text" ng-model="Record.ContactAddress" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">出生年月</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Birth" class="form-control" name="Birth" type="date" ng-model="Record.Birth" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">性别</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="Sex" name="Sex" class="form-control" ng-model="Record.Sex">
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">国籍</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Nationality" class="form-control" name="Nationality" type="text" ng-model="Record.Nationality" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">喜好</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Fancy" class="form-control" name="Fancy" type="text" ng-model="Record.Fancy" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">忌讳</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Taboo" class="form-control" name="Taboo" type="text" ng-model="Record.Taboo" />
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">接待规格</span>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="RecLevel" name="RecLevel" class="form-control" ng-model="Record.RecLevel">
+                            <option value="一级">一级</option>
+                            <option value="二级">二级</option>
+                            <option value="三级">三级</option>
+                            <option value="四级">四级</option>
+                            <option value="五级">五级</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">其他说明</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="Remark" class="form-control" name="Remark" type="text" ng-model="Record.Remark" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <input type="button" class="btn btn-info m-r-5" value="{{'btnSave'|translate}}" ng-click="onSubmit()" />
+        <input type="button" class="btn btn-default" ng-click="GoBack()" value="{{'btnBack' | translate}}" />
+    </div>
+   
+</div>
+<style>
+    .dropdown-menu {overflow:scroll;height:200px}
+    em{color:#f00;width:8px;vertical-align:middle;text-align:center;display:inline;font-style:normal}
+</style>
