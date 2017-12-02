@@ -41,7 +41,7 @@
                     //退出
                     $scope.fn.onLogout = function () {
                         //退出登录
-                        webapiServices.logout({}, function () {
+                        apiUtil.requestWebApi("User/LoginOut","Post",null, function () {
                             apiUtil.setLoginInfo({})
                             location.href = "/Login";
                         })

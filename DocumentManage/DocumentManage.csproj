@@ -164,8 +164,10 @@
     <Compile Include="Dtos\ApiResult.cs" />
     <Compile Include="Dtos\ApiResultExtend.cs" />
     <Compile Include="Dtos\PagedList.cs" />
+    <Compile Include="Dtos\Request\RequestUserInfoDTO.cs" />
     <Compile Include="Dtos\Response\ResponsePersonSelectDTO.cs" />
     <Compile Include="Dtos\Response\ResponseLoginDTO.cs" />
+    <Compile Include="Dtos\Response\ResponseVisitQueryListDTO.cs" />
     <Compile Include="Dtos\Response\ResponseVisitListDTO.cs" />
     <Compile Include="Dtos\Response\ResponseVisitRecordDTO.cs" />
     <Compile Include="Dtos\Request\RequestAuthDTO.cs" />

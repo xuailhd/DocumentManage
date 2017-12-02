@@ -1,232 +1,328 @@
-﻿<div  class="main-content" ng-controller="DetailController">
+﻿<div class="main-content" ng-controller="RecordDetailController">
     <div style="font-size:20px;font-weight:bold;line-height:40px">
-        <div id="drugstoreNametitle" style="text-align:center"></div>
+        <div style="text-align:center">档案资料详情</div>
     </div>
     <div class="main-content-title clearfix" style="margin-bottom:10px">
-        <div id="ptitle" class="pull-left">{{'Room-lblPrescriptionDetails'|translate}}</div>
+        <div id="ptitle" class="pull-left"></div>
     </div>
-    <div class="search-ban form-inline">
-        <div class="col-md-3">
-            <div class="col-md-4 text-right">{{'姓名：' | translate}}</div>
-            <div class="col-md-8">{{RecipeFile.PatientName}}</div>
-        </div>
-        <div class="col-md-3">
-            <div class="col-md-4 text-right">{{'年龄：' | translate}}</div>
-            <div class="col-md-8">{{RecipeFile.PatientAge}}</div>
-        </div>
-        <div class="col-md-3">
-            <div class="col-md-4 text-right">{{'性别：' | translate}}</div>
-            <div class="col-md-8">{{RecipeFile.GenderName}}</div>
-        </div>
-        <div class="col-md-3">
-            <div class="col-md-4 text-right">{{'医生：' | translate}}</div>
-            <div class="col-md-8">{{RecipeFile.UserName}}</div>
-        </div>
-        <div class="div-clear"></div>
-    </div>
-    <div id="prescriptionData" class="pharmacy drugstore" style="margin-top:10px">
 
-        <div class="diagnose-content prescription-content">
-            <div>
-                <!--处方->诊断 -->
-                <table cellspacing="0" class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="120">{{'Room-lblTCD' | translate}}</th>
-                            <th>{{'Room-lblDiagnosisCode' | translate}}</th>
-                            <th>{{'Room-lblNotes' | translate}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in RecipeFile.Diagnoses">
-                            <td align="center">
-                                {{item.DiseaseCode}}
-                                <input type="hidden" name="DiseaseCode" ng-model="item.DiseaseCode" />
-                                <input type="hidden" name="ID" ng-model="item.ID" />
-                            </td>
-                            <td>
-                                {{item.DiseaseName}}
-                            </td>
-                            <td>
-                                {{item.Description}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="form-horizontal">
+        <div class="doctor-input add-form m-t-25">
+            <form form-validate id="myForm">
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">来源</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.VisitType}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>档案编号</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.VisitID}}
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>档案名称</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{Record.VisitName}}
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right"><em>*</em>访问目的</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.VisitFor}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">主要经办部门</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.MainDepartment}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">主要经办人</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.MianPersonStr}}
+                    </div>
+                </div>
+            </div>
 
-                <div ng-if="RecipeFile.RecipeType == 1">
-                    <table cellspacing="0" class="table table-bordered">
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">接待机构</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.OurOrgStr}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">主要接待人员</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.OurPersonStr}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">其他接待人员</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.OurOtherPersonStr}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">来访机构</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.TheyOrgStr}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">领队</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.TheyPersonStr}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">其他人员</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.TheyOtherPersonStr}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">邀请机构</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.BeViOrgStr}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">访问性质</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.VisType}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">费用承担</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.FeeType}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">支付方式</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.PayType}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">接待标准</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.TakeLevel}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">是否成行</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.IsLine}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">外方评分</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.AnsLevel}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">访问标注</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.VisitTags}}
+                    </div>
+                </div>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">备注</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{Record.Remark}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-md-offset-1 col-md-10">
+                <label>
+                    行程 {{Record.FromDate}}-{{Record.EndDate}}
+                </label>
+                <form form-validate id="myForm1">
+                    <table class="table table-responsive table-bordered">
                         <thead>
                             <tr>
-                                <th>{{'Room-lblDrugName' | translate}}</th>
-                                <th>{{'Room-lblFootNote'|translate}}</th>
-                                <th>{{'Room-lblDosage' | translate}}</th>
-                                <th>{{'Room-lblPrice' | translate}}</th>
+                                <th class="text-left">序号</th>
+                                <th class="text-center">开始日期</th>
+                                <th class="text-center">结束日期</th>
+                                <th class="text-center">地点</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="drugItem in RecipeFile.Details">
-                                <td>
-                                    {{drugItem.DrugName}}
+                            <tr ng-repeat="item in Record.VisitDetails">
+                                <td class="col-1 text-left">
+                                    {{item.No}}
                                 </td>
-                                <td>
-                                    {{drugItem.FootNote}}
+                                <td class="text-left">
+                                    {{item.FromDate}}
                                 </td>
-                                <td>
-                                    {{drugItem.Dose}}
-                                    {{drugItem.DoseUnit}}
+                                <td class="text-left">
+                                    {{item.EndDate}}
                                 </td>
-                                <td>
-                                    ￥{{((drugItem.Dose || 1) * (drugItem.UnitPrice || 0)) |number:'2'}}
+                                <td class="text-left">
+                                    {{item.Adress}}
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <div>
-                        <table cellspacing="0" class="table table-bordered">
-                            <tr>
-                                <td class="col-md-1 text-right"><label>剂数：</label></td>
-                                <td colspan="4">
-                                    共
-                                    {{RecipeFile.TCMQuantity}}
-                                    剂
-                                </td>
-                            </tr>
-                        </table>
-                        <table cellspacing="0" class="table table-bordered">
-                            <tr>
-                                <td class="col-md-1 text-right"><label>制法：</label></td>
-                                <td>
-                                    <!--制法-->
-                                    {{RecipeFile.BoilWay | boilWay}}
-                                </td>
-                                <td ng-show="RecipeFile.BoilWay == 1">
-                                    <!--几煎-->
-                                    <div>
-                                        {{RecipeFile.DecoctNum}}
-                                        煎
-                                    </div>
-                                </td>
-                                <td ng-show="RecipeFile.BoilWay == 1">
-                                    <div>
-                                        清水
-                                        {{RecipeFile.DecoctTotalWater}}
-                                        毫升
-                                    </div>
-                                </td>
-                                <td ng-show="RecipeFile.BoilWay == 1">
-                                    <div>
-                                        煎至
-                                        {{RecipeFile.DecoctTargetWater}}
-                                        毫升
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <table cellspacing="0" class="table table-bordered">
-                            <tr>
-                                <td class="col-md-1 text-right">
-                                    <label>用法：</label>
-                                </td>
-                                <td>
-                                    {{RecipeFile.Usage}}
-                                </td>
-                                <td colspan="2">
-                                    <!--每日几剂频率-->
-                                    每
-                                    {{RecipeFile.FreqDay}}
-                                    日
-                                    {{RecipeFile.FreqTimes}}
-                                    剂
-                                </td>
-                                <td>
-                                    <!--分几次服-->
-                                    分
-                                    {{RecipeFile.Times}}
-                                    次服
-                                </td>
-                            </tr>
-                        </table>
+                </form>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">上级往来文件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.SJWLFiles">
+                            <li id="SJWLFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
-                <div ng-if="RecipeFile.RecipeType ==2" >
-                    <table cellspacing="0" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>{{'Room-lblDrugName' | translate}}</th>
-                                <th>{{'Room-lblBillingAmount' | translate}}</th>
-                                <th>{{'Room-lblPrice' | translate}}</th>
-                                <th>{{'Room-lblDosage' | translate}}</th>
-                                <th>{{'Room-lblFrequency' | translate}}</th>
-                                <th>{{'Room-lblRoute' | translate}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="drugItem in RecipeFile.Details">
-                                <td>
-                                    <input class="form-control" type="hidden" ng-model="drugItem.DrugCode" disabled/>
-                                    {{drugItem.DrugName}}
-                                </td>
-                                <td>
-                                    {{drugItem.Quantity}}
-                                    {{drugItem.Unit}}
-                                </td>
-                                <td>
-                                    ￥{{((drugItem.Quantity || 1) * (drugItem.UnitPrice || 0))|number:'2'}}
-                                </td>
-                                <td>
-                                    {{drugItem.Dose}}
-                                    {{drugItem.DoseUnit}}
-                                </td>
-                                <td>
-                                    {{drugItem.Frequency | frequency}}
-                                </td>
-                                <td>
-                                    {{drugItem.DrugRouteName}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">来宾往来文件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.LBWLFiles">
+                            <li id="LBWLFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">内部管理文件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.NBGLFiles">
+                            <li id="NBGLFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">会议相关文件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.HYXGFiles">
+                            <li id="HYXGFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">新闻稿</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.NewsFiles">
+                            <li id="NewsFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xs-4 form-group">
+                    <div class="col-md-4" style="line-height:30px">
+                        <span style="float:right">其他文件</span>
+                    </div>
+                    <div class="col-md-8">
+                        <ul ng-repeat="item in Record.OtherFiles">
+                            <li id="OtherFile{{$index}}">
+                                <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div ng-show="RecipeFile.RecipeVerfifyLogs.length>0">
-        <div style="margin-bottom:5px;"> <span style="font-size: 16px;font-weight:bold">操作记录</span> </div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th class="col-md-2">
-                        操作时间
-                    </th>
-                    <th class="col-md-3">
-                        操作人
-                    </th>
-                    <th class="col-md-3">
-                        类型
-                    </th>
-                    <th class="col-md-4">
-                        备注
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="item in RecipeFile.RecipeVerfifyLogs">
-                    <td>{{item.OpTime}}</td>
-                    <td>{{item.UserName}}</td>
-                    <td>{{item.OpName}}</td>
-                    <td>
-                        <ul>
-                            <li ng-repeat="remark in item.Remarks">{{remark}}</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>  
-        </table>
-    </div>
     <div class="text-center">
-        <input type="button" class="btn btn-info m-r-5" value="{{'btnPreview' | translate}}" ng-click="onPreview()" ng-if="DrugstoreRecipeStatus == 4" />
         <input type="button" class="btn btn-default" ng-click="GoBack()" value="{{'btnBack' | translate}}" />
     </div>
+
 </div>
+<style>
+    .dropdown-menu {
+        overflow: scroll;
+        height: 200px
+    }
+</style>

@@ -29,15 +29,10 @@ namespace DocumentManage.Models
         /// <summary>
         /// 主要经办部门
         /// </summary>
-        public string MianDepartment { get; set; }
+        public string MainDepartment { get; set; }
 
         public DateTime? FromDate { get; set; }
         public DateTime? EndDate { get; set; }
-
-        /// <summary>
-        /// 访问标注
-        /// </summary>
-        public string VisitTag { get; set; }
 
         /// <summary>
         /// 访问性质

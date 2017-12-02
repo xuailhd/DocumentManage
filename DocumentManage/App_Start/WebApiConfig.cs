@@ -43,8 +43,8 @@ namespace DocumentManage
                 new JsonSerializerSettings()
                 {
                     NullValueHandling = NullValueHandling.Ignore, //设置忽略值为 null 的属性  
-                    //DateTimeZoneHandling = DateTimeZoneHandling.Local,  //DateTime默认为本地时区
-                    //DateFormatString = "yyyy-MM-dd HH:mm:ss"
+                    DateTimeZoneHandling = DateTimeZoneHandling.Local,  //DateTime默认为本地时区
+                    DateFormatString = "yyyy-MM-dd"
                 };
 
             #endregion

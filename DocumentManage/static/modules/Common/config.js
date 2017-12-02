@@ -143,7 +143,7 @@
         "jquery-flot-resize": { deps: ["jquery", "jquery-flot"] },
 
         'bootstrap': { deps: ["jquery"] },
-        'bootstrap-select': { deps: ["jquery", "bootstrap"] },
+        'bootstrap-select': { deps: ["jquery", "bootstrap", "css!framework/bootstrap/css/bootstrap-select.css"] },
         'bootstrap-table': { deps: ["jquery", "bootstrap"] },
         'bootstrap-colorpicker': { deps: ["jquery", "bootstrap", "css!framework/bootstrap/css/bootstrap-colorpicker.min.css"] },
         'bootstrap-prettyfile': { deps: ["jquery", "bootstrap"] },

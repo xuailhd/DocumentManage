@@ -1,5 +1,6 @@
 ﻿"use strict";
-define(["module-services-apiUtil", "module-Services-uploader","plugins-extend-date", "jquery-validate"], function (apiUtil, uploader) {
+define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-date", "plugins-extend-date"
+    , "jquery-validate","module-directive-bundling-all"], function (apiUtil, uploader) {
 
             var app = angular.module("myApp", [
           "pascalprecht.translate",

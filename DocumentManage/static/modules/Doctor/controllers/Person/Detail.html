@@ -91,7 +91,11 @@
                             <span style="float:right">护照复印件</span>
                         </div>
                         <div class="col-md-8">
-                            <a ng-href="{{Record.PassportUrl}}">护照复印件</a>
+                            <ul ng-repeat="item in Record.PassportFiles">
+                                <li id="PassportFile{{$index}}">
+                                    <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -155,7 +159,11 @@
                             <span style="float:right">头像</span>
                         </div>
                         <div class="col-md-8">
-                            <a ng-href="{{Record.PhotoUrl}}">头像</a>
+                            <ul ng-repeat="item in Record.PhotoFiles">
+                                <li id="PhotoFile{{$index}}">
+                                    <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="col-xs-4 form-group">
@@ -171,7 +179,11 @@
                             <span style="float:right">身份证复印件</span>
                         </div>
                         <div class="col-md-8">
-                            <a ng-href="{{Record.IDNumberUrl}}">身份证复印件</a>
+                            <ul ng-repeat="item in Record.IDNumberFiles">
+                                <li id="IDNumber{{$index}}">
+                                    <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>

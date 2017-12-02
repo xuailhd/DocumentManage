@@ -1,5 +1,5 @@
 ﻿"use strict";
-define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-date", "jquery-validate"], function (apiUtil, uploader) {
+define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-date", "bootstrap-select", "jquery-validate"], function (apiUtil, uploader) {
 
             var app = angular.module("myApp", [
           "pascalprecht.translate",
@@ -677,20 +677,47 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                             }
                         }
                         $scope.Record.VisitDetails.splice(index, 1);
+                        $scope.checkDate();
                     }
 
-                    $scope.onFromChange = function (date) {
-                        var datestr = new Date(date).toString('yyyy-MM-dd');
-                        if (!$scope.Record.FromDate || $scope.Record.FromDate > datestr) {
-                            $scope.Record.FromDate = datestr;
+                    $scope.checkDate = function () {
+                        if (!$scope.Record.VisitDetails || $scope.Record.VisitDetails.length <= 0) {
+                            return;
+                        }
+                        $scope.Record.FromDate = $scope.Record.VisitDetails[0].FromDate.format('yyyy-MM-dd');
+                        $scope.Record.EndDate = $scope.Record.VisitDetails[0].EndDate.format('yyyy-MM-dd');
+
+                        if ($scope.Record.VisitDetails.length < 2) {
+                            return;
+                        }
+
+                        for (var i = 1; i < $scope.Record.VisitDetails.length; i++) {
+                            var datestr = $scope.Record.VisitDetails[i].FromDate.format('yyyy-MM-dd');
+                            if (datestr < $scope.Record.FromDate) {
+                                $scope.Record.FromDate = datestr;
+                            }
+
+                            datestr = $scope.Record.VisitDetails[i].EndDate.format('yyyy-MM-dd');
+                            if (datestr > $scope.Record.EndDate) {
+                                $scope.Record.EndDate = datestr;
+                            }
                         }
                     }
 
-                    $scope.onEndChange = function (date) {
-                        var datestr = new Date(date).toString('yyyy-MM-dd');
-                        if (!$scope.Record.EndDate || $scope.Record.EndDate < datestr) {
-                            $scope.Record.EndDate = datestr;
+                    $scope.onFromChange = function (index) {
+                        if ($scope.Record.VisitDetails[index].FromDate.format('yyyy-MM-dd') > $scope.Record.VisitDetails[index].EndDate.format('yyyy-MM-dd')) {
+                            $scope.Record.VisitDetails[index].FromDate = $scope.Record.VisitDetails[index].EndDate;
                         }
+
+                        $scope.checkDate();
+                    }
+
+                    $scope.onEndChange = function (index) {
+                        if ($scope.Record.VisitDetails[index].EndDate.format('yyyy-MM-dd') < $scope.Record.VisitDetails[index].FromDate.format('yyyy-MM-dd')) {
+                            $scope.Record.VisitDetails[index].EndDate = $scope.Record.VisitDetails[index].FromDate;
+                        }
+
+                        $scope.checkDate();
                     }
 
                     $scope.getWaterNo = function () {
@@ -727,12 +754,89 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         return realLength;
                     };
 
+                    $scope.VisitTagOps = ['全国两会', '国宗', '统战部', '政府机构', '访问院校', '其他'];
+                    $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+                        // 下拉菜单多选
+                        $('.selectpicker').selectpicker({
+                            size: 'auto',
+                            noneSelectedText: '请选择访问标注'
+                        })
+                    });
+
                     $scope.onLoad = function () {
                         var data = { VisitID: $scope.VisitID };
                         //请求
                         apiUtil.requestWebApi("Record/GetDetail", "Post", data, function (response) {
                             if (response.Status == 0) {
                                 $scope.Record = response.Data;
+
+                                if ($scope.Record.MianPersons && $scope.Record.MianPersons.length > 0) {
+                                    $scope.Record.MianPersonStr = '';
+                                    for (var i = 0; i < $scope.Record.MianPersons.length; i++) {
+                                        $scope.Record.MianPersonStr += $scope.Record.MianPersons[i].NameCN + ',';
+                                    }
+                                }
+
+                                if ($scope.Record.OurPersons && $scope.Record.OurPersons.length > 0) {
+                                    $scope.Record.OurPersonStr = '';
+                                    for (var i = 0; i < $scope.Record.OurPersons.length; i++) {
+                                        $scope.Record.OurPersonStr += $scope.Record.OurPersons[i].NameCN + ',';
+                                    }
+                                }
+
+                                if ($scope.Record.OurOtherPersons && $scope.Record.OurOtherPersons.length > 0) {
+                                    $scope.Record.OurOtherPersonStr = '';
+                                    for (var i = 0; i < $scope.Record.OurOtherPersons.length; i++) {
+                                        $scope.Record.OurOtherPersonStr += $scope.Record.OurOtherPersons[i].NameCN + ',';
+                                    }
+                                }
+
+                                if ($scope.Record.TheyPersons && $scope.Record.TheyPersons.length > 0) {
+                                    $scope.Record.TheyPersonStr = '';
+                                    for (var i = 0; i < $scope.Record.TheyPersons.length; i++) {
+                                        $scope.Record.TheyPersonStr += $scope.Record.TheyPersons[i].NameCN + ',';
+                                    }
+                                }
+
+                                if ($scope.Record.TheyOtherPersons && $scope.Record.TheyOtherPersons.length > 0) {
+                                    $scope.Record.TheyOtherPersonStr = '';
+                                    for (var i = 0; i < $scope.Record.TheyOtherPersons.length; i++) {
+                                        $scope.Record.TheyOtherPersonStr += $scope.Record.TheyOtherPersons[i].NameCN + ',';
+                                    }
+                                }
+
+                                if ($scope.Record.OurOrgs && $scope.Record.OurOrgs.length > 0) {
+                                    $scope.Record.OurOrgStr = '';
+                                    for (var i = 0; i < $scope.Record.OurOrgs.length; i++) {
+                                        $scope.Record.OurOrgStr += $scope.Record.OurOrgs[i].OrgName + ',';
+                                    }
+                                }
+
+                                if ($scope.Record.TheyOrgs && $scope.Record.TheyOrgs.length > 0) {
+                                    $scope.Record.TheyOrgStr = '';
+                                    for (var i = 0; i < $scope.Record.TheyOrgs.length; i++) {
+                                        $scope.Record.TheyOrgStr += $scope.Record.TheyOrgs[i].OrgName + ',';
+                                    }
+                                }
+
+                                if ($scope.Record.BeViOrgs && $scope.Record.BeViOrgs.length > 0) {
+                                    $scope.Record.BeViOrgStr = '';
+                                    for (var i = 0; i < $scope.Record.BeViOrgs.length; i++) {
+                                        $scope.Record.BeViOrgStr += $scope.Record.BeViOrgs[i].OrgName + ',';
+                                    }
+                                }
+
+                                if ($scope.Record.VisitDetails && $scope.Record.VisitDetails.length > 0) {
+                                    for (var i = 0; i < $scope.Record.VisitDetails.length; i++) {
+                                        $scope.Record.VisitDetails[i].FromDate = $scope.Record.VisitDetails[i].FromDate.toDate();
+                                        $scope.Record.VisitDetails[i].EndDate = $scope.Record.VisitDetails[i].EndDate.toDate();
+                                    }
+                                    $scope.DetailNo = $scope.Record.VisitDetails.length + 1;
+                                }
+                                else {
+                                    $scope.DetailNo = 1;
+                                }
+                                
                                 $scope.$apply();
                                 return;
                             }
@@ -784,5 +888,18 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                     }
                 }
             ]);
+
+            app.directive('onFinishRenderFilters', ["$timeout", function ($timeout) {
+                return {
+                    restrict: 'A',
+                    link: function (scope, element, attr) {
+                        if (scope.$last === true) {
+                            $timeout(function () {
+                                scope.$emit('ngRepeatFinished');
+                            });
+                        }
+                    }
+                };
+            }]);
 
         });

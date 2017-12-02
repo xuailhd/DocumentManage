@@ -55,6 +55,9 @@ namespace DocumentManage.EF
         public DbSet<VisitOrg> VisitOrgs { get; set; }
 
         public DbSet<VisitPerson> VisitPersons { get; set; }
+
+        public DbSet<VisitTag> VisitTags { get; set; }
+        
     }
 }
 

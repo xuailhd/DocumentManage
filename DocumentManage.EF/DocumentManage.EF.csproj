@@ -72,6 +72,7 @@
       <DependentUpon>201711250326453_V0.0.1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\VisitTag.cs" />
     <Compile Include="Models\WaterNo.cs" />
     <Compile Include="Models\AuthRoleMap.cs" />
     <Compile Include="Models\AuthModel.cs" />

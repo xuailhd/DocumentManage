@@ -1,4 +1,4 @@
-﻿define(["module-directive-form-validate"], function () {
+﻿define(["module-services-apiUtil", "module-directive-form-validate"], function (apiUtil) {
 
             var app = angular.module("myApp", [
             "pascalprecht.translate",
@@ -10,8 +10,7 @@
                 '$scope',
                  '$state',
                 '$translate',
-                'webapiServices',
-            function ($scope, $state, $translate, webapiServices) {
+            function ($scope, $state, $translate) {
                 $scope.Data = {};
                 $scope.Data.OldPassword = "";
                 $scope.Data.NewPassword = "";
@@ -30,7 +29,7 @@
                         layer.msg("新密码不能与旧密码相同", { icon: 2, shade: 0.5 });
                         return false;
                     }
-                    webapiServices.changePassword($scope.Data,
+                    apiUtil.requestWebApi("User/UpdatePassword", "Post",$scope.Data,
                         function (response) {
                             if (response.Status == 0) {
                                 layer.msg(response.Msg);

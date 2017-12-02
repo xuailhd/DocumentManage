@@ -59,6 +59,14 @@ namespace DocumentManage.Controllers.API
         }
 
         [HttpPost]
+        public ApiResult GetQueryList([FromBody]RequestVisitRecordQDTO request)
+        {
+            var ret = recordService.GetQueryList(request);
+            ApiResult apiResult = new ApiResult() { Data = ret, Total = ret.VisitRecords == null ? 0 : ret.VisitRecords.TotalCount };
+            return apiResult;
+        }
+
+        [HttpPost]
         public ApiResult Delete([FromBody]RequestVisitRecordQDTO request)
         {
             var ret = recordService.Delete(request);

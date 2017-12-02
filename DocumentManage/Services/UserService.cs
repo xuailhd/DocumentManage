@@ -31,12 +31,27 @@ namespace DocumentManage.Services
             }
         }
 
+        public bool LoginOut(string userid)
+        {
+            using (var db = new DBEntities())
+            {
+                var model = db.Users.Where(t => t.UserID == userid).FirstOrDefault();
+
+                if (model != null)
+                {
+                    model.UserToken = "";
+                    return db.SaveChanges()>0;
+                }
+                return false;
+            }
+        }
+
         public bool UpdatePassword(RequestChangePasswordDTO dto)
         {
             using (var db = new DBEntities())
             {
                 var oldpassword = StringEncrypt.EncryptWithMD5(dto.OldPassword);
-                var password = StringEncrypt.EncryptWithMD5(dto.Password);
+                var password = StringEncrypt.EncryptWithMD5(dto.NewPassword);
                 var model = db.Users.Where(t => t.Password == oldpassword
                     && t.UserID == dto.UserID && !t.IsDeleted).FirstOrDefault();
 
@@ -48,6 +63,37 @@ namespace DocumentManage.Services
                     return ret;
                 }
                 return false;
+            }
+        }
+
+        public RequestUserInfoDTO GetUserInfo(string userid)
+        {
+            using (var db = new DBEntities())
+            {
+                var query = from ua in db.Users
+                            where ua.UserID == userid
+                            select new RequestUserInfoDTO()
+                            {
+                                UserName = ua.UserName
+                            };
+
+                return query.FirstOrDefault();
+            }
+        }
+
+        public bool UpdateUserInfo(RequestUserInfoDTO dto, string userid)
+        {
+            using (var db = new DBEntities())
+            {
+                var query = from ua in db.Users
+                            where ua.UserID == userid
+                            select ua;
+
+                var model = query.FirstOrDefault();
+
+                model.UserName = dto.UserName;
+
+                return db.SaveChanges() > 0;
             }
         }
 

@@ -16,12 +16,12 @@ namespace DocumentManage.Dtos
 
         public string VisitFor { get; set; }
 
-        public string MianDepartment { get; set; }
+        public string MainDepartment { get; set; }
 
         public DateTime FromDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public string VisitTag { get; set; }
+        public List<string> VisitTags { get; set; }
 
         public string VisType { get; set; }
 
@@ -69,7 +69,7 @@ namespace DocumentManage.Dtos
         /// <summary>
         /// 领队（外方）
         /// </summary>
-        public List<ResponseVisitPerson> TheyMainPersons { get; set; }
+        public List<ResponseVisitPerson> TheyPersons { get; set; }
 
         public List<ResponseVisitPerson> TheyOtherPersons { get; set; }
 

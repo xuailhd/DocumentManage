@@ -17,11 +17,12 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
 
                     //查询列表
                     $scope.onSearch = function (page) {
-                        debugger;
                         $scope.Record.PageSize = $scope.pageSize;
                         $scope.Record.PageIndex = $scope.CurrentPage;
+                        var loading = layer.load(0, { shade: [0.1, '#000'] });
                         //请求
                         apiUtil.requestWebApi("Record/GetList", "Post", $scope.Record, function (response) {
+                            layer.close(loading);
                             if (response.Status == 0) {
                                 $scope.ListItems = response.Data;
                                 $scope.totalCount = response.Total;
@@ -32,6 +33,7 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                             }
                         }, function (response) {
                             layer.msg(response.Msg);
+                            layer.close(loading);
                         });
                     }
 
@@ -40,10 +42,5 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                         $state.go("Index.RecordEdit");
                     }
 
-
-                    //患者详细页面
-                    $scope.showDetail = function (item) {
-                        $state.go("Index.RecordDetail", { id: item.DoctorMemberID });
-                    }
                 }]);
         });

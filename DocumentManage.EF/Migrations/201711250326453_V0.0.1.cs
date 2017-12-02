@@ -218,7 +218,7 @@ namespace DocumentManage.EF.Migrations
                         VisitType = c.String(unicode: false),
                         VisitName = c.String(unicode: false),
                         VisitFor = c.String(unicode: false),
-                        MianDepartment = c.String(unicode: false),
+                        MainDepartment = c.String(unicode: false),
                         MianPersonName = c.String(unicode: false),
                         FromDate = c.DateTime(nullable: false, precision: 0),
                         EndDate = c.DateTime(nullable: false, precision: 0),

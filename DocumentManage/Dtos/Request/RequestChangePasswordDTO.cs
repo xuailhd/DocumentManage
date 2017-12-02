@@ -9,7 +9,7 @@ namespace DocumentManage.Dtos
     {
         public string UserID { get; set; }
 
-        public string Password { get; set; }
+        public string NewPassword { get; set; }
 
         public string OldPassword { get; set; }
     }

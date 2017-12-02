@@ -17,7 +17,7 @@ namespace DocumentManage.Dtos
 
         public string VisitFor { get; set; }
 
-        public string MianDepartment { get; set; }
+        public string MainDepartment { get; set; }
 
         public string MianPerson { get; set; }
 

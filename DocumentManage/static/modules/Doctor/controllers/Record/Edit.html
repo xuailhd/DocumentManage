@@ -60,7 +60,7 @@
                         <span style="float:right">主要经办部门</span>
                     </div>
                     <div class="col-md-8">
-                        <select id="MianDepartment" name="MianDepartment" class="form-control" ng-model="Record.MianDepartment">    
+                        <select id="MainDepartment" name="MainDepartment" class="form-control" ng-model="Record.MainDepartment">    
                             <option value="财政部">财政部</option>
                             <option value="教育部">教育部</option>
                             <option value="农业部">农业部</option>
@@ -295,13 +295,8 @@
                         <span style="float:right">访问标注</span>
                     </div>
                     <div class="col-md-8">
-                        <select id="VisitTag" name="VisitTag" class="form-control" ng-model="Record.VisitTag">
-                            <option value="全国两会">全国两会</option>
-                            <option value="国宗">国宗</option>
-                            <option value="统战部">统战部</option>
-                            <option value="政府机构">政府机构</option>
-                            <option value="访问院校">访问院校</option>
-                            <option value="其他">其他</option>
+                        <select class="selectpicker" ng-model="Record.VisitTags" multiple>
+                            <option ng-repeat="item in VisitTagOps" ng-value="item" on-finish-render-filters>{{item}}</option>
                         </select>
                     </div>
                 </div>
@@ -337,11 +332,11 @@
                                 </td>
                                 <td class="text-left">
                                     <input class="form-control" type="date" name="{{'FromDate'+$index}}" ng-model="item.FromDate"
-                                           ng-change="onFromChange(item.FromDate)" validate="{required:true, messages:{required:'请输入开始日期'}}" />
+                                           ng-change="onFromChange($index)" validate="{required:true, messages:{required:'请输入开始日期'}}" />
                                 </td>
                                 <td class="text-left">
                                     <input class="form-control" type="date" name="{{'EndDate'+$index}}" ng-model="item.EndDate"
-                                           ng-change="onEndChange(item.EndDate)" validate="{required:true, messages:{required:'请输入结束日期'}}" />
+                                           ng-change="onEndChange($index)" validate="{required:true, messages:{required:'请输入结束日期'}}" />
                                 </td>
                                 <td class="text-left">
                                     <input class="form-control" type="text" name="{{'Adress'+$index}}" ng-model="item.Adress"

@@ -16,12 +16,10 @@ namespace DocumentManage.Dtos
 
         public string VisitFor { get; set; }
 
-        public string MianDepartment { get; set; }
+        public string MainDepartment { get; set; }
 
         public DateTime? FromDate { get; set; }
         public DateTime? EndDate { get; set; }
-
-        public string VisitTag { get; set; }
 
         public string VisType { get; set; }
 
@@ -39,23 +37,7 @@ namespace DocumentManage.Dtos
 
         public string CreateUserID { get; set; }
 
-        public string MainPersonNameCN { get; set; }
-
-        public string MainPersonNameEN { get; set; }
-
-        public string TheyPersonNameEN { get; set; }
-
-        public string TheyPersonNameCN { get; set; }
-
-        public string OurPersonNameCN { get; set; }
-
-        public string OurPersonNameEN { get; set; }
-
-        public string BeviOrgName { get; set; }
-        public string BeviOrgNameEN { get; set; }
-        public string BeviShortNameEN { get; set; }
-
-        public string BeviShortNameCN { get; set; }
+        public string CreateUserName { get; set; }
 
         public DateTime CreateTime { get; set; }
     }

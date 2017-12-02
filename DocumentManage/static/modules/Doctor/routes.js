@@ -24,6 +24,9 @@
         $stateProvider     
         //医生首页
         .state("Index", amdRoute("/Index", "Doctor/controllers/index"))
+        //修改密码
+            .state("Index.ChangePassword", amdRoute("/ChangePassword", "Common/controllers/ChangePassword"))
+            .state("Index.PersonalInfo", amdRoute("/PersonalInfo", "Common/controllers/PersonalInfo"))
         //档案
         .state("Index.Record", amdRoute("/Record", "Doctor/controllers/Record/Index"))
         //档案编辑
@@ -43,12 +46,8 @@
         //人员资料详情
         .state("Index.PersonDetail", amdRoute("/PersonDetail/:PersonID", "Doctor/controllers/Person/Detail"))
         //综合查询
-            .state("Index.Query", amdRoute("/Query", "Doctor/controllers/Query/Index"))
+        .state("Index.Query", amdRoute("/Query", "Doctor/controllers/Query/Index"))
 
-        //修改密码
-        .state("Index.ChangePassword", amdRoute("/ChangePassword", "Common/controllers/ChangePassword"))  
-        //修改信息
-        .state("Index.PersonalInfo", amdRoute("/PersonalInfo", "Common/controllers/PersonalInfo"))
     };
 
     return {
