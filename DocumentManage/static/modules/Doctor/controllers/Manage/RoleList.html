@@ -1,13 +1,87 @@
 ﻿<div class="main-content" ng-controller="RoleListController">
+    <div class="modal fade" id="modal-EditRole" role="dialog">
+        <div class="modal-dialog" style="width:40%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">编辑角色</h4>
+                </div>
+                <form form-validate id="roleForm" ng-submit="onSaveRole()">
+                    <div class="modal-body text-center">
+                        <div class="row" style="line-height:40px">
+                            <label class="control-label col-md-3" for="RoleID">角色编码：</label>
+                            <span class="col-md-8">
+                                <input type="text" class="form-control" id="RoleID" name="RoleID" ng-model="Role.RoleID" maxlength="32"
+                                   ng-disabled="!Role.IsNew"  validate="{required:true,messages:{required:'新密码不能为空！'}}" />
+                            </span>
+                        </div>
+                        <div class="row" style="line-height:40px">
+                            <label class="control-label col-md-3" for="RoleName">角色名称：</label>
+                            <span class="col-md-8">
+                                <input type="text" class="form-control" id="RoleName" name="RoleName" ng-model="Role.RoleName" maxlength="32"
+                                       validate="{required:true,messages:{required:'角色名称不能为空！'}}" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">{{'btnSave'|translate}}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-EditRoleAuth" role="dialog">
+        <div class="modal-dialog" style="width:60%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">调整角色权限</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <table class="table table-responsive table-bordered table-hover table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60">选择</th>
+                                <th class="text-left">权限编码</th>
+                                <th class="text-left">权限名称</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in EditRoleAuth.AuthLists" ng-dblclick="item.Selected=(!item.Selected)">
+                                <td>
+                                    <input type="checkbox" ng-model="item.Selected" />
+                                </td>
+                                <td class="text-left">
+                                    {{item.AuthID}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.AuthName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" ng-click="onRoleAuthSave()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <form class="form-horizontal" ng-submit="onSearch()">
         <div class="search-ban">
             <div class="col-date-search">
-                <input type="text" class="form-control" id="Keyword" ng-model="Record.UserName" placeholder="请输入账号或用户名">
+                <input type="text" class="form-control" id="Keyword" ng-model="Record.RoleName" placeholder="请输入角色名">
             </div>
             <div class="col-date-search">
                 <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
             </div>
-
+            <div class="col-date-search">
+                <button class="btn base" type="button" ng-click="onAddRole()" style="padding:5px 10px;">新增</button>
+            </div>
             <div class="div-clear"></div>
         </div>
         <table class="table table-hover">
@@ -20,7 +94,7 @@
             </thead>
             <tbody ng-show="ListItems == null || ListItems.length == 0">
                 <tr>
-                    <td colspan="8">{{'msgNoData'|translate}}</td>
+                    <td colspan="3">{{'msgNoData'|translate}}</td>
                 </tr>
             </tbody>
             <tbody>
@@ -28,7 +102,8 @@
                     <td>{{item.RoleID}}</td>
                     <td>{{item.RoleName}}</td>
                     <td style="text-align:center">
-                        <a class="btn btn-sm base" ui-sref="Index.EditRole({ UserID: '{{item.UserID}}' })">编辑</a>
+                        <a class="btn btn-sm base" ng-click="onEditRole(item)">编辑</a>
+                        <a class="btn btn-sm base" ng-click="onEditAuth(item.RoleID)">调整角色权限</a>
                     </td>
                 </tr>
             </tbody>

@@ -54,6 +54,10 @@ namespace DocumentManage
 
         public static User IsLogin()
         {
+            if (string.IsNullOrEmpty(UserToken))
+            {
+                return null;
+            }
             using(var db = new DBEntities())
             {
                 var userToken = UserToken;

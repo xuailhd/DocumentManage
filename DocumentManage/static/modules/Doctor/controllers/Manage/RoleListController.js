@@ -32,6 +32,58 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     });
                 };
 
+                $scope.onEditRole = function (role) {
+                    $scope.Role = role;
+                    $scope.Role.IsNew = false;
+                    $("#modal-EditRole").modal("show");
+                };
+
+                $scope.onAddRole = function () {
+                    $scope.Role = {};
+                    $scope.Role.IsNew = true;
+                    $("#modal-EditRole").modal("show");
+                };
+
+                $scope.onSaveRole = function () {
+                    if ($("#roleForm").valid()) {
+                        apiUtil.requestWebApi("User/EditRole", "Post", $scope.Role, function (response) {
+                            layer.msg(response.Msg);
+                            $("#modal-EditRole").modal("hide");
+                        }, function (response) {
+                            layer.msg(response.Msg);
+                            $("#modal-EditRole").modal("hide");
+                        });
+                    }
+                };
+
+                $scope.onGetRoleAuth = function (roleID) {
+                    apiUtil.requestWebApi("User/GetAuthList", "Post", { RoleID: roleID }, function (response) {
+                        $scope.EditRoleAuth.AuthLists = response.Data;
+                        $scope.$apply();
+                    }, function (response) {
+                        layer.msg(response.Msg);
+                    });
+                };
+
+                $scope.onEditAuth = function (roleID) {
+                    $scope.EditRoleAuth = {};
+                    $scope.EditRoleAuth.RoleID = roleID;
+                    $scope.EditRoleAuth.AuthLists = [];
+                    $scope.onGetRoleAuth(roleID);
+
+                    $("#modal-EditRoleAuth").modal("show");
+                };
+
+                $scope.onRoleAuthSave = function () {
+                    apiUtil.requestWebApi("User/EditRoleAuths", "Post", $scope.EditRoleAuth, function (response) {
+                        layer.msg(response.Msg);
+                        $("#modal-EditRoleAuth").modal("hide");
+                    }, function (response) {
+                        layer.msg(response.Msg);
+                        $("#modal-EditRoleAuth").modal("hide");
+                    });
+                };
+
                 $scope.onSearch();
             }
             ]);

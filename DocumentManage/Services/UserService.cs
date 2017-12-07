@@ -138,28 +138,42 @@ namespace DocumentManage.Services
             }
         }
 
-        public bool EditRole(Role dto, out string reason)
+        public bool EditRole(RequestRoleDTO dto, out string reason)
         {
             reason = "";
             using (var db = new DBEntities())
             {
-                var model = db.Roles.Where(t => t.RoleID == dto.RoleID).FirstOrDefault();
-
-                if (model != null)
+                if (dto.IsNew)
                 {
-                    
-                }
-                else
-                {
-                    var exits = db.Roles.Where(t => t.RoleName == dto.RoleName).FirstOrDefault();
+                    var exits = db.Roles.Where(t => t.RoleName == dto.RoleName || t.RoleID == dto.RoleID).FirstOrDefault();
 
                     if (exits != null)
                     {
-                        reason = "角色名称重复";
+                        reason = "角色编码或者名称重复";
                         return false;
                     }
 
-                    db.Roles.Add(dto);
+                    db.Roles.Add(new Role() {  RoleID = dto.RoleID, RoleName = dto.RoleName});
+                }
+                else
+                {
+                    var model = db.Roles.Where(t => t.RoleID == dto.RoleID).FirstOrDefault();
+
+                    if (model.IsSystem)
+                    {
+                        reason = "系统角色不允许修改";
+                        return false;
+                    }
+
+                    if(model == null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        model.RoleName = dto.RoleName;
+                    }
+
                 }
                 return db.SaveChanges() > 0;
             }
@@ -178,7 +192,7 @@ namespace DocumentManage.Services
                                 {
                                     RoleID = role.RoleID,
                                     RoleName = role.RoleName,
-                                    Selected = uaroleempty == null ? false : true
+                                    Selected = uaroleempty != null
                                 };
 
                     query = query.OrderBy(t => t.RoleID);
@@ -189,8 +203,8 @@ namespace DocumentManage.Services
                     var query = from role in db.Roles
                                 select new ResponseRoleDTO()
                                 {
-                                     RoleID = role.RoleID,
-                                      RoleName =role.RoleName,
+                                    RoleID = role.RoleID,
+                                    RoleName = role.RoleName,
                                 };
 
                     query = query.OrderBy(t => t.RoleID);
@@ -216,6 +230,7 @@ namespace DocumentManage.Services
                     if (model.IsSystem)
                     {
                         reason = "系统账号不允许修改";
+                        return false;
                     }
 
                     var olds = db.UserRoleMaps.Where(t => t.UserID == dto.UserID).ToList();
@@ -224,8 +239,9 @@ namespace DocumentManage.Services
                         db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
                     }
 
-      
-                    var listexit = db.Roles.Where(t => dto.RoleLists.Contains(t.RoleID)).Select(t=>t.RoleID).ToList();
+                    var rolelist = dto.RoleLists.Where(t => t.Selected).Select(t => t.RoleID).ToList();
+
+                    var listexit = db.Roles.Where(t => rolelist.Contains(t.RoleID)).Select(t=>t.RoleID).ToList();
 
                     foreach (var item in listexit)
                     {
@@ -259,6 +275,7 @@ namespace DocumentManage.Services
                     if (model.IsSystem)
                     {
                         reason = "系统角色不允许修改";
+                        return false;
                     }
 
                     var olds = db.AuthRoleMaps.Where(t => t.RoleID == dto.RoleID).ToList();
@@ -267,8 +284,9 @@ namespace DocumentManage.Services
                         db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
                     }
 
+                    var authlist = dto.AuthLists.Where(t => t.Selected).Select(t => t.AuthID).ToList();
 
-                    var listexit = db.AuthModels.Where(t => dto.AuthLists.Contains(t.AuthID)).Select(t => t.AuthID).ToList();
+                    var listexit = db.AuthModels.Where(t => authlist.Contains(t.AuthID)).Select(t => t.AuthID).ToList();
 
                     foreach (var item in listexit)
                     {
@@ -285,12 +303,19 @@ namespace DocumentManage.Services
             }
         }
 
-        public PagedList<AuthModel> GetAuthList(RequestUserQDTO request)
+        public PagedList<ResponseAuthModelDTO> GetAuthList(RequestAuthModelQDTO request)
         {
             using (var db = new DBEntities())
             {
                 var query = from auth in db.AuthModels
-                            select auth;
+                            join automap in db.AuthRoleMaps.Where(t=>t.RoleID == request.RoleID) on auth.AuthID equals automap.AuthID into automapLeft
+                            from automapEmpty in automapLeft.DefaultIfEmpty()
+                            select new ResponseAuthModelDTO()
+                            {
+                                AuthID = auth.AuthID,
+                                AuthName = auth.AuthName,
+                                Selected = automapEmpty != null
+                            };
 
                 query = query.OrderBy(t => t.AuthID);
 
@@ -303,16 +328,18 @@ namespace DocumentManage.Services
             using (var db = new DBEntities())
             {
                 var query = from ua in db.Users
-                            join rolemap in db.UserRoleMaps on ua.UserID equals rolemap.UserID
-                            join role in db.Roles on rolemap.RoleID equals role.RoleID
-                            group new { ua.LastTime , ua.UserID, ua.UserName, role.RoleID, role.RoleName }
+                            join rolemap in db.UserRoleMaps on ua.UserID equals rolemap.UserID into rolemapLeft
+                            from rolemapEmpty in rolemapLeft.DefaultIfEmpty()
+                            join role in db.Roles on rolemapEmpty.RoleID equals role.RoleID into roleLeft
+                            from roleEmpty in roleLeft.DefaultIfEmpty()
+                            group new { ua.LastTime , ua.UserID, ua.UserName, roleEmpty.RoleID, roleEmpty.RoleName }
                             by new { ua.LastTime , ua.UserID, ua.UserName} into gro
                             select new ResponseUserDTO()
                             {
                                 LastTime = gro.Key.LastTime,
                                 UserID = gro.Key.UserID,
                                 UserName = gro.Key.UserName,
-                                Roles = gro.Where(t => t.UserID == gro.Key.UserID).Select(t => new Role { RoleID = t.RoleID, RoleName = t.RoleName }).ToList()
+                                Roles = gro.Where(t => t.UserID == gro.Key.UserID).Select(t => new ResponseRoleDTO { RoleID = t.RoleID, RoleName = t.RoleName }).ToList()
                             };
 
                 if(!string.IsNullOrEmpty(request.UserName))
@@ -331,6 +358,25 @@ namespace DocumentManage.Services
                 });
 
                 return ret;
+            }
+        }
+
+        public bool AddAccount(RequestUserInfoDTO dto, out string reason)
+        {
+            reason = "";
+            using (var db = new DBEntities())
+            {
+                if(db.Users.Where(t=>t.UserID == dto.UserID).Any())
+                {
+                    reason = "该账号已经存在";
+                    return false;
+                }
+
+                User ua = dto.Map<RequestUserInfoDTO, User>();
+                ua.Password = StringEncrypt.EncryptWithMD5(dto.Password);
+                db.Users.Add(ua);
+
+                return db.SaveChanges() > 0;
             }
         }
     }

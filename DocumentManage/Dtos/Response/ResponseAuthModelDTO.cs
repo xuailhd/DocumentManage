@@ -6,12 +6,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DocumentManage.Dtos
 {
-    public class RequestUserInfoDTO
+    public class ResponseAuthModelDTO
     {
-        public string UserName { get; set; }
+        public string AuthID { get; set; }
 
-        public string UserID { get; set; }
+        public string AuthName { get; set; }
 
-        public string Password { get; set; }
+        public bool Selected { get; set; }
     }
 }

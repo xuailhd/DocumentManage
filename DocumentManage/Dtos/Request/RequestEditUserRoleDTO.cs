@@ -8,7 +8,7 @@ namespace DocumentManage.Dtos
 {
     public class RequestEditUserRoleDTO
     {
-        public List<string> RoleLists { get; set; }
+        public List<ResponseRoleDTO> RoleLists { get; set; }
 
         public string UserID { get; set; }
     }

@@ -19,7 +19,7 @@ namespace DocumentManage.Dtos
 
         public bool IsSystem { get; set; }
 
-        public List<Role> Roles {get;set;}
+        public List<ResponseRoleDTO> Roles {get;set;}
 
         public string RolesStr { get; set; }
     }

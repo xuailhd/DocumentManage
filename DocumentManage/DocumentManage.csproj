@@ -78,7 +78,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebApi\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\Libs\WebApi\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -88,11 +88,11 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebApi\System.Web.Http.dll</HintPath>
+      <HintPath>..\Libs\WebApi\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebApi\System.Web.Http.WebHost.dll</HintPath>
+      <HintPath>..\Libs\WebApi\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
@@ -166,9 +166,12 @@
     <Compile Include="Dtos\PagedList.cs" />
     <Compile Include="Dtos\Request\RequestEditRoleAuthDTO.cs" />
     <Compile Include="Dtos\Request\RequestEditUserRoleDTO.cs" />
+    <Compile Include="Dtos\Request\RequestAuthModelQDTO.cs" />
     <Compile Include="Dtos\Request\RequestUserQDTO.cs" />
     <Compile Include="Dtos\Request\RequestRoleQDTO.cs" />
     <Compile Include="Dtos\Request\RequestUserInfoDTO.cs" />
+    <Compile Include="Dtos\Request\RequestRoleDTO.cs" />
+    <Compile Include="Dtos\Response\ResponseAuthModelDTO.cs" />
     <Compile Include="Dtos\Response\ResponsePersonSelectDTO.cs" />
     <Compile Include="Dtos\Response\ResponseLoginDTO.cs" />
     <Compile Include="Dtos\Response\ResponseVisitQueryListDTO.cs" />

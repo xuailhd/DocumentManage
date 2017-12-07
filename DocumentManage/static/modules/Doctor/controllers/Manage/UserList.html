@@ -1,54 +1,6 @@
 ﻿<div class="main-content" ng-controller="UserListController">
-    <form class="form-horizontal" ng-submit="onSearch()">
-        <div class="search-ban">
-            <div class="col-date-search">
-                <input type="text" class="form-control" id="Keyword" ng-model="Record.UserName" placeholder="请输入账号或用户名">
-            </div>
-            <div class="col-date-search">
-                <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
-            </div>
-
-            <div class="div-clear"></div>
-        </div>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>账号</th>
-                    <th>用户名</th>
-                    <th>所属角色</th>
-                    <th>最后登陆时间</th>
-                    <th style="text-align:center">{{'lblOperator'|translate}}</th>
-                </tr>
-            </thead>
-            <tbody ng-show="ListItems == null || ListItems.length == 0">
-                <tr>
-                    <td colspan="8">{{'msgNoData'|translate}}</td>
-                </tr>
-            </tbody>
-            <tbody>
-                <tr ng-repeat="item in ListItems">
-                    <td>{{item.UserID}}</td>
-                    <td>{{item.UserName}}</td>
-                    <th>{{item.Roles}}</th>
-                    <th>{{item.LastTime}}</th>
-                    <td style="text-align:center">
-                        <a class="btn btn-sm base" ng-click="onResetPassword(item.UserID)">重置密码</a>
-                        <a class="btn btn-sm base" ng-click="onEditUserRole(item.UserID)">调整所属角色</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!--分页控件-->
-        <pager-nav page-list="[5,10,20,25]"
-                   page="CurrentPage"
-                   page-Size="PageSize"
-                   total-Count="TotalCount" on-change="onSearch()" />
-
-    </form>
-
     <div class="modal fade" id="modal-ResetPassword" role="dialog">
-        <div class="modal-dialog" style="width:60%" role="dialog">
+        <div class="modal-dialog" style="width:40%" role="dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-bg">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -56,18 +8,58 @@
                 </div>
                 <form form-validate id="passwordForm" ng-submit="onSavePassword()">
                     <div class="modal-body text-center">
-                        <div class="form-group">
+                        <div class="row" style="line-height:40px">
                             <label class="control-label col-md-3" for="NewPassword">{{'lblNewPassword' | translate}}：</label>
-                            <span class="col-md-9">
+                            <span class="col-md-8">
                                 <input type="password" class="form-control" id="NewPassword" name="NewPassword" ng-model="UserPassword.NewPassword"
                                        validate="{required:true,maxlength:20,minlength:6,messages:{required:'新密码不能为空！',minlength:'新密码格式不正确，必须大于等于6位和小于等于18位的字母或数字！',maxlength:'新密码格式不正确，必须大于等于6位和小于等于18位的字母或数字！'}}" />
                             </span>
                         </div>
-                        <div class="form-group">
+                        <div class="row" style="line-height:40px">
                             <label class="control-label col-md-3" for="ConfirmPassword">{{'lblComfirmPassword' | translate}}：</label>
-                            <span class="col-md-9">
+                            <span class="col-md-8">
                                 <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" ng-model="UserPassword.ConfirmPassword"
                                        validate="{required:true,equalTo:'#NewPassword',messages:{required:'确认密码不能为空！',equalTo:'两次输入密码不一致!'}}" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">{{'btnSave'|translate}}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-AddAccount" role="dialog">
+        <div class="modal-dialog" style="width:40%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">新增账号</h4>
+                </div>
+                <form form-validate id="addAccountForm" ng-submit="onSaveAccount()">
+                    <div class="modal-body text-center">
+                        <div class="row" style="line-height:40px">
+                            <label class="control-label col-md-3" for="UserID">账号：</label>
+                            <span class="col-md-8">
+                                <input type="text" class="form-control" id="UserID" name="UserID" ng-model="UserAccount.UserID"
+                                       validate="{required:true,maxlength:20,minlength:4,messages:{required:'账号不能为空！',minlength:'账号格式不正确，必须大于等于4位和小于等于18位的字母或数字！',maxlength:'账号格式不正确，必须大于等于4位和小于等于18位的字母或数字！'}}" />
+                            </span>
+                        </div>
+                        <div class="row" style="line-height:40px">
+                            <label class="control-label col-md-3" for="UserName">姓名：</label>
+                            <span class="col-md-8">
+                                <input type="text" class="form-control" id="UserName" name="UserName" ng-model="UserAccount.UserName"
+                                       validate="{required:true,messages:{required:'姓名不能为空！'}}" />
+                            </span>
+                        </div>
+                        <div class="row" style="line-height:40px">
+                            <label class="control-label col-md-3" for="Password">密码：</label>
+                            <span class="col-md-8">
+                                <input type="password" class="form-control" id="Password" name="Password" ng-model="UserAccount.Password"
+                                       validate="{required:true,maxlength:20,minlength:6,messages:{required:'密码不能为空！',minlength:'密码格式不正确，必须大于等于6位和小于等于18位的字母或数字！',maxlength:'密码格式不正确，必须大于等于6位和小于等于18位的字母或数字！'}}" />
                             </span>
                         </div>
                     </div>
@@ -97,7 +89,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in roles" ng-dblclick="item.Selected=(!item.Selected)">
+                            <tr ng-repeat="item in EditUserRole.RoleLists" ng-dblclick="item.Selected=(!item.Selected)">
                                 <td>
                                     <input type="checkbox" ng-model="item.Selected" />
                                 </td>
@@ -118,4 +110,54 @@
             </div>
         </div>
     </div>
+
+    <form class="form-horizontal" ng-submit="onSearch()">
+        <div class="search-ban">
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="Keyword" ng-model="Record.UserName" placeholder="请输入账号或用户名">
+            </div>
+            <div class="col-date-search">
+                <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+            </div>
+            <div class="col-date-search">
+                <button class="btn base" type="button" ng-click="addAccount()" style="padding:5px 10px;">新增</button>
+            </div>
+            <div class="div-clear"></div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>账号</th>
+                    <th>用户名</th>
+                    <th>所属角色</th>
+                    <th>最后登陆时间</th>
+                    <th style="text-align:center">{{'lblOperator'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody ng-show="ListItems == null || ListItems.length == 0">
+                <tr>
+                    <td colspan="8">{{'msgNoData'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr ng-repeat="item in ListItems">
+                    <td>{{item.UserID}}</td>
+                    <td>{{item.UserName}}</td>
+                    <th>{{item.RolesStr}}</th>
+                    <th>{{item.LastTime}}</th>
+                    <td style="text-align:center">
+                        <a class="btn btn-sm base" ng-click="onResetPassword(item.UserID)">重置密码</a>
+                        <a class="btn btn-sm base" ng-click="onEditUserRole(item.UserID)">调整所属角色</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="CurrentPage"
+                   page-Size="PageSize"
+                   total-Count="TotalCount" on-change="onSearch()" />
+
+    </form>
 </div>

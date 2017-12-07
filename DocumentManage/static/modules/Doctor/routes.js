@@ -27,6 +27,7 @@
             //系统管理
             .state("Index.Manage", amdRoute("/Manage", "Doctor/controllers/Manage/Index"))
             .state("Index.Manage.UserList", amdRoute("/UserList", "Doctor/controllers/Manage/UserList"))
+            .state("Index.Manage.RoleList", amdRoute("/UserList", "Doctor/controllers/Manage/RoleList"))
         //修改密码
             .state("Index.ChangePassword", amdRoute("/ChangePassword", "Common/controllers/ChangePassword"))
             .state("Index.PersonalInfo", amdRoute("/PersonalInfo", "Common/controllers/PersonalInfo"))

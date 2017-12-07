@@ -14,7 +14,8 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                 $scope.Record = {};
                 $scope.EditUserRole = {};
                 $scope.UserPassword = {};
-           
+                $scope.UserAccount = {};
+
                 $scope.onSearch = function ()
                 {
                     $scope.Record.PageSize = $scope.PageSize;
@@ -34,46 +35,65 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     });
                 };
 
+                $scope.addAccount = function () {
+                    $("#modal-AddAccount").modal("show");
+                };
+
+                $scope.onSaveAccount = function () {
+                    if ($("#addAccountForm").valid()) {
+                        apiUtil.requestWebApi("User/AddAccount", "Post", $scope.UserAccount, function (response) {
+                            layer.msg(response.Msg);
+                            $("#modal-AddAccount").modal("hide");
+                        }, function (response) {
+                            layer.msg(response.Msg);
+                            $("#modal-AddAccount").modal("hide");
+                        });
+                    }
+                };
+
                 $scope.onResetPassword = function (userID) {
                     $scope.UserPassword.UserID = userID;
                     $("#modal-ResetPassword").modal("show");
                 };
 
                 $scope.onSavePassword = function () {
-                    apiUtil.requestWebApi("User/ResetPassoword", "Post", $scope.UserPassword, function (response) {
-                        layer.msg(response.Msg);
-                        $("#modal-ResetPassword").hide();
-                    }, function (response) {
-                        layer.msg(response.Msg);
-                        $("#modal-ResetPassword").hide();
-                    });
-                };
-
-                $scope.onEditUserRole = function (userID) {
-                    $scope.roles = [];
-                    $scope.onGetUserRoles(userID);
-                    $scope.EditUserRole.UserID = userID;
-                    $("#modal-EditUserRole").modal("show");
+                    if ($("#passwordForm").valid()) {
+                        apiUtil.requestWebApi("User/ResetPassword", "Post", $scope.UserPassword, function (response) {
+                            layer.msg(response.Msg);
+                            $("#modal-ResetPassword").modal("hide");
+                        }, function (response) {
+                            layer.msg(response.Msg);
+                            $("#modal-ResetPassword").modal("hide");
+                        });
+                    }
                 };
 
                 $scope.onGetUserRoles = function (userID) {
-                    apiUtil.requestWebApi("User/GetRoleList", "Post", new { UserID: userID }, function (response) {
-                        $scope.roles = response.Data;
+                    apiUtil.requestWebApi("User/GetRoleList", "Post", { UserID: userID }, function (response) {
+                        $scope.EditUserRole.RoleLists = response.Data;
                         $scope.$apply();
                     }, function (response) {
                         layer.msg(response.Msg);
                     });
-                }
+                };
+
+                $scope.onEditUserRole = function (userID) {
+                    $scope.EditUserRole.UserID = userID;
+                    $scope.EditUserRole.RoleLists = [];
+                    $scope.onGetUserRoles(userID);
+                    
+                    $("#modal-EditUserRole").modal("show");
+                };
 
                 $scope.onUserRoleSave = function () {
                     apiUtil.requestWebApi("User/EditUserRoles", "Post", $scope.EditUserRole, function (response) {
                         layer.msg(response.Msg);
-                        $("#modal-EditUserRole").hide();
+                        $("#modal-EditUserRole").modal("hide");
                     }, function (response) {
                         layer.msg(response.Msg);
-                        $("#modal-EditUserRole").hide();
+                        $("#modal-EditUserRole").modal("hide");
                     });
-                }
+                };
             }
             ]);
         });

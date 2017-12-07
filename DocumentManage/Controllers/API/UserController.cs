@@ -101,7 +101,7 @@ namespace DocumentManage.Controllers.API
         }
 
         [HttpPost]
-        public ApiResult EditRole([FromBody]Role dto)
+        public ApiResult EditRole([FromBody]RequestRoleDTO dto)
         {
             string reason = "";
             if (userService.EditRole(dto, out reason))
@@ -149,7 +149,7 @@ namespace DocumentManage.Controllers.API
         }
 
         [HttpPost]
-        public ApiResult GetAuthList([FromBody]RequestUserQDTO request)
+        public ApiResult GetAuthList([FromBody]RequestAuthModelQDTO request)
         {
             return userService.GetAuthList(request).ToApiResult();
         }
@@ -159,6 +159,19 @@ namespace DocumentManage.Controllers.API
         {
             return userService.GetUserList(request).ToApiResult();
         }
-        
+
+        [HttpPost]
+        public ApiResult AddAccount([FromBody]RequestUserInfoDTO request)
+        {
+            string reason = "";
+            if (userService.AddAccount(request, out reason))
+            {
+                return new ApiResult();
+            }
+            else
+            {
+                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = reason };
+            }
+        }
     }
 }
