@@ -1,5 +1,6 @@
 ﻿using DocumentManage.Dtos;
 using DocumentManage.Filters;
+using DocumentManage.Models;
 using DocumentManage.Services;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,9 @@ namespace DocumentManage.Controllers.API
         {
             var ret = userService.Login(request);
 
-            if(ret == null)
+            if (ret == null)
             {
-                return new ApiResult() {  Status = EnumApiStatus.BizError, Msg= "账号或密码错误"};
+                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = "账号或密码错误" };
             }
             else
             {
@@ -57,6 +58,22 @@ namespace DocumentManage.Controllers.API
         }
 
         [HttpPost]
+        public ApiResult ResetPassword([FromBody]RequestChangePasswordDTO request)
+        {
+            request.UserID = SecurityHelper.LoginUser.UserID;
+            var ret = userService.ResetPassword(request);
+
+            if (ret)
+            {
+                return new ApiResult() { Status = EnumApiStatus.BizOK, Msg = "操作成功" };
+            }
+            else
+            {
+                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = "修改失败" };
+            }
+        }
+
+        [HttpPost]
         public ApiResult LoginOut()
         {
             var ret = userService.LoginOut(SecurityHelper.LoginUser.UserID);
@@ -82,5 +99,66 @@ namespace DocumentManage.Controllers.API
         {
             return userService.UpdateUserInfo(dto, SecurityHelper.LoginUser.UserID).ToApiResult();
         }
+
+        [HttpPost]
+        public ApiResult EditRole([FromBody]Role dto)
+        {
+            string reason = "";
+            if (userService.EditRole(dto, out reason))
+            {
+                return new ApiResult();
+            }
+            else
+            {
+                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = reason };
+            }
+        }
+
+        [HttpPost]
+        public ApiResult GetRoleList([FromBody]RequestRoleQDTO request)
+        {
+            return userService.GetRoleList(request).ToApiResult();
+        }
+
+        [HttpPost]
+        public ApiResult EditUserRoles([FromBody]RequestEditUserRoleDTO request)
+        {
+            string reason = "";
+            if (userService.EditUserRoles(request, out reason))
+            {
+                return new ApiResult();
+            }
+            else
+            {
+                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = reason };
+            }
+        }
+
+        [HttpPost]
+        public ApiResult EditRoleAuths([FromBody]RequestEditRoleAuthDTO request)
+        {
+            string reason = "";
+            if (userService.EditRoleAuths(request, out reason))
+            {
+                return new ApiResult();
+            }
+            else
+            {
+                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = reason };
+            }
+        }
+
+        [HttpPost]
+        public ApiResult GetAuthList([FromBody]RequestUserQDTO request)
+        {
+            return userService.GetAuthList(request).ToApiResult();
+        }
+
+        [HttpPost]
+        public ApiResult GetUserList([FromBody]RequestUserQDTO request)
+        {
+            return userService.GetUserList(request).ToApiResult();
+        }
+        
     }
 }

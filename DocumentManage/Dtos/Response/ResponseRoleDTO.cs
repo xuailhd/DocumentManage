@@ -6,12 +6,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DocumentManage.Models
 {
-    public class Role
+    public class ResponseRoleDTO
     {
         [Key]
         public string RoleID { get; set; }
 
         public string RoleName { get; set; }
+
+        public bool Selected { get; set; }
 
         public bool IsSystem { get; set; }
 

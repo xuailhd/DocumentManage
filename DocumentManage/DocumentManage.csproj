@@ -164,6 +164,10 @@
     <Compile Include="Dtos\ApiResult.cs" />
     <Compile Include="Dtos\ApiResultExtend.cs" />
     <Compile Include="Dtos\PagedList.cs" />
+    <Compile Include="Dtos\Request\RequestEditRoleAuthDTO.cs" />
+    <Compile Include="Dtos\Request\RequestEditUserRoleDTO.cs" />
+    <Compile Include="Dtos\Request\RequestUserQDTO.cs" />
+    <Compile Include="Dtos\Request\RequestRoleQDTO.cs" />
     <Compile Include="Dtos\Request\RequestUserInfoDTO.cs" />
     <Compile Include="Dtos\Response\ResponsePersonSelectDTO.cs" />
     <Compile Include="Dtos\Response\ResponseLoginDTO.cs" />
@@ -178,6 +182,8 @@
     <Compile Include="Dtos\Request\RequestPersonQDTO.cs" />
     <Compile Include="Dtos\Request\RequestOrgQDTO.cs" />
     <Compile Include="Dtos\Request\RequestLoginDTO.cs" />
+    <Compile Include="Dtos\Response\ResponseUserDTO.cs" />
+    <Compile Include="Dtos\Response\ResponseRoleDTO.cs" />
     <Compile Include="Filter\ApiAuthorizationFilterAttribute.cs" />
     <Compile Include="SecurityHelper\SecurityHelper.cs" />
     <Compile Include="Filter\HandleAndLogErrorAttribute.cs" />
@@ -2585,6 +2591,14 @@
     <Content Include="static\modules\Common\services\uploader.js" />
     <Content Include="static\modules\Doctor\app.js" />
     <Content Include="static\modules\Doctor\bootstrap.js" />
+    <Content Include="static\modules\Doctor\controllers\Manage\EditUserRole.html" />
+    <Content Include="static\modules\Doctor\controllers\Manage\EditUserRoleController.js" />
+    <Content Include="static\modules\Doctor\controllers\Manage\RoleList.html" />
+    <Content Include="static\modules\Doctor\controllers\Manage\UserList.html" />
+    <Content Include="static\modules\Doctor\controllers\Manage\RoleListController.js" />
+    <Content Include="static\modules\Doctor\controllers\Manage\UserListController.js" />
+    <Content Include="static\modules\Doctor\controllers\Manage\Index.html" />
+    <Content Include="static\modules\Doctor\controllers\Manage\IndexController.js" />
     <Content Include="static\modules\Doctor\controllers\Person\Detail.html" />
     <Content Include="static\modules\Doctor\controllers\Person\DetailController.js" />
     <Content Include="static\modules\Doctor\controllers\Person\Edit.html" />

@@ -23,7 +23,10 @@
         // route
         $stateProvider     
         //医生首页
-        .state("Index", amdRoute("/Index", "Doctor/controllers/index"))
+            .state("Index", amdRoute("/Index", "Doctor/controllers/index"))
+            //系统管理
+            .state("Index.Manage", amdRoute("/Manage", "Doctor/controllers/Manage/Index"))
+            .state("Index.Manage.UserList", amdRoute("/UserList", "Doctor/controllers/Manage/UserList"))
         //修改密码
             .state("Index.ChangePassword", amdRoute("/ChangePassword", "Common/controllers/ChangePassword"))
             .state("Index.PersonalInfo", amdRoute("/PersonalInfo", "Common/controllers/PersonalInfo"))

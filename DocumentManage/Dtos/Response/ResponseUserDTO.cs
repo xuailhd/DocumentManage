@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using DocumentManage.Models;
 
-namespace DocumentManage.Models
+namespace DocumentManage.Dtos
 {
-    public class User: BaseModel
+    public class ResponseUserDTO
     {
-        [Key]
         public string UserID { get; set; }
-        public string Password { get; set; }
 
         public string UserName { get; set; }
 
-        public string UserToken { get; set; }
-
         public DateTime? LastTime { get; set; }
 
+        public string LastTimeStr { get; set; }
+
         public bool IsSystem { get; set; }
+
+        public List<Role> Roles {get;set;}
+
+        public string RolesStr { get; set; }
     }
+
+
 }
