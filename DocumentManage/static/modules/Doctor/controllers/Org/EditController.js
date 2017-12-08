@@ -18,9 +18,6 @@ define(["module-services-apiUtil","jquery-validate"], function (apiUtil) {
 
                     /*************************以下是和服务端交互的数据*****************/
 
-                    $scope.Record = { FromType: '外方', Continent: '亚洲', Tag: '' };
-                    $('#Tag').attr('style', 'background-color:red');
-
                     var countrys = [{
                         Name: '中国', PingYin: 'ZG', Continent: '亚洲',
                         Provinces: [
@@ -183,7 +180,33 @@ define(["module-services-apiUtil","jquery-validate"], function (apiUtil) {
                         history.back();
                     };
 
-                    $scope.getWaterNo();
+                    $scope.onLoad = function () {
+                        var data = { OrgID: $scope.OrgID };
+                        //请求
+                        apiUtil.requestWebApi("Org/GetDetail", "Post", data, function (response) {
+                            if (response.Status == 0) {
+                                $scope.Record = response.Data;
+                                $scope.onTagChange();
+                                $scope.$apply();
+                                return;
+                            }
+                            else {
+                                layer.msg(response.Msg);
+                            }
+                        }, function (response) {
+                            layer.msg(response.Msg);
+                        });
+                    }
+
+                    if ($state.params.OrgID) {
+                        $scope.OrgID = $state.params.OrgID;
+                        $scope.onLoad();
+                    }
+                    else {
+                        $scope.Record = { FromType: '外方', Continent: '亚洲', Tag: '' };
+                        $scope.onTagChange();
+                        $scope.getWaterNo();
+                    }
                 }
             ]);
 

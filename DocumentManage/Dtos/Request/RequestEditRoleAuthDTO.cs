@@ -10,6 +10,7 @@ namespace DocumentManage.Dtos
     {
         public List<ResponseAuthModelDTO> AuthLists { get; set; }
 
+        public int Type { get; set; }
         public string RoleID { get; set; }
     }
 }

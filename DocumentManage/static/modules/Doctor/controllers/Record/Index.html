@@ -116,7 +116,7 @@
                 <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
             </div>
             <div class="col-date-search">
-                <button class="btn base" type="button" ng-click="showEdit()" style="padding:5px 10px;">录入</button>
+                <button class="btn base" type="button" ng-click="showEdit()" style="padding:5px 10px;" has-permission="FN03001">录入</button>
             </div>
             <div class="div-clear"></div>
         </div>
@@ -150,7 +150,7 @@
                     <td>{{item.VisType}}</td>
                     <td>{{item.FeeType}}</td>
                     <td style="text-align:center">
-                        <a class="btn btn-info" ui-sref='Index.RecordEdit({VisitID:"{{item.VisitID}}"})'>
+                        <a class="btn btn-info" ui-sref='Index.RecordEdit({VisitID:"{{item.VisitID}}"})' has-permission="FN03001">
                             <i class="glyphicon glyphicon-edit"></i>
                             编辑
                         </a>

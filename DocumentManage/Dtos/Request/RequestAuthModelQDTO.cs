@@ -9,6 +9,11 @@ namespace DocumentManage.Dtos
     {
         public string RoleID { get; set; }
 
+        /// <summary>
+        /// 0 菜单 1 功能权限 2 数据级别
+        /// </summary>
+        public int Type { get; set; }
+
         private int _PageSize;
         public int PageSize
         {

@@ -28,6 +28,15 @@ namespace DocumentManage.Services
 
                 if (model != null)
                 {
+                    if (!string.IsNullOrEmpty(model.CreateUserID) && model.CreateUserID != operUserID)
+                    {
+                        if (!CommonService.HasOtherDataAuth(operUserID, db))
+                        {
+                            reason = "非本人创建的数据，不允许修改";
+                            return false;
+                        }
+                    }
+
                     request.VisitID = model.VisitID;
 
                     var sjwlFiles = db.VisitFiles.Where(t => t.OutID == model.VisitID && t.Type == "11").ToList();
@@ -337,7 +346,32 @@ namespace DocumentManage.Services
 
             using (var db = new DBEntities())
             {
-                var query = db.VisitRecords.Where(t => !t.IsDeleted && t.VisitID == request.VisitID);
+                var query = from vir in db.VisitRecords.Where(t => !t.IsDeleted && t.VisitID == request.VisitID)
+                            join uac in db.Users on vir.CreateUserID equals uac.UserID
+                            join uam in db.Users on vir.ModifyUserID equals uam.UserID into uamleft
+                            from uamEmpty in uamleft.DefaultIfEmpty()
+                            select new ResponseVisitRecordDTO()
+                            {
+                                AnsLevel = vir.AnsLevel,
+                                CreateTime = vir.CreateTime,
+                                CreateUserID = vir.CreateUserID,
+                                CreateUserName = uac.UserName,
+                                EndDate = vir.EndDate,
+                                FeeType = vir.FeeType,
+                                FromDate = vir.FromDate,
+                                IsLine = vir.IsLine,
+                                MainDepartment = vir.MainDepartment,
+                                ModifyTime = vir.ModifyTime,
+                                ModifyUserName = uamEmpty.UserName,
+                                PayType = vir.PayType,
+                                Remark = vir.Remark,
+                                TakeLevel = vir.TakeLevel,
+                                VisitFor = vir.VisitFor,
+                                VisitID = vir.VisitID,
+                                VisitName = vir.VisitName,
+                                VisitType = vir.VisitType,
+                                VisType = vir.VisType,
+                            };
 
                 if (!string.IsNullOrEmpty(request.UserID))
                 {
@@ -345,14 +379,11 @@ namespace DocumentManage.Services
                 }
 
 
-                var model = query.FirstOrDefault();
+                ret = query.FirstOrDefault();
 
-                if (model != null)
+                if (ret != null)
                 {
-                    ret = model.Map<VisitRecord, ResponseVisitRecordDTO>();
-
                     ret.VisitDetails = db.VisitDetails.Where(t => t.VisitID == ret.VisitID).OrderBy(t=>t.No).ToList();
-
 
                     var personq = from mperson in db.VisitPersons
                                   join mpersoninfo in db.PersonInfos on mperson.PersonID equals mpersoninfo.PersonID

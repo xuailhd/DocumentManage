@@ -67,7 +67,7 @@
                 <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
             </div>
             <div class="col-date-search">
-                <button class="btn base" type="button" ng-click="showEdit()" style="padding:5px 10px;">新增</button>
+                <button class="btn base" type="button" ng-click="showEdit()" style="padding:5px 10px;" has-permission="FN02001">新增</button>
             </div>
             <div class="div-clear"></div>
         </div>
@@ -105,7 +105,7 @@
                     <td>{{item.Birth}}</td>
                     <td>{{item.Nationality}}</td>
                     <td style="text-align:center">
-                        <a class="btn btn-info" ui-sref='Index.PersonEdit({PersonID:"{{item.PersonID}}"})'>
+                        <a class="btn btn-info" ui-sref='Index.PersonEdit({PersonID:"{{item.PersonID}}"})' has-permission="FN02001">
                             <i class="glyphicon glyphicon-edit"></i>
                             编辑
                         </a>

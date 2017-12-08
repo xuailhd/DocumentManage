@@ -57,7 +57,7 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                 };
 
                 $scope.onGetRoleAuth = function (roleID) {
-                    apiUtil.requestWebApi("User/GetAuthList", "Post", { RoleID: roleID }, function (response) {
+                    apiUtil.requestWebApi("User/GetAuthList", "Post", { RoleID: roleID, Type: 0 }, function (response) {
                         $scope.EditRoleAuth.AuthLists = response.Data;
                         $scope.$apply();
                     }, function (response) {
@@ -69,6 +69,7 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     $scope.EditRoleAuth = {};
                     $scope.EditRoleAuth.RoleID = roleID;
                     $scope.EditRoleAuth.AuthLists = [];
+                    $scope.EditRoleAuth.Type = 0;
                     $scope.onGetRoleAuth(roleID);
 
                     $("#modal-EditRoleAuth").modal("show");
@@ -81,6 +82,64 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     }, function (response) {
                         layer.msg(response.Msg);
                         $("#modal-EditRoleAuth").modal("hide");
+                    });
+                };
+
+                $scope.onGetRoleFN = function (roleID) {
+                    apiUtil.requestWebApi("User/GetAuthList", "Post", { RoleID: roleID,Type:1 }, function (response) {
+                        $scope.EditRoleFN.AuthLists = response.Data;
+                        $scope.$apply();
+                    }, function (response) {
+                        layer.msg(response.Msg);
+                    });
+                };
+
+                $scope.onEditFN = function (roleID) {
+                    $scope.EditRoleFN = {};
+                    $scope.EditRoleFN.RoleID = roleID;
+                    $scope.EditRoleFN.AuthLists = [];
+                    $scope.EditRoleFN.Type = 1;
+                    $scope.onGetRoleFN(roleID);
+
+                    $("#modal-EditRoleFN").modal("show");
+                };
+
+                $scope.onRoleFNSave = function () {
+                    apiUtil.requestWebApi("User/EditRoleAuths", "Post", $scope.EditRoleFN, function (response) {
+                        layer.msg(response.Msg);
+                        $("#modal-EditRoleFN").modal("hide");
+                    }, function (response) {
+                        layer.msg(response.Msg);
+                        $("#modal-EditRoleFN").modal("hide");
+                    });
+                };
+
+                $scope.onGetRoleLE = function (roleID) {
+                    apiUtil.requestWebApi("User/GetAuthList", "Post", { RoleID: roleID, Type: 2 }, function (response) {
+                        $scope.EditRoleLE.AuthLists = response.Data;
+                        $scope.$apply();
+                    }, function (response) {
+                        layer.msg(response.Msg);
+                    });
+                };
+
+                $scope.onEditLE= function (roleID) {
+                    $scope.EditRoleLE = {};
+                    $scope.EditRoleLE.RoleID = roleID;
+                    $scope.EditRoleLE.AuthLists = [];
+                    $scope.EditRoleLE.Type = 2;
+                    $scope.onGetRoleLE(roleID);
+
+                    $("#modal-EditRoleLE").modal("show");
+                };
+
+                $scope.onRoleLESave = function () {
+                    apiUtil.requestWebApi("User/EditRoleAuths", "Post", $scope.EditRoleLE, function (response) {
+                        layer.msg(response.Msg);
+                        $("#modal-EditRoleLE").modal("hide");
+                    }, function (response) {
+                        layer.msg(response.Msg);
+                        $("#modal-EditRoleLE").modal("hide");
                     });
                 };
 

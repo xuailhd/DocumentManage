@@ -21,9 +21,6 @@ namespace DocumentManage.Models
 
         public string Department { get; set; }
         public string PassportCode { get; set; }
-        public string PassportUrlName { get; set; }
-        public string PassportUrl { get; set; }
-
         public DateTime? PassportDate { get; set; }
 
         public DateTime? PassportSignDate { get; set; }
@@ -32,16 +29,9 @@ namespace DocumentManage.Models
 
         public string PassportType { get; set; }
 
-        public string PhotoUrl { get; set; }
-
-        public string PhotoUrlName { get; set; }
-
         public string Title { get; set; }
 
         public string IDNumber { get; set; }
-        public string IDNumberUrl { get; set; }
-
-        public string IDNumberUrlName { get; set; }
 
         public string Duty { get; set; }
 

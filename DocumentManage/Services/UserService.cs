@@ -278,7 +278,9 @@ namespace DocumentManage.Services
                         return false;
                     }
 
-                    var olds = db.AuthRoleMaps.Where(t => t.RoleID == dto.RoleID).ToList();
+                    var olds = (from auths in db.AuthModels.Where(t => t.Type == t.Type)
+                               join role in db.AuthRoleMaps on auths.AuthID equals role.RoleID
+                               select auths).ToList();
                     foreach (var item in olds)
                     {
                         db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
@@ -307,7 +309,7 @@ namespace DocumentManage.Services
         {
             using (var db = new DBEntities())
             {
-                var query = from auth in db.AuthModels
+                var query = from auth in db.AuthModels.Where(t=>t.Type == request.Type)
                             join automap in db.AuthRoleMaps.Where(t=>t.RoleID == request.RoleID) on auth.AuthID equals automap.AuthID into automapLeft
                             from automapEmpty in automapLeft.DefaultIfEmpty()
                             select new ResponseAuthModelDTO()
@@ -322,6 +324,7 @@ namespace DocumentManage.Services
                 return query.ToPagedList(request.PageIndex, request.PageSize);
             }
         }
+
 
         public PagedList<ResponseUserDTO> GetUserList(RequestUserQDTO request)
         {

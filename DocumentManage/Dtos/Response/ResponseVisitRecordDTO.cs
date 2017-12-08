@@ -18,8 +18,8 @@ namespace DocumentManage.Dtos
 
         public string MainDepartment { get; set; }
 
-        public DateTime FromDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public List<string> VisitTags { get; set; }
 
@@ -105,6 +105,13 @@ namespace DocumentManage.Dtos
         /// 其他文件
         /// </summary>
         public List<VisitFile> OtherFiles { get; set; }
+        public string CreateUserName { get; set; }
+
+        public DateTime CreateTime { get; set; }
+
+        public string ModifyUserName { get; set; }
+
+        public DateTime? ModifyTime { get; set; }
     }
 
     public class ResponseVisitOrg

@@ -92,5 +92,15 @@ namespace DocumentManage.Services
                 }
             }
         }
+
+
+        public static bool HasOtherDataAuth(string userID,DBEntities db)
+        {
+            var query = from rolemap in db.UserRoleMaps.Where(t => t.UserID == userID)
+                        join roleauth in db.AuthRoleMaps.Where(t => t.AuthID == "LE001") on rolemap.RoleID equals roleauth.RoleID
+                        select roleauth;
+
+            return query.Any();
+        }
     }
 }

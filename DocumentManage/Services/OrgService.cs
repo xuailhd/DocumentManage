@@ -20,6 +20,15 @@ namespace DocumentManage.Services
 
                 if (model != null)
                 {
+                    if(!string.IsNullOrEmpty(model.CreateUserID) && model.CreateUserID!= operUserID)
+                    {
+                        if(!CommonService.HasOtherDataAuth(operUserID, db))
+                        {
+                            reason = "非本人创建的数据，不允许修改";
+                            return false;
+                        }
+                    }
+
                     model.OrgID = request.OrgID;
                     model.OrgInfo = request.OrgInfo;
                     model.OrgName = request.OrgName;
@@ -63,11 +72,45 @@ namespace DocumentManage.Services
             }
         }
 
-        public Orgnazition GetDetail(RequestOrgQDTO request)
+        public ResponseOrgnazitionDTO GetDetail(RequestOrgQDTO request)
         {
             using (var db = new DBEntities())
             {
-                var query = db.Orgnazitions.Where(t => !t.IsDeleted && t.OrgID == request.OrgID);
+                var query = from org in db.Orgnazitions.Where(t => !t.IsDeleted && t.OrgID == request.OrgID)
+                            join uac in db.Users on org.CreateUserID equals uac.UserID
+                            join uam in db.Users on org.ModifyUserID equals uam.UserID into uamleft
+                            from uamEmpty in uamleft.DefaultIfEmpty()
+                            select new ResponseOrgnazitionDTO()
+                            {
+                                Address = org.Address,
+                                ContactPerson1 = org.ContactPerson1,
+                                ContactPerson2 = org.ContactPerson2,
+                                Continent = org.Continent,
+                                Country = org.Country,
+                                CreateTime = org.CreateTime,
+                                CreateUserName = uac.UserName,
+                                Email1 = org.Email1,
+                                Email2 = org.Email2,
+                                FromType = org.FromType,
+                                Level = org.Level,
+                                ModifyTime = org.ModifyTime,
+                                ModifyUserName = uamEmpty.UserName,
+                                OrgBack = org.OrgBack,
+                                OrgID = org.OrgID,
+                                OrgInfo = org.OrgInfo,
+                                OrgName = org.OrgName,
+                                OrgNameEN = org.OrgNameEN,
+                                OrgType = org.OrgType,
+                                Province = org.Province,
+                                Remark = org.Remark,
+                                ShortNameCN = org.ShortNameCN,
+                                ShortNameEN = org.ShortNameEN,
+                                Tag = org.Tag,
+                                Tel1 = org.Tel1,
+                                Tel2 = org.Tel2,
+                                WorkAddress = org.WorkAddress,
+                                WorkTime = org.WorkTime
+                            };
 
                 if(!string.IsNullOrEmpty(request.UserID))
                 {

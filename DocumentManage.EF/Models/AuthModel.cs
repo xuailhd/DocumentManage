@@ -24,7 +24,7 @@ namespace DocumentManage.Models
         public int OrderNo { get; set; }
 
         /// <summary>
-        /// 0 菜单 1 功能权限
+        /// 0 菜单 1 功能权限 2 数据级别
         /// </summary>
         public int Type { get; set; }
     }

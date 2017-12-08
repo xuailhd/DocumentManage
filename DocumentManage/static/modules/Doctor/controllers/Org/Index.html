@@ -79,7 +79,7 @@
                 <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
             </div>
             <div class="col-date-search">
-                <button class="btn base" type="button" ng-click="showEdit()" style="padding:5px 10px;">新增</button>
+                <button class="btn base" type="button" ng-click="showEdit()" style="padding:5px 10px;" has-permission="FN01001">新增</button>
             </div>
             <div class="div-clear"></div>
         </div>
@@ -117,8 +117,14 @@
                     <td>{{item.ContactPerson1}}</td>
                     <td>{{item.Tel1}}</td>
                     <td style="text-align:center">
-                        <button class="btn btn-sm base" ng-click="showDetail(item)">详情</button>
-                        <!--<button class="btn btn-sm btn-success" ng-click="consultation(item)">{'发起会诊' | translate}</button>-->
+                        <a class="btn btn-info" ui-sref='Index.OrgEdit({OrgID:"{{item.OrgID}}"})' has-permission="FN01001">
+                            <i class="glyphicon glyphicon-edit"></i>
+                            编辑
+                        </a>
+                        <a class="btn btn-info" ui-sref='Index.OrgDetail({OrgID:"{{item.OrgID}}"})'>
+                            <i class="glyphicon glyphicon-edit"></i>
+                            详情
+                        </a>
                     </td>
                 </tr>
             </tbody>

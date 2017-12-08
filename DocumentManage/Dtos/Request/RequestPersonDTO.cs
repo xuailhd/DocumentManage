@@ -64,5 +64,15 @@ namespace DocumentManage.Dtos.Request
         public string RecLevel { get; set; }
 
         public string Remark { get; set; }
+
+        public string CreateUserID { get; set; }
+
+        public string CreateUserName { get; set; }
+
+        public DateTime CreateTime { get; set; }
+
+        public string ModifyUserName { get; set; }
+
+        public DateTime? ModifyTime { get; set; }
     }
 }

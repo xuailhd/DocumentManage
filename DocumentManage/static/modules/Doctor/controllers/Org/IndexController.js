@@ -78,12 +78,6 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                         $state.go("Index.OrgEdit");
                     }
 
-
-                    //患者详细页面
-                    $scope.showDetail = function (item) {
-                        $state.go("Index.OrgDetail", { OrgID: item.OrgID });
-                    }
-
                     $scope.onCountrySelect = function ($model, $label) {
                         $scope.Record.Country = $model;
                         $scope.Record.Province = '';

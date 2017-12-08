@@ -35,7 +35,7 @@ define(["jquery",
             hasPermission: function (permission) {
                 permission = permission.trim();
                 return permissionList.some(function (item) {
-                    return item.id.trim() === permission
+                    return item.AuthID.trim() === permission
                 });
             }
         };

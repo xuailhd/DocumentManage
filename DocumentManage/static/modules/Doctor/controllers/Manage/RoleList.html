@@ -37,7 +37,7 @@
             <div class="modal-content">
                 <div class="modal-header modal-header-bg">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center">调整角色权限</h4>
+                    <h4 class="modal-title text-center">调整模块权限</h4>
                 </div>
                 <div class="modal-body text-center">
                     <table class="table table-responsive table-bordered table-hover table">
@@ -65,6 +65,84 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-info" ng-click="onRoleAuthSave()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-EditRoleFN" role="dialog">
+        <div class="modal-dialog" style="width:60%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">调整操作权限</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <table class="table table-responsive table-bordered table-hover table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60">选择</th>
+                                <th class="text-left">权限编码</th>
+                                <th class="text-left">权限名称</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in EditRoleFN.AuthLists" ng-dblclick="item.Selected=(!item.Selected)">
+                                <td>
+                                    <input type="checkbox" ng-model="item.Selected" />
+                                </td>
+                                <td class="text-left">
+                                    {{item.AuthID}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.AuthName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" ng-click="onRoleFNSave()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-EditRoleLE" role="dialog">
+        <div class="modal-dialog" style="width:60%" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">调整角色数据级别</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <table class="table table-responsive table-bordered table-hover table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60">选择</th>
+                                <th class="text-left">权限编码</th>
+                                <th class="text-left">权限名称</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in EditRoleLE.AuthLists" ng-dblclick="item.Selected=(!item.Selected)">
+                                <td>
+                                    <input type="checkbox" ng-model="item.Selected" />
+                                </td>
+                                <td class="text-left">
+                                    {{item.AuthID}}
+                                </td>
+                                <td class="text-left">
+                                    {{item.AuthName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" ng-click="onRoleLESave()">{{'btnSave'|translate}}</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
                 </div>
             </div>
@@ -103,7 +181,9 @@
                     <td>{{item.RoleName}}</td>
                     <td style="text-align:center">
                         <a class="btn btn-sm base" ng-click="onEditRole(item)">编辑</a>
-                        <a class="btn btn-sm base" ng-click="onEditAuth(item.RoleID)">调整角色权限</a>
+                        <a class="btn btn-sm base" ng-click="onEditAuth(item.RoleID)">调整模块权限</a>
+                        <a class="btn btn-sm base" ng-click="onEditFN(item.RoleID)">调整操作权限</a>
+                        <a class="btn btn-sm base" ng-click="onEditLE(item.RoleID)">调整角色数据级别</a>
                     </td>
                 </tr>
             </tbody>

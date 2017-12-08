@@ -40,7 +40,7 @@
         //机构
         .state("Index.Org", amdRoute("/Org", "Doctor/controllers/Org/Index"))
         //机构编辑
-        .state("Index.OrgEdit", amdRoute("/OrgEdit", "Doctor/controllers/Org/Edit"))
+        .state("Index.OrgEdit", amdRoute("/OrgEdit/:OrgID", "Doctor/controllers/Org/Edit"))
         //机构详情
         .state("Index.OrgDetail", amdRoute("/OrgDetail/:OrgID", "Doctor/controllers/Org/Detail"))
         //人员资料

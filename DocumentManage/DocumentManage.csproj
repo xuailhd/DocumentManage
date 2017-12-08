@@ -171,6 +171,7 @@
     <Compile Include="Dtos\Request\RequestRoleQDTO.cs" />
     <Compile Include="Dtos\Request\RequestUserInfoDTO.cs" />
     <Compile Include="Dtos\Request\RequestRoleDTO.cs" />
+    <Compile Include="Dtos\Response\ResponseOrgnazitionDTO.cs" />
     <Compile Include="Dtos\Response\ResponseAuthModelDTO.cs" />
     <Compile Include="Dtos\Response\ResponsePersonSelectDTO.cs" />
     <Compile Include="Dtos\Response\ResponseLoginDTO.cs" />

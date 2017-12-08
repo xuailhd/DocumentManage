@@ -29,6 +29,14 @@ namespace DocumentManage.Services
 
                 if (model != null)
                 {
+                    if (!string.IsNullOrEmpty(model.CreateUserID) && model.CreateUserID != operUserID)
+                    {
+                        if (!CommonService.HasOtherDataAuth(operUserID, db))
+                        {
+                            reason = "非本人创建的数据，不允许修改";
+                            return false;
+                        }
+                    }
                     model.Birth = request.Birth;
                     model.ContactAddress = request.ContactAddress;
                     model.Department = request.Department;
@@ -119,25 +127,64 @@ namespace DocumentManage.Services
         {
             using (var db = new DBEntities())
             {
-                var query = db.PersonInfos.Where(t => !t.IsDeleted && t.PersonID == request.PersonID);
+                var query = from per in db.PersonInfos.Where(t => !t.IsDeleted && t.PersonID == request.PersonID)
+                            join uac in db.Users on per.CreateUserID equals uac.UserID
+                            join uam in db.Users on per.ModifyUserID equals uam.UserID into uamleft
+                            from uamEmpty in uamleft.DefaultIfEmpty()
+                            select new RequestPersonDTO()
+                            {
+                                Birth = per.Birth,
+                                ContactAddress = per.ContactAddress,
+                                CreateTime = per.CreateTime,
+                                CreateUserID = per.CreateUserID,
+                                CreateUserName = uac.UserName,
+                                Department = per.Department,
+                                Duty = per.Duty,
+                                Email = per.Email,
+                                Fancy = per.Fancy,
+                                FromType = per.FromType,
+                                IDNumber = per.IDNumber,
+                                Mobile1 = per.Mobile1,
+                                Mobile2 = per.Mobile2,
+                                ModifyTime = per.ModifyTime,
+                                ModifyUserName = uamEmpty.UserName,
+                                NameCN = per.NameCN,
+                                NameEN = per.NameEN,
+                                Nationality = per.Nationality,
+                                OrgID = per.OrgID,
+                                OrgName = per.OrgName,
+                                PassportCode = per.PassportCode,
+                                PassportDate = per.PassportDate,
+                                PassportSignAdress = per.PassportSignAdress,
+                                PassportSignDate = per.PassportSignDate,
+                                PassportType = per.PassportType,
+                                PersonID = per.PersonID,
+                                RecLevel = per.RecLevel,
+                                Remark = per.Remark,
+                                Sex = per.Sex,
+                                Taboo = per.Taboo,
+                                Tag = per.Tag,
+                                Tel1 = per.Tel1,
+                                Tel2 = per.Tel2,
+                                Title = per.Title
+                            };
 
-                if(!string.IsNullOrEmpty(request.UserID))
+                if (!string.IsNullOrEmpty(request.UserID))
                 {
                     query = query.Where(t => t.CreateUserID == request.UserID);
                 }
 
-                var model = query.FirstOrDefault();
+                var ret = query.FirstOrDefault();
 
-                if(model == null)
+                if(ret == null)
                 {
                     return null;
                 }
                 else
                 {
-                    RequestPersonDTO ret = model.Map<PersonInfo, RequestPersonDTO>();
-                    var idNumberFiles = db.VisitFiles.Where(t => t.OutID == model.PersonID && t.Type == "3").ToList();
-                    var passportFiles = db.VisitFiles.Where(t => t.OutID == model.PersonID && t.Type == "1").ToList();
-                    var photoFiles = db.VisitFiles.Where(t => t.OutID == model.PersonID && t.Type == "2").ToList();
+                    var idNumberFiles = db.VisitFiles.Where(t => t.OutID == ret.PersonID && t.Type == "3").ToList();
+                    var passportFiles = db.VisitFiles.Where(t => t.OutID == ret.PersonID && t.Type == "1").ToList();
+                    var photoFiles = db.VisitFiles.Where(t => t.OutID == ret.PersonID && t.Type == "2").ToList();
                     ret.IDNumberFiles = idNumberFiles;
                     ret.PassportFiles = passportFiles;
                     ret.PhotoFiles = photoFiles;
