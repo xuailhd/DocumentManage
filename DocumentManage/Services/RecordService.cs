@@ -624,9 +624,9 @@ namespace DocumentManage.Services
                     query = query.Where(t => t.MainPersonNameCN.Contains(request.MianPerson) || t.MainPersonNameEN.Contains(request.MianPerson));
                 }
 
-                if (!string.IsNullOrEmpty(request.OutPerson))
+                if (!string.IsNullOrEmpty(request.OurPerson))
                 {
-                    query = query.Where(t => t.OurPersonNameCN.Contains(request.OutPerson) || t.OurPersonNameEN.Contains(request.OutPerson));
+                    query = query.Where(t => t.OurPersonNameCN.Contains(request.OurPerson) || t.OurPersonNameEN.Contains(request.OurPerson));
                 }
 
                 if (!string.IsNullOrEmpty(request.TheyPerson))
@@ -724,6 +724,14 @@ namespace DocumentManage.Services
                                 MainPersonNameEN = mpersoninfoempty.NameEN,
                                 TheyPersonNameCN = theympersoninfoempty.NameCN,
                                 TheyPersonNameEN = theympersoninfoempty.NameEN,
+                                TheyOrgName = theyorginfoempty.OrgName,
+                                TheyOrgNameEN = theyorginfoempty.OrgNameEN,
+                                TheyShortNameCN = theyorginfoempty.ShortNameCN,
+                                TheyShortNameEN = theyorginfoempty.ShortNameEN,
+                                OurOrgName = ourorginfoempty.OrgName,
+                                OurOrgNameEN = ourorginfoempty.OrgNameEN,
+                                OurShortNameCN = ourorginfoempty.ShortNameCN,
+                                OurShortNameEN = ourorginfoempty.ShortNameEN,
                                 OurPersonNameCN = ourpersoninfoempty.NameCN,
                                 OurPersonNameEN = ourpersoninfoempty.NameEN,
                                 BeviOrgName = beviorginfoempty.OrgName,
@@ -802,14 +810,26 @@ namespace DocumentManage.Services
                     query = query.Where(t => t.MainPersonNameCN.Contains(request.MianPerson) || t.MainPersonNameEN.Contains(request.MianPerson));
                 }
 
-                if (!string.IsNullOrEmpty(request.OutPerson))
+                if (!string.IsNullOrEmpty(request.OurPerson))
                 {
-                    query = query.Where(t => t.OurPersonNameCN.Contains(request.OutPerson) || t.OurPersonNameEN.Contains(request.OutPerson));
+                    query = query.Where(t => t.OurPersonNameCN.Contains(request.OurPerson) || t.OurPersonNameEN.Contains(request.OurPerson));
                 }
 
                 if (!string.IsNullOrEmpty(request.TheyPerson))
                 {
                     query = query.Where(t => t.TheyPersonNameCN.Contains(request.TheyPerson) || t.TheyPersonNameEN.Contains(request.TheyPerson));
+                }
+
+                if (!string.IsNullOrEmpty(request.OurOrg))
+                {
+                    query = query.Where(t => t.OurOrgName.Contains(request.OurOrg) || t.OurOrgNameEN.Contains(request.OurOrg)
+                        ||t.OurShortNameCN.Contains(request.OurOrg) || t.OurShortNameEN.Contains(request.OurOrg));
+                }
+
+                if (!string.IsNullOrEmpty(request.TheyOrg))
+                {
+                    query = query.Where(t => t.TheyOrgName.Contains(request.TheyOrg) || t.TheyOrgNameEN.Contains(request.TheyOrg)
+                        || t.TheyShortNameCN.Contains(request.TheyOrg) || t.TheyShortNameEN.Contains(request.TheyOrg));
                 }
                 #endregion
 
@@ -859,12 +879,12 @@ namespace DocumentManage.Services
 
                 ResponseVisitQueryListDTO ret = new ResponseVisitQueryListDTO();
 
-                ret.QGLHCount = query.Where(t => t.VisitTag == "全国两会").GroupBy(t=> t.VisitTag).Count();
-                ret.GZCount = query.Where(t => t.VisitTag == "国宗").GroupBy(t => t.VisitTag).Count();
-                ret.TZBCount = query.Where(t => t.VisitTag == "统战部").GroupBy(t => t.VisitTag).Count();
-                ret.ZFJGCount = query.Where(t => t.VisitTag == "政府机构").GroupBy(t => t.VisitTag).Count();
-                ret.FWYXCount = query.Where(t => t.VisitTag == "访问院校").GroupBy(t => t.VisitTag).Count();
-                ret.QTCount = query.Where(t => t.VisitTag == "其他").GroupBy(t => t.VisitTag).Count();
+                ret.QGLHCount = query.Where(t => t.VisitTag == "全国两会").GroupBy(t=> t.VisitID).Count();
+                ret.GZCount = query.Where(t => t.VisitTag == "国宗").GroupBy(t => t.VisitID).Count();
+                ret.TZBCount = query.Where(t => t.VisitTag == "统战部").GroupBy(t => t.VisitID).Count();
+                ret.ZFJGCount = query.Where(t => t.VisitTag == "政府机构").GroupBy(t => t.VisitID).Count();
+                ret.FWYXCount = query.Where(t => t.VisitTag == "访问院校").GroupBy(t => t.VisitID).Count();
+                ret.QTCount = query.Where(t => t.VisitTag == "其他").GroupBy(t => t.VisitID).Count();
                 ret.CountryCount = query.Where(t => !string.IsNullOrEmpty(t.TheyOrgCountry)).GroupBy(t => t.TheyOrgCountry).Count();
                 ret.VisitRecords = retquery.ToPagedList(request.PageIndex, request.PageSize);
                 return ret;

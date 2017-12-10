@@ -22,6 +22,7 @@
             </div>
             <div class="col-date-search">
                 <select id="VisitType" name="VisitType" class="form-control" ng-model="Record.VisitType">
+                    <option value="">请选择访问类型</option>
                     <option value="出访">出访</option>
                     <option value="来访">来访</option>
                 </select>
@@ -31,6 +32,7 @@
             </div>
             <div class="col-date-search">
                 <select id="VisitFor" name="VisitFor" class="form-control" ng-model="Record.VisitFor">
+                    <option value="">请选择访问目的</option>
                     <option value="友好访问">友好访问</option>
                     <option value="会议">会议</option>
                     <option value="特别活动">特别活动</option>
@@ -44,6 +46,7 @@
             </div>
             <div class="col-date-search">
                 <select id="MainDepartment" name="MainDepartment" class="form-control" ng-model="Record.MainDepartment">
+                    <option value="">请选择主要经办部门</option>
                     <option value="财政部">财政部</option>
                     <option value="教育部">教育部</option>
                     <option value="农业部">农业部</option>
@@ -62,16 +65,16 @@
                 <input type="text" class="form-control" id="MianPerson" ng-model="Record.MianPerson" placeholder="请输入主要经办人">
             </div>
             <div class="col-label-search">
-                开始日期
+                行程开始日期
             </div>
             <div class="col-date-search">
-                <input id="FromDate" class="form-control" datepicker size="16" type="text" ng-model="Record.FromDate" />
+                <input id="FromDate" class="form-control" datepicker size="16" type="text" ng-model="Record.FromDate" placeholder="请输入开始日期"/>
             </div>
             <div class="col-label-search">
-                结束日期
+                行程结束日期
             </div>
             <div class="col-date-search">
-                <input id="EndDate" class="form-control" datepicker size="16" type="text" ng-model="Record.EndDate" />
+                <input id="EndDate" class="form-control" datepicker size="16" type="text" ng-model="Record.EndDate" placeholder="行程结束日期"/>
             </div>
             <div class="col-label-search">
                 接待/出访人员
@@ -85,18 +88,20 @@
             <div class="col-date-search">
                 <input type="text" class="form-control" id="TheyPerson" ng-model="Record.TheyPerson" placeholder="请输入来访/接待领队">
             </div>
+            <div class="div-clear"></div>
             <div class="col-label-search">
                 邀请机构
             </div>
             <div class="col-date-search">
                 <input type="text" class="form-control" id="BeViOrg" ng-model="Record.BeViOrg" placeholder="请输入邀请机构">
             </div>
-            <div class="div-clear"></div>
+            
             <div class="col-label-search">
                 访问性质
             </div>
             <div class="col-date-search">
                 <select id="VisType" name="VisType" class="form-control" ng-model="Record.VisType">
+                    <option value="">请选择访问性质</option>
                     <option value="正式">正式</option>
                     <option value="散客">散客</option>
                     <option value="上级安排">上级安排</option>
@@ -108,6 +113,7 @@
             </div>
             <div class="col-date-search">
                 <select id="FeeType" name="FeeType" class="form-control" ng-model="Record.FeeType">
+                    <option value="">请选择费用承担</option>
                     <option value="公费">公费</option>
                     <option value="自费">自费</option>
                 </select>
@@ -171,3 +177,8 @@
 
     </form>
 </div>
+<style>
+    .col-label-search {
+        min-width: 100px;
+    }
+</style>

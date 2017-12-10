@@ -25,9 +25,13 @@ namespace DocumentManage.Dtos
         public DateTime? EndDate { get; set; }
         public string VisitTag { get; set; }
 
-        public string OutPerson { get; set; }
+        public string OurPerson { get; set; }
+
+        public string OurOrg { get; set; }
+
 
         public string TheyPerson { get; set; }
+        public string TheyOrg { get; set; }
 
         public string BeViOrg { get; set; }
 

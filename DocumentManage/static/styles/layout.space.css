@@ -4379,9 +4379,9 @@ ul.pagination span span:hover {
   margin-top: 10px;
   margin-bottom: 15px;
 }
-#space .search-ban .form-control {
+/*#space .search-ban .form-control {
   width: 120px;
-}
+}*/
 #space .table > thead > tr > th {
   border-bottom: 1px solid #ddd;
 }

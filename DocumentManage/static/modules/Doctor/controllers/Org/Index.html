@@ -22,7 +22,7 @@
             </div>
             <div class="col-date-search">
                 <select id="Tag" name="Tag" class="form-control" ng-model="Record.Tag" ng-change="onTagChange()">
-                    <option value="">&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="">请选择标签</option>
                     <option value="1" style="background-color:red">&nbsp;&nbsp;&nbsp;&nbsp;</option>
                     <option value="2" style="background-color:yellow">&nbsp;&nbsp;&nbsp;&nbsp;</option>
                     <option value="3" style="background-color:blue">&nbsp;&nbsp;&nbsp;&nbsp;</option>
@@ -35,7 +35,8 @@
             </div>
             <div class="col-date-search">
                 <select id="Level" name="Level" class="form-control" ng-model="Record.Level">
-                    <option value="国家" selected>国家</option>
+                    <option value="">请选择机构级别</option>
+                    <option value="国家">国家</option>
                     <option value="世界">世界</option>
                 </select>
             </div>
@@ -45,6 +46,7 @@
             <div class="col-date-search">
                 <input type="text" class="form-control" id="Address" ng-model="Record.Address" placeholder="请输入机构地址">
             </div>
+            <div class="div-clear"></div>
             <div class="col-label-search">
                 洲
             </div>
@@ -138,3 +140,8 @@
 
     </form>
 </div>
+<style>
+    .col-label-search {
+        min-width: 100px;
+    }
+</style>
