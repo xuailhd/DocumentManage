@@ -81,10 +81,20 @@ define(["jquery",
             $log.debug('fromState', fromState);
             $log.debug('fromParams', fromParams);
 
-            var permission = toParams.permission;
-            if (permission && !permissions.hasPermission(permission)) {
-                $state.go('/unauthorized');
-            }
+            //if (golbal_Modules == undefined || golbal_Modules.length <= 0) {
+            //    $state.go('Index.PersonalInfo');
+            //}
+
+            //var flag = false;
+            //for (var i = 0; i < golbal_Modules.length; i++) {
+            //    if (golbal_Modules[i].AuthUrl == "#/Index" + toState.url) {
+            //        flag = true;
+            //    }
+            //}
+
+            //if (!flag) {
+            //    $state.go('Index.PersonalInfo');
+            //}
         });
 
         //未找到状态配置

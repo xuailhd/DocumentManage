@@ -501,52 +501,59 @@
     </div>
 
     <div class="modal fade" id="modal-selectMainPerson" role="dialog">
-        <div class="modal-dialog" style="width:90%" role="dialog">
+        <div class="modal-dialog"  role="dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-bg">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center">{{'主要经办人'|translate}}</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <div class="col-date-search">
-                        <input type="text" class="form-control" ng-model="Record.MainPersonName" placeholder="请输入人员名称">
-                    </div>
-                    <div class="col-date-search">
-                        <button class="btn base" type="button" ng-click="onGetMainPerson(Record.MainPersonName)" style="padding:5px 10px;">过滤</button>
-                    </div>
-                    <table class="table table-responsive table-bordered table-hover table">
-                        <thead>
-                            <tr>
-                                <th class="text-center" width="60">选择</th>
-                                <th class="text-left">人员编码</th>
-                                <th class="text-left">姓名</th>
-                                <th class="text-left">英文名</th>
-                                <th class="text-center" width="100">所属机构</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in mainPersons" ng-dblclick="item.Selected=(!item.Selected)">
-                                <td>
-                                    <input type="checkbox" ng-model="item.Selected"/>
-                                </td>
-                                <td class="text-left">
-                                    {{item.PersonID}}
-                                </td>
-                                <td class="text-left">
-                                    {{item.NameCN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.NameEN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.OrgName}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form>
+                        <div class="col-date-search">
+                            <input type="text" class="form-control" ng-model="Record.MainPersonName" placeholder="请输入人员名称">
+                        </div>
+                        <div class="col-date-search">
+                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                        </div>
+                        <table class="table table-responsive table-bordered table-hover table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="60">选择</th>
+                                    <th class="text-left">人员编码</th>
+                                    <th class="text-left">姓名</th>
+                                    <th class="text-left">英文名</th>
+                                    <th class="text-center" width="100">所属机构</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in mainPersons" ng-dblclick="item.Selected=(!item.Selected)">
+                                    <td>
+                                        <input type="checkbox" ng-model="item.Selected" />
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.PersonID}}
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.NameCN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.NameEN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.OrgName}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页控件-->
+                        <pager-nav page-list="[5,10]"
+                                   page="MainPersonCurrentPage"
+                                   page-Size="MainPersonpageSize"
+                                   total-Count="MainPersontotalCount" on-change="onGetMainPerson()" />
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" ng-click="onMainPersonSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-info" ng-click="onMainPersonSelect()">{{'btnSave'|translate}}</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
                 </div>
             </div>
@@ -554,52 +561,59 @@
     </div>
 
     <div class="modal fade" id="modal-selectOurPerson" role="dialog">
-        <div class="modal-dialog" style="width:90%" role="dialog">
+        <div class="modal-dialog"  role="dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-bg">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center">{{'主要接待人员'|translate}}</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <div class="col-date-search">
-                        <input type="text" class="form-control" ng-model="Record.OurPersonName" placeholder="请输入人员名称">
-                    </div>
-                    <div class="col-date-search">
-                        <button class="btn base" type="button" ng-click="onGetOurPerson(Record.OurPersonName)" style="padding:5px 10px;">过滤</button>
-                    </div>
-                    <table class="table table-responsive table-bordered table-hover table">
-                        <thead>
-                            <tr>
-                                <th class="text-center" width="60">选择</th>
-                                <th class="text-left">人员编码</th>
-                                <th class="text-left">姓名</th>
-                                <th class="text-left">英文名</th>
-                                <th class="text-center" width="100">所属机构</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in ourPersons" ng-dblclick="item.Selected=(!item.Selected)">
-                                <td>
-                                    <input type="checkbox" ng-model="item.Selected" />
-                                </td>
-                                <td class="text-left">
-                                    {{item.PersonID}}
-                                </td>
-                                <td class="text-left">
-                                    {{item.NameCN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.NameEN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.OrgName}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form>
+                        <div class="col-date-search">
+                            <input type="text" class="form-control" ng-model="Record.OurPersonName" placeholder="请输入人员名称">
+                        </div>
+                        <div class="col-date-search">
+                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                        </div>
+                        <table class="table table-responsive table-bordered table-hover table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="60">选择</th>
+                                    <th class="text-left">人员编码</th>
+                                    <th class="text-left">姓名</th>
+                                    <th class="text-left">英文名</th>
+                                    <th class="text-center" width="100">所属机构</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in ourPersons" ng-dblclick="item.Selected=(!item.Selected)">
+                                    <td>
+                                        <input type="checkbox" ng-model="item.Selected" />
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.PersonID}}
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.NameCN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.NameEN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.OrgName}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页控件-->
+                        <pager-nav page-list="[5,10,15,25]"
+                                   page="OurPersonCurrentPage"
+                                   page-Size="OurPersonpageSize"
+                                   total-Count="OurPersontotalCount" on-change="onGetOurPerson()" />
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" ng-click="onOurPersonSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-info" ng-click="onOurPersonSelect()">{{'btnSave'|translate}}</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
                 </div>
             </div>
@@ -607,52 +621,59 @@
     </div>
 
     <div class="modal fade" id="modal-selectOurOtherPerson" role="dialog">
-        <div class="modal-dialog" style="width:90%" role="dialog">
+        <div class="modal-dialog"  role="dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-bg">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center">{{'其他接待人员'|translate}}</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <div class="col-date-search">
-                        <input type="text" class="form-control" ng-model="Record.OurOtherPersonName" placeholder="请输入人员名称">
-                    </div>
-                    <div class="col-date-search">
-                        <button class="btn base" type="button" ng-click="onGetOurOtherPerson(Record.OurOtherPersonName)" style="padding:5px 10px;">过滤</button>
-                    </div>
-                    <table class="table table-responsive table-bordered table-hover table">
-                        <thead>
-                            <tr>
-                                <th class="text-center" width="60">选择</th>
-                                <th class="text-left">人员编码</th>
-                                <th class="text-left">姓名</th>
-                                <th class="text-left">英文名</th>
-                                <th class="text-center" width="100">所属机构</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in ourOtherPersons" ng-dblclick="item.Selected=(!item.Selected)">
-                                <td>
-                                    <input type="checkbox" ng-model="item.Selected" />
-                                </td>
-                                <td class="text-left">
-                                    {{item.PersonID}}
-                                </td>
-                                <td class="text-left">
-                                    {{item.NameCN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.NameEN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.OrgName}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form>
+                        <div class="col-date-search">
+                            <input type="text" class="form-control" ng-model="Record.OurOtherPersonName" placeholder="请输入人员名称">
+                        </div>
+                        <div class="col-date-search">
+                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                        </div>
+                        <table class="table table-responsive table-bordered table-hover table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="60">选择</th>
+                                    <th class="text-left">人员编码</th>
+                                    <th class="text-left">姓名</th>
+                                    <th class="text-left">英文名</th>
+                                    <th class="text-center" width="100">所属机构</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in ourOtherPersons" ng-dblclick="item.Selected=(!item.Selected)">
+                                    <td>
+                                        <input type="checkbox" ng-model="item.Selected" />
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.PersonID}}
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.NameCN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.NameEN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.OrgName}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页控件-->
+                        <pager-nav page-list="[5,10,15,25]"
+                                   page="OurOtherPersonCurrentPage"
+                                   page-Size="OurOtherPersonpageSize"
+                                   total-Count="OurOtherPersontotalCount" on-change="onGetOurOtherPerson()" />
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" ng-click="onOurOtherPersonSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-info" ng-click="onOurOtherPersonSelect()">{{'btnSave'|translate}}</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
                 </div>
             </div>
@@ -660,52 +681,59 @@
     </div>
 
     <div class="modal fade" id="modal-selectTheyPerson" role="dialog">
-        <div class="modal-dialog" style="width:90%" role="dialog">
+        <div class="modal-dialog"  role="dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-bg">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center">{{'领队'|translate}}</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <div class="col-date-search">
-                        <input type="text" class="form-control" ng-model="Record.TheyPersonName" placeholder="请输入人员名称">
-                    </div>
-                    <div class="col-date-search">
-                        <button class="btn base" type="button" ng-click="onGetTheyPerson(Record.TheyPersonName)" style="padding:5px 10px;">过滤</button>
-                    </div>
-                    <table class="table table-responsive table-bordered table-hover table">
-                        <thead>
-                            <tr>
-                                <th class="text-center" width="60">选择</th>
-                                <th class="text-left">人员编码</th>
-                                <th class="text-left">姓名</th>
-                                <th class="text-left">英文名</th>
-                                <th class="text-center" width="100">所属机构</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in theyPersons" ng-dblclick="item.Selected=(!item.Selected)">
-                                <td>
-                                    <input type="checkbox" ng-model="item.Selected" />
-                                </td>
-                                <td class="text-left">
-                                    {{item.PersonID}}
-                                </td>
-                                <td class="text-left">
-                                    {{item.NameCN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.NameEN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.OrgName}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form>
+                        <div class="col-date-search">
+                            <input type="text" class="form-control" ng-model="Record.TheyPersonName" placeholder="请输入人员名称">
+                        </div>
+                        <div class="col-date-search">
+                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                        </div>
+                        <table class="table table-responsive table-bordered table-hover table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="60">选择</th>
+                                    <th class="text-left">人员编码</th>
+                                    <th class="text-left">姓名</th>
+                                    <th class="text-left">英文名</th>
+                                    <th class="text-center" width="100">所属机构</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in theyPersons" ng-dblclick="item.Selected=(!item.Selected)">
+                                    <td>
+                                        <input type="checkbox" ng-model="item.Selected" />
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.PersonID}}
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.NameCN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.NameEN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.OrgName}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页控件-->
+                        <pager-nav page-list="[5,10,15,25]"
+                                   page="TheyPersonCurrentPage"
+                                   page-Size="TheyPersonpageSize"
+                                   total-Count="TheyPersontotalCount" on-change="onGetTheyPerson()" />
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" ng-click="onTheyPersonSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-info" ng-click="onTheyPersonSelect()">{{'btnSave'|translate}}</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
                 </div>
             </div>
@@ -713,52 +741,59 @@
     </div>
 
     <div class="modal fade" id="modal-selectTheyOtherPerson" role="dialog">
-        <div class="modal-dialog" style="width:90%" role="dialog">
+        <div class="modal-dialog"  role="dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-bg">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center">{{'其他接待人员'|translate}}</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <div class="col-date-search">
-                        <input type="text" class="form-control" ng-model="Record.TheyOtherPersonName" placeholder="请输入人员名称">
-                    </div>
-                    <div class="col-date-search">
-                        <button class="btn base" type="button" ng-click="onGetTheyOtherPerson(Record.TheyOtherPersonName)" style="padding:5px 10px;">过滤</button>
-                    </div>
-                    <table class="table table-responsive table-bordered table-hover table">
-                        <thead>
-                            <tr>
-                                <th class="text-center" width="60">选择</th>
-                                <th class="text-left">人员编码</th>
-                                <th class="text-left">姓名</th>
-                                <th class="text-left">英文名</th>
-                                <th class="text-center" width="100">所属机构</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in theyOtherPersons" ng-dblclick="item.Selected=(!item.Selected)">
-                                <td>
-                                    <input type="checkbox" ng-model="item.Selected" />
-                                </td>
-                                <td class="text-left">
-                                    {{item.PersonID}}
-                                </td>
-                                <td class="text-left">
-                                    {{item.NameCN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.NameEN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.OrgName}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form>
+                        <div class="col-date-search">
+                            <input type="text" class="form-control" ng-model="Record.TheyOtherPersonName" placeholder="请输入人员名称">
+                        </div>
+                        <div class="col-date-search">
+                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                        </div>
+                        <table class="table table-responsive table-bordered table-hover table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="60">选择</th>
+                                    <th class="text-left">人员编码</th>
+                                    <th class="text-left">姓名</th>
+                                    <th class="text-left">英文名</th>
+                                    <th class="text-center" width="100">所属机构</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in theyOtherPersons" ng-dblclick="item.Selected=(!item.Selected)">
+                                    <td>
+                                        <input type="checkbox" ng-model="item.Selected" />
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.PersonID}}
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.NameCN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.NameEN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.OrgName}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页控件-->
+                        <pager-nav page-list="[5,10,15,25]"
+                                   page="TheyOtherPersonCurrentPage"
+                                   page-Size="TheyOtherPersonpageSize"
+                                   total-Count="TheyOtherPersontotalCount" on-change="onGetTheyOtherPerson()" />
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" ng-click="onTheyOtherPersonSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-info" ng-click="onTheyOtherPersonSelect()">{{'btnSave'|translate}}</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
                 </div>
             </div>
@@ -766,52 +801,59 @@
     </div>
 
     <div class="modal fade" id="modal-selectOurOrg" role="dialog">
-        <div class="modal-dialog" style="width:90%" role="dialog">
+        <div class="modal-dialog"  role="dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-bg">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center">{{'接待机构'|translate}}</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <div class="col-date-search">
-                        <input type="text" class="form-control" ng-model="Record.OurOrgName" placeholder="请输入机构姓名">
-                    </div>
-                    <div class="col-date-search">
-                        <button class="btn base" type="button" ng-click="onGetOurOrg(Record.OurOrgName)" style="padding:5px 10px;">过滤</button>
-                    </div>
-                    <table class="table table-responsive table-bordered table-hover table">
-                        <thead>
-                            <tr>
-                                <th class="text-center" width="60">选择</th>
-                                <th class="text-left">机构编码</th>
-                                <th class="text-left">机构名称</th>
-                                <th class="text-left">英文名称</th>
-                                <th class="text-center" width="100">中方/外方</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in ourOrgs" ng-dblclick="item.Selected=(!item.Selected)">
-                                <td>
-                                    <input type="checkbox" ng-model="item.Selected" />
-                                </td>
-                                <td class="text-left">
-                                    {{item.OrgID}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.OrgName}}
-                                </td>
-                                <td class="text-left">
-                                    {{item.OrgNameEN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.FromType}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form>
+                        <div class="col-date-search">
+                            <input type="text" class="form-control" ng-model="Record.OurOrgName" placeholder="请输入机构姓名">
+                        </div>
+                        <div class="col-date-search">
+                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                        </div>
+                        <table class="table table-responsive table-bordered table-hover table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="60">选择</th>
+                                    <th class="text-left">机构编码</th>
+                                    <th class="text-left">机构名称</th>
+                                    <th class="text-left">英文名称</th>
+                                    <th class="text-center" width="100">中方/外方</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in ourOrgs" ng-dblclick="item.Selected=(!item.Selected)">
+                                    <td>
+                                        <input type="checkbox" ng-model="item.Selected" />
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.OrgID}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.OrgName}}
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.OrgNameEN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.FromType}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页控件-->
+                        <pager-nav page-list="[5,10,15,25]"
+                                   page="OurOrgCurrentPage"
+                                   page-Size="OurOrgpageSize"
+                                   total-Count="OurOrgtotalCount" on-change="onGetOurOrg()" />
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" ng-click="onOurOrgSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-info" ng-click="onOurOrgSelect()">{{'btnSave'|translate}}</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
                 </div>
             </div>
@@ -819,52 +861,59 @@
     </div>
 
     <div class="modal fade" id="modal-selectTheyOrg" role="dialog">
-        <div class="modal-dialog" style="width:90%" role="dialog">
+        <div class="modal-dialog"  role="dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-bg">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center">{{'接待机构'|translate}}</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <div class="col-date-search">
-                        <input type="text" class="form-control" ng-model="Record.TheyOrgName" placeholder="请输入机构姓名">
-                    </div>
-                    <div class="col-date-search">
-                        <button class="btn base" type="button" ng-click="onGetTheyOrg(Record.TheyOrgName)" style="padding:5px 10px;">过滤</button>
-                    </div>
-                    <table class="table table-responsive table-bordered table-hover table">
-                        <thead>
-                            <tr>
-                                <th class="text-center" width="60">选择</th>
-                                <th class="text-left">机构编码</th>
-                                <th class="text-left">机构名称</th>
-                                <th class="text-left">英文名称</th>
-                                <th class="text-center" width="100">中方/外方</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in theyOrgs" ng-dblclick="item.Selected=(!item.Selected)">
-                                <td>
-                                    <input type="checkbox" ng-model="item.Selected" />
-                                </td>
-                                <td class="text-left">
-                                    {{item.OrgID}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.OrgName}}
-                                </td>
-                                <td class="text-left">
-                                    {{item.OrgNameEN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.FromType}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form>
+                        <div class="col-date-search">
+                            <input type="text" class="form-control" ng-model="Record.TheyOrgName" placeholder="请输入机构姓名">
+                        </div>
+                        <div class="col-date-search">
+                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                        </div>
+                        <table class="table table-responsive table-bordered table-hover table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="60">选择</th>
+                                    <th class="text-left">机构编码</th>
+                                    <th class="text-left">机构名称</th>
+                                    <th class="text-left">英文名称</th>
+                                    <th class="text-center" width="100">中方/外方</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in theyOrgs" ng-dblclick="item.Selected=(!item.Selected)">
+                                    <td>
+                                        <input type="checkbox" ng-model="item.Selected" />
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.OrgID}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.OrgName}}
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.OrgNameEN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.FromType}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页控件-->
+                        <pager-nav page-list="[5,10,15,25]"
+                                   page="TheyOrgCurrentPage"
+                                   page-Size="TheyOrgpageSize"
+                                   total-Count="TheyOrgtotalCount" on-change="onGetTheyOrg()" />
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" ng-click="onTheyOrgSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-info" ng-click="onTheyOrgSelect()">{{'btnSave'|translate}}</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
                 </div>
             </div>
@@ -872,52 +921,59 @@
     </div>
 
     <div class="modal fade" id="modal-selectBeViOrg" role="dialog">
-        <div class="modal-dialog" style="width:90%" role="dialog">
+        <div class="modal-dialog"  role="dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-bg">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center">{{'接待机构'|translate}}</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <div class="col-date-search">
-                        <input type="text" class="form-control" ng-model="Record.BeViOrgName" placeholder="请输入机构姓名">
-                    </div>
-                    <div class="col-date-search">
-                        <button class="btn base" type="button" ng-click="onGetBeViOrg(Record.BeViOrgName)" style="padding:5px 10px;">过滤</button>
-                    </div>
-                    <table class="table table-responsive table-bordered table-hover table">
-                        <thead>
-                            <tr>
-                                <th class="text-center" width="60">选择</th>
-                                <th class="text-left">机构编码</th>
-                                <th class="text-left">机构名称</th>
-                                <th class="text-left">英文名称</th>
-                                <th class="text-center" width="100">中方/外方</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in beViOrgs" ng-dblclick="item.Selected=(!item.Selected)">
-                                <td>
-                                    <input type="checkbox" ng-model="item.Selected" />
-                                </td>
-                                <td class="text-left">
-                                    {{item.OrgID}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.OrgName}}
-                                </td>
-                                <td class="text-left">
-                                    {{item.OrgNameEN}}
-                                </td>
-                                <td width="text-left">
-                                    {{item.FromType}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form>
+                        <div class="col-date-search">
+                            <input type="text" class="form-control" ng-model="Record.BeViOrgName" placeholder="请输入机构姓名">
+                        </div>
+                        <div class="col-date-search">
+                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                        </div>
+                        <table class="table table-responsive table-bordered table-hover table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="60">选择</th>
+                                    <th class="text-left">机构编码</th>
+                                    <th class="text-left">机构名称</th>
+                                    <th class="text-left">英文名称</th>
+                                    <th class="text-center" width="100">中方/外方</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in beViOrgs" ng-dblclick="item.Selected=(!item.Selected)">
+                                    <td>
+                                        <input type="checkbox" ng-model="item.Selected" />
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.OrgID}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.OrgName}}
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.OrgNameEN}}
+                                    </td>
+                                    <td width="text-left">
+                                        {{item.FromType}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页控件-->
+                        <pager-nav page-list="[5,10,15,25]"
+                                   page="BeViOrgCurrentPage"
+                                   page-Size="BeViOrgpageSize"
+                                   total-Count="BeViOrgtotalCount" on-change="onGetBeViOrg()" />
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" ng-click="onBeViOrgSelect()">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-info" ng-click="onBeViOrgSelect()">{{'btnSave'|translate}}</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
                 </div>
             </div>
@@ -927,4 +983,6 @@
 <style>
     .dropdown-menu {overflow:scroll;height:200px}
     em{color:#f00;width:8px;vertical-align:middle;text-align:center;display:inline;font-style:normal}
+    .modal-dialog {width:70%}
+    .modal-body {padding-bottom:50px}
 </style>

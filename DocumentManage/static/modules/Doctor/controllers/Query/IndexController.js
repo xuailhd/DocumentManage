@@ -13,9 +13,25 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     $scope.CurrentPage = 1;
                     $scope.totalCount = 0;
                     $scope.Record = {};
+                    $scope.firstTime = true;
+
+                    var flag = false;
+                    for (var i = 0; i < golbal_Modules.length; i++) {
+                        if (golbal_Modules[i].AuthUrl == "#/Index" + "/Query") {
+                            flag = true;
+                        }
+                    }
+
+                    if (!flag) {
+                        $state.go('Index.PersonalInfo');
+                    }
 
                     //查询列表
                     $scope.onSearch = function (page) {
+                        if ($scope.firstTime) {
+                            $scope.firstTime = false;
+                            return;
+                        }
                         $scope.Record.PageSize = $scope.pageSize;
                         $scope.Record.PageIndex = $scope.CurrentPage;
                         var loading = layer.load(0, { shade: [0.1, '#000'] });

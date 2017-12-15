@@ -879,12 +879,20 @@ namespace DocumentManage.Services
 
                 ResponseVisitQueryListDTO ret = new ResponseVisitQueryListDTO();
 
-                ret.QGLHCount = query.Where(t => t.VisitTag == "全国两会").GroupBy(t=> t.VisitID).Count();
-                ret.GZCount = query.Where(t => t.VisitTag == "国宗").GroupBy(t => t.VisitID).Count();
-                ret.TZBCount = query.Where(t => t.VisitTag == "统战部").GroupBy(t => t.VisitID).Count();
-                ret.ZFJGCount = query.Where(t => t.VisitTag == "政府机构").GroupBy(t => t.VisitID).Count();
-                ret.FWYXCount = query.Where(t => t.VisitTag == "访问院校").GroupBy(t => t.VisitID).Count();
-                ret.QTCount = query.Where(t => t.VisitTag == "其他").GroupBy(t => t.VisitID).Count();
+                var q2 = (from q in query
+                         group q by new { q.VisitID, q.VisitTag } into gro
+                         select new 
+                         {
+                             VisitTag = gro.Key.VisitTag,
+                             VisitID = gro.Key.VisitID
+                         }).ToList();
+
+                ret.QGLHCount = q2.Where(t => t.VisitTag == "全国两会").Count();
+                ret.GZCount = q2.Where(t => t.VisitTag == "国宗").GroupBy(t => t.VisitID).Count();
+                ret.TZBCount = q2.Where(t => t.VisitTag == "统战部").GroupBy(t => t.VisitID).Count();
+                ret.ZFJGCount = q2.Where(t => t.VisitTag == "政府机构").GroupBy(t => t.VisitID).Count();
+                ret.FWYXCount = q2.Where(t => t.VisitTag == "访问院校").GroupBy(t => t.VisitID).Count();
+                ret.QTCount = q2.Where(t => t.VisitTag == "其他").GroupBy(t => t.VisitID).Count();
                 ret.CountryCount = query.Where(t => !string.IsNullOrEmpty(t.TheyOrgCountry)).GroupBy(t => t.TheyOrgCountry).Count();
                 ret.VisitRecords = retquery.ToPagedList(request.PageIndex, request.PageSize);
                 return ret;

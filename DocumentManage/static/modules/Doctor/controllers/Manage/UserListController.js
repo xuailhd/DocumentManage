@@ -16,6 +16,17 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                 $scope.UserPassword = {};
                 $scope.UserAccount = {};
 
+                var flag = false;
+                for (var i = 0; i < golbal_Modules.length; i++) {
+                    if (golbal_Modules[i].AuthUrl == "#/Index" + "/Manage/UserList") {
+                        flag = true;
+                    }
+                }
+
+                if (!flag) {
+                    $state.go('Index.PersonalInfo');
+                }
+
                 $scope.onSearch = function ()
                 {
                     $scope.Record.PageSize = $scope.PageSize;

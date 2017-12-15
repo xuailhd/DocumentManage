@@ -14,6 +14,17 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     $scope.CurrentPage = 1;
                     $scope.totalCount = 0;
 
+                    var flag = false;
+                    for (var i = 0; i < golbal_Modules.length; i++) {
+                        if (golbal_Modules[i].AuthUrl == "#/Index" + "/Org") {
+                            flag = true;
+                        }
+                    }
+
+                    if (!flag) {
+                        $state.go('Index.PersonalInfo');
+                    }
+
                     $scope.Record = { Tag : ''};
 
                     var countrys = [{

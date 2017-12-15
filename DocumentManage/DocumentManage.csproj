@@ -2595,8 +2595,6 @@
     <Content Include="static\modules\Common\services\uploader.js" />
     <Content Include="static\modules\Doctor\app.js" />
     <Content Include="static\modules\Doctor\bootstrap.js" />
-    <Content Include="static\modules\Doctor\controllers\Manage\EditUserRole.html" />
-    <Content Include="static\modules\Doctor\controllers\Manage\EditUserRoleController.js" />
     <Content Include="static\modules\Doctor\controllers\Manage\RoleList.html" />
     <Content Include="static\modules\Doctor\controllers\Manage\UserList.html" />
     <Content Include="static\modules\Doctor\controllers\Manage\RoleListController.js" />

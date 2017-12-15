@@ -15,6 +15,17 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     $scope.totalCount = 0;
                     $scope.Record = {};
 
+                    var flag = false;
+                    for (var i = 0; i < golbal_Modules.length; i++) {
+                        if (golbal_Modules[i].AuthUrl == "#/Index" + "/Record") {
+                            flag = true;
+                        }
+                    }
+
+                    if (!flag) {
+                        $state.go('Index.PersonalInfo');
+                    }
+
                     //查询列表
                     $scope.onSearch = function (page) {
                         $scope.Record.PageSize = $scope.pageSize;

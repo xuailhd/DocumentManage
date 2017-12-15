@@ -1,5 +1,5 @@
 ﻿"use strict";
-define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-date", "bootstrap-select", "jquery-validate"], function (apiUtil, uploader) {
+define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-date", "bootstrap-select", "jquery-validate", 'module-directive-bundling-all'], function (apiUtil, uploader) {
 
             var app = angular.module("myApp", [
           "pascalprecht.translate",
@@ -38,11 +38,20 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         }
                     };
 
-                    $scope.onGetMainPerson = function (val) {
+                    $scope.MainPersonpageSize = 2;
+                    $scope.MainPersonCurrentPage = 1;
+                    $scope.MainPersontotalCount = 0;
+
+                    $scope.onGetMainPerson = function () {
                         apiUtil.requestWebApi("Person/GetList", "Post",
-                            { UserName: val }
+                            {
+                                UserName: $scope.Record.MainPersonName,
+                                PageSize:$scope.MainPersonpageSize,
+                                PageIndex: $scope.MainPersonCurrentPage
+                            }
                             , function (response) {
                                 $scope.mainPersons = response.Data;
+                                $scope.MainPersontotalCount = response.Total;
                                 //if ($scope.mainPersons && $scope.mainPersons.length > 0) {
                                 //    for (var i = 0; i < $scope.mainPersons.length; i++) {
                                 //        $scope.mainPersons[i].Selected = false;
@@ -83,11 +92,21 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         $("#modal-selectMainPerson").modal("hide");
                     };
 
-                    $scope.onGetOurPerson = function (val) {
+
+                    $scope.OurPersonpageSize = 10;
+                    $scope.OurPersonCurrentPage = 1;
+                    $scope.OurPersontotalCount = 0;
+
+                    $scope.onGetOurPerson = function () {
                         apiUtil.requestWebApi("Person/GetList", "Post",
-                            { UserName: val }
+                            {
+                                UserName: $scope.Record.OurPersonName,
+                                PageSize: $scope.OurPersonpageSize,
+                                PageIndex: $scope.OurPersonCurrentPage
+                            }
                             , function (response) {
                                 $scope.ourPersons = response.Data;
+                                $scope.OurPersontotalCount = response.Total;
                                 $scope.$apply();
                             }, function () {
                             });
@@ -123,11 +142,20 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         $("#modal-selectOurPerson").modal("hide");
                     };
 
-                    $scope.onGetOurOtherPerson = function (val) {
+                    $scope.OurOtherPersonpageSize = 10;
+                    $scope.OurOtherPersonCurrentPage = 1;
+                    $scope.OurOtherPersontotalCount = 0;
+
+                    $scope.onGetOurOtherPerson = function () {
                         apiUtil.requestWebApi("Person/GetList", "Post",
-                            { UserName: val }
+                            {
+                                UserName: $scope.Record.OurOtherPersonName,
+                                PageSize: $scope.OurOtherPersonpageSize,
+                                PageIndex: $scope.OurOtherPersonCurrentPage
+                            }
                             , function (response) {
                                 $scope.ourOtherPersons = response.Data;
+                                $scope.OurOtherPersontotalCount = response.Total;
                                 $scope.$apply();
                             }, function () {
                             });
@@ -163,11 +191,20 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         $("#modal-selectOurOtherPerson").modal("hide");
                     };
 
-                    $scope.onGetTheyPerson = function (val) {
+                    $scope.TheyPersonpageSize = 10;
+                    $scope.TheyPersonCurrentPage = 1;
+                    $scope.TheyPersontotalCount = 0;
+
+                    $scope.onGetTheyPerson = function () {
                         apiUtil.requestWebApi("Person/GetList", "Post",
-                            { UserName: val }
+                            {
+                                UserName: $scope.Record.TheyPersonName,
+                                PageSize: $scope.TheyPersonpageSize,
+                                PageIndex: $scope.TheyPersonCurrentPage
+                            }
                             , function (response) {
                                 $scope.theyPersons = response.Data;
+                                $scope.TheyPersontotalCount = response.Total;
                                 $scope.$apply();
                             }, function () {
                             });
@@ -203,11 +240,20 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         $("#modal-selectTheyPerson").modal("hide");
                     };
 
-                    $scope.onGetTheyOtherPerson = function (val) {
+                    $scope.TheyOtherPersonpageSize = 10;
+                    $scope.TheyOtherPersonCurrentPage = 1;
+                    $scope.TheyOtherPersontotalCount = 0;
+
+                    $scope.onGetTheyOtherPerson = function () {
                         apiUtil.requestWebApi("Person/GetList", "Post",
-                            { UserName: val }
+                            {
+                                UserName: $scope.Record.TheyOtherPersonName,
+                                PageSize: $scope.TheyOtherPersonpageSize,
+                                PageIndex: $scope.TheyOtherPersonCurrentPage
+                            }
                             , function (response) {
                                 $scope.theyOtherPersons = response.Data;
+                                $scope.TheyOtherPersontotalCount = response.Total;
                                 $scope.$apply();
                             }, function () {
                             });
@@ -266,11 +312,20 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         }
                     };
 
-                    $scope.onGetOurOrg = function (val) {
+                    $scope.OurOrgpageSize = 10;
+                    $scope.OurOrgCurrentPage = 1;
+                    $scope.OurOrgtotalCount = 0;
+
+                    $scope.onGetOurOrg = function () {
                         apiUtil.requestWebApi("Org/GetList", "Post",
-                            { OrgName: val }
+                            {
+                                OrgName: $scope.Record.OurOrgName,
+                                PageSize: $scope.OurOrgpageSize,
+                                PageIndex: $scope.OurOrgCurrentPage
+                            }
                             , function (response) {
                                 $scope.ourOrgs = response.Data;
+                                $scope.OurOrgtotalCount = response.Total;
                                 $scope.$apply();
                             }, function () {
                             });
@@ -306,11 +361,20 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         $("#modal-selectOurOrg").modal("hide");
                     };
 
-                    $scope.onGetTheyOrg = function (val) {
+                    $scope.TheyOrgpageSize = 10;
+                    $scope.TheyOrgCurrentPage = 1;
+                    $scope.TheyOrgtotalCount = 0;
+
+                    $scope.onGetTheyOrg = function () {
                         apiUtil.requestWebApi("Org/GetList", "Post",
-                            { OrgName: val }
+                            {
+                                OrgName: $scope.Record.TheyOrgName,
+                                PageSize: $scope.TheyOrgpageSize,
+                                PageIndex: $scope.TheyOrgCurrentPage
+                            }
                             , function (response) {
                                 $scope.theyOrgs = response.Data;
+                                $scope.TheyOrgtotalCount = response.Total;
                                 $scope.$apply();
                             }, function () {
                             });
@@ -346,11 +410,20 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         $("#modal-selectTheyOrg").modal("hide");
                     };
 
-                    $scope.onGetBeViOrg = function (val) {
+                    $scope.BeViOrgpageSize = 10;
+                    $scope.BeViOrgCurrentPage = 1;
+                    $scope.BeViOrgtotalCount = 0;
+
+                    $scope.onGetBeViOrg = function () {
                         apiUtil.requestWebApi("Org/GetList", "Post",
-                            { OrgName: val }
+                            {
+                                OrgName: $scope.Record.BeViOrgName,
+                                PageSize: $scope.BeViOrgpageSize,
+                                PageIndex: $scope.BeViOrgCurrentPage
+                            }
                             , function (response) {
                                 $scope.beViOrgs = response.Data;
+                                $scope.BeViOrgtotalCount = response.Total;
                                 $scope.$apply();
                             }, function () {
                             });

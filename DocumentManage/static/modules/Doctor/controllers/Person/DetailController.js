@@ -19,6 +19,17 @@ define(["module-services-apiUtil", "jquery-validate"], function (apiUtil) {
             /*************************以下是和服务端交互的数据*****************/
             $scope.PersonID = $state.params.PersonID;
 
+            var flag = false;
+            for (var i = 0; i < golbal_Modules.length; i++) {
+                if (golbal_Modules[i].AuthUrl == "#/Index" + "/Person") {
+                    flag = true;
+                }
+            }
+
+            if (!flag) {
+                $state.go('Index.PersonalInfo');
+            }
+
             $scope.Record = {};
 
             $scope.onTagChange = function () {

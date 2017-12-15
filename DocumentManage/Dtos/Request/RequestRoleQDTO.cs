@@ -20,6 +20,10 @@ namespace DocumentManage.Dtos
                 }
                 return _PageSize;
             }
+            set
+            {
+                _PageSize = value;
+            }
         }
 
         private int _PageIndex;
@@ -32,6 +36,10 @@ namespace DocumentManage.Dtos
                     return 1;
                 }
                 return _PageIndex;
+            }
+            set
+            {
+                _PageIndex = value;
             }
         }
     }
