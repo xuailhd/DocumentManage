@@ -138,5 +138,22 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                             return deferred.promise;
                         }
                     };
+
+                    $scope.onDelete = function (id) {
+                        //询问框
+                        layer.confirm($translate.instant('msgConfirmDelete'), {
+                            btn: ['是', '否'] //按钮
+                        }, function () {
+                            var data = { OrgID: id }
+                            apiUtil.requestWebApi('Org/Delete', 'Post', data, function (obj) {
+                                layer.msg($translate.instant('msgDeleteSuccess'));
+                                //刷新数据
+                                $scope.onSearch();
+                            },
+                           function (obj) {
+                               layer.msg(obj.Msg);
+                           });
+                        });
+                    };
                 }]);
         });

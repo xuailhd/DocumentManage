@@ -347,8 +347,8 @@ namespace DocumentManage.Services
             using (var db = new DBEntities())
             {
                 var query = from vir in db.VisitRecords.Where(t => !t.IsDeleted && t.VisitID == request.VisitID)
-                            join uac in db.Users on vir.CreateUserID equals uac.UserID
-                            join uam in db.Users on vir.ModifyUserID equals uam.UserID into uamleft
+                            join uac in db.Users on vir.CreateUserID equals uac.ID
+                            join uam in db.Users on vir.ModifyUserID equals uam.ID into uamleft
                             from uamEmpty in uamleft.DefaultIfEmpty()
                             select new ResponseVisitRecordDTO()
                             {
@@ -444,7 +444,7 @@ namespace DocumentManage.Services
             using (var db = new DBEntities())
             {
                 var query = from record in db.VisitRecords
-                            join ua in db.Users on record.CreateUserID equals ua.UserID
+                            join ua in db.Users on record.CreateUserID equals ua.ID
                             join mperson in db.VisitPersons.Where(t=>t.OwenType == EnumPersonOwenType.MainHanle) on record.VisitID equals mperson.VisitID into mpersonleft
                             from mpersonempty in mpersonleft.DefaultIfEmpty()
                             join mpersoninfo in db.PersonInfos on mpersonempty.PersonID equals mpersoninfo.PersonID into mpersoninfoleft
@@ -672,7 +672,7 @@ namespace DocumentManage.Services
             using (var db = new DBEntities())
             {
                 var query = from record in db.VisitRecords
-                            join ua in db.Users on record.CreateUserID equals ua.UserID
+                            join ua in db.Users on record.CreateUserID equals ua.ID
                             join mperson in db.VisitPersons.Where(t => t.OwenType == EnumPersonOwenType.MainHanle) on record.VisitID equals mperson.VisitID into mpersonleft
                             from mpersonempty in mpersonleft.DefaultIfEmpty()
                             join mpersoninfo in db.PersonInfos on mpersonempty.PersonID equals mpersoninfo.PersonID into mpersoninfoleft
@@ -899,8 +899,9 @@ namespace DocumentManage.Services
             }
         }
 
-        public bool Delete(RequestVisitRecordQDTO request)
+        public bool Delete(RequestVisitRecordQDTO request, string operUserID,out string reason)
         {
+            reason = "";
             using (var db = new DBEntities())
             {
                 var query = db.VisitRecords.Where(t => t.VisitID == request.VisitID);
@@ -912,10 +913,23 @@ namespace DocumentManage.Services
 
                 var model = query.FirstOrDefault();
 
+                if (!string.IsNullOrEmpty(model.CreateUserID) && model.CreateUserID != operUserID)
+                {
+                    if (!CommonService.HasOtherDataAuth(operUserID, db))
+                    {
+                        reason = "非本人创建的数据，不允许修改";
+                        return false;
+                    }
+                }
+
                 if (model != null)
                 {
                     model.IsDeleted = true;
                     return db.SaveChanges() > 0;
+                }
+                else
+                {
+                    reason = "数据不存在,或者没有权限修改";
                 }
 
                 return false;

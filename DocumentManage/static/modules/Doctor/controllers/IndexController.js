@@ -57,7 +57,12 @@
                     var gotoDefaultPage = function () {
                         if ($state.current.name == "Index") 
                         {
-                            window.location.href = $scope.Modules[0].AuthUrl;
+                            if ($scope.Modules.length > 0) {
+                                window.location.href = $scope.Modules[0].AuthUrl;
+                            }
+                            else {
+                                $state.go('Index.PersonalInfo');
+                            }
                         }
                     }
 

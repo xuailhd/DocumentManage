@@ -10,6 +10,6 @@ namespace DocumentManage.Dtos
     {
         public List<ResponseRoleDTO> RoleLists { get; set; }
 
-        public string UserID { get; set; }
+        public string ID { get; set; }
     }
 }

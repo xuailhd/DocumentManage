@@ -7,7 +7,7 @@ namespace DocumentManage.Dtos
 {
     public class RequestRoleQDTO
     {
-        public string UserID { get; set; }
+        public string ID { get; set; }
 
         private int _PageSize;
         public int PageSize

@@ -7,7 +7,7 @@ namespace DocumentManage.Dtos
 {
     public class RequestAuthModelQDTO
     {
-        public string RoleID { get; set; }
+        public string ID { get; set; }
 
         /// <summary>
         /// 0 菜单 1 功能权限 2 数据级别

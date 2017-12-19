@@ -61,7 +61,7 @@ namespace DocumentManage
             using(var db = new DBEntities())
             {
                 var userToken = UserToken;
-                var model = db.Users.Where(t => t.UserToken == userToken).FirstOrDefault();
+                var model = db.Users.Where(t => t.UserToken == userToken && !t.IsDeleted).FirstOrDefault();
 
                 return model;
             }

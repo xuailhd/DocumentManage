@@ -53,5 +53,22 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                         $state.go("Index.RecordEdit");
                     }
 
+                    $scope.onDelete = function (id) {
+                        //询问框
+                        layer.confirm($translate.instant('msgConfirmDelete'), {
+                            btn: ['是', '否'] //按钮
+                        }, function () {
+                            var data = { VisitID: id }
+                            apiUtil.requestWebApi('Record/Delete', 'Post', data, function (obj) {
+                                layer.msg($translate.instant('msgDeleteSuccess'));
+                                //刷新数据
+                                $scope.onSearch();
+                            },
+                           function (obj) {
+                               layer.msg(obj.Msg);
+                           });
+                        });
+                    };
+
                 }]);
         });

@@ -1,5 +1,5 @@
 ﻿@{
-    var CurrentUserID = DocumentManage.SecurityHelper.LoginUser.UserID;
+    var CurrentUserID = DocumentManage.SecurityHelper.LoginUser.ID;
     var userService = new DocumentManage.Services.UserService();
 
     var _menuModules = Newtonsoft.Json.JsonConvert.SerializeObject(userService.GetUserAuths(new DocumentManage.Dtos.RequestAuthDTO() { Type = 0, UserID = CurrentUserID }));

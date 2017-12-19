@@ -146,8 +146,9 @@
                     <th>{{item.RolesStr}}</th>
                     <th>{{item.LastTime}}</th>
                     <td style="text-align:center">
-                        <a class="btn btn-sm base" ng-click="onResetPassword(item.UserID)">重置密码</a>
-                        <a class="btn btn-sm base" ng-click="onEditUserRole(item.UserID)">调整所属角色</a>
+                        <a class="btn btn-sm base" ng-click="onResetPassword(item.ID)">重置密码</a>
+                        <a class="btn btn-sm base" ng-click="onEditUserRole(item.ID)">调整所属角色</a>
+                        <a class="btn btn-sm base" ng-click="onDelete(item.ID)">删除</a>
                     </td>
                 </tr>
             </tbody>

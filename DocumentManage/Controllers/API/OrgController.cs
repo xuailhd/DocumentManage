@@ -17,7 +17,7 @@ namespace DocumentManage.Controllers.API
         {
             OrgService orgService = new OrgService();
             string reason;
-            var ret = orgService.Edit(request, SecurityHelper.LoginUser.UserID, out reason);
+            var ret = orgService.Edit(request, SecurityHelper.LoginUser.ID, out reason);
 
             if (!ret)
             {
@@ -58,11 +58,12 @@ namespace DocumentManage.Controllers.API
         public ApiResult Delete([FromBody]RequestOrgQDTO request)
         {
             OrgService orgService = new OrgService();
-            var ret = orgService.Delete(request);
+            string reason;
+            var ret = orgService.Delete(request, SecurityHelper.LoginUser.ID, out reason);
 
             if (!ret)
             {
-                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = "数据不存在，或没有权限" };
+                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = reason };
             }
             else
             {

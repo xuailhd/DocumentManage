@@ -8,7 +8,7 @@ namespace DocumentManage.Models
 {
     public class ResponseRoleDTO
     {
-        [Key]
+        public string ID { get; set; }
         public string RoleID { get; set; }
 
         public string RoleName { get; set; }

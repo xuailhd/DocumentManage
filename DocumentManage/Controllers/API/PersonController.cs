@@ -23,7 +23,7 @@ namespace DocumentManage.Controllers.API
         public ApiResult Edit([FromBody]RequestPersonDTO request)
         {
             string reason;
-            var ret = personService.Edit(request, SecurityHelper.LoginUser.UserID, out reason);
+            var ret = personService.Edit(request, SecurityHelper.LoginUser.ID, out reason);
 
             if (!ret)
             {
@@ -61,11 +61,12 @@ namespace DocumentManage.Controllers.API
         [HttpPost]
         public ApiResult Delete([FromBody]RequestPersonQDTO request)
         {
-            var ret = personService.Delete(request);
+            string reason;
+            var ret = personService.Delete(request, SecurityHelper.LoginUser.ID, out reason);
 
             if (!ret)
             {
-                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = "数据不存在，或没有权限" };
+                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = reason };
             }
             else
             {

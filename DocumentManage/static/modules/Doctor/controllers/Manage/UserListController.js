@@ -54,6 +54,7 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     if ($("#addAccountForm").valid()) {
                         apiUtil.requestWebApi("User/AddAccount", "Post", $scope.UserAccount, function (response) {
                             layer.msg(response.Msg);
+                            $scope.onSearch();
                             $("#modal-AddAccount").modal("hide");
                         }, function (response) {
                             layer.msg(response.Msg);
@@ -62,8 +63,8 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     }
                 };
 
-                $scope.onResetPassword = function (userID) {
-                    $scope.UserPassword.UserID = userID;
+                $scope.onResetPassword = function (id) {
+                    $scope.UserPassword.ID = id;
                     $("#modal-ResetPassword").modal("show");
                 };
 
@@ -71,6 +72,7 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     if ($("#passwordForm").valid()) {
                         apiUtil.requestWebApi("User/ResetPassword", "Post", $scope.UserPassword, function (response) {
                             layer.msg(response.Msg);
+                            $scope.onSearch();
                             $("#modal-ResetPassword").modal("hide");
                         }, function (response) {
                             layer.msg(response.Msg);
@@ -79,8 +81,8 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     }
                 };
 
-                $scope.onGetUserRoles = function (userID) {
-                    apiUtil.requestWebApi("User/GetRoleList", "Post", { UserID: userID }, function (response) {
+                $scope.onGetUserRoles = function (id) {
+                    apiUtil.requestWebApi("User/GetRoleList", "Post", { ID: id }, function (response) {
                         $scope.EditUserRole.RoleLists = response.Data;
                         $scope.$apply();
                     }, function (response) {
@@ -88,10 +90,10 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     });
                 };
 
-                $scope.onEditUserRole = function (userID) {
-                    $scope.EditUserRole.UserID = userID;
+                $scope.onEditUserRole = function (id) {
+                    $scope.EditUserRole.ID = id;
                     $scope.EditUserRole.RoleLists = [];
-                    $scope.onGetUserRoles(userID);
+                    $scope.onGetUserRoles(id);
                     
                     $("#modal-EditUserRole").modal("show");
                 };
@@ -99,10 +101,28 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                 $scope.onUserRoleSave = function () {
                     apiUtil.requestWebApi("User/EditUserRoles", "Post", $scope.EditUserRole, function (response) {
                         layer.msg(response.Msg);
+                        $scope.onSearch();
                         $("#modal-EditUserRole").modal("hide");
                     }, function (response) {
                         layer.msg(response.Msg);
                         $("#modal-EditUserRole").modal("hide");
+                    });
+                };
+
+                $scope.onDelete = function (id) {
+                    //询问框
+                    layer.confirm($translate.instant('msgConfirmDelete'), {
+                        btn: ['是', '否'] //按钮
+                    }, function () {
+                        var data = { ID: id }
+                        apiUtil.requestWebApi('User/DeleteAccount', 'Post', data, function (obj) {
+                            layer.msg($translate.instant('msgDeleteSuccess'));
+                            //刷新数据
+                            $scope.onSearch();
+                        },
+                       function (obj) {
+                           layer.msg(obj.Msg);
+                       });
                     });
                 };
             }

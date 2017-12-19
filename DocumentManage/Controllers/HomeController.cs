@@ -19,11 +19,6 @@ namespace DocumentManage.Controllers
         [IgnoreUserAuthenticate]
         public ActionResult Login()
         {
-            using (var db = new DBEntities())
-            {
-                var user = db.Users.Where(t => t.UserID == "admin").FirstOrDefault();
-
-            }
             return View();
         }
     }

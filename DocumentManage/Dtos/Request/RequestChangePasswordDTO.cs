@@ -7,7 +7,7 @@ namespace DocumentManage.Dtos
 {
     public class RequestChangePasswordDTO
     {
-        public string UserID { get; set; }
+        public string ID { get; set; }
 
         public string NewPassword { get; set; }
 

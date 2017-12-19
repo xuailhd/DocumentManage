@@ -77,8 +77,8 @@ namespace DocumentManage.Services
             using (var db = new DBEntities())
             {
                 var query = from org in db.Orgnazitions.Where(t => !t.IsDeleted && t.OrgID == request.OrgID)
-                            join uac in db.Users on org.CreateUserID equals uac.UserID
-                            join uam in db.Users on org.ModifyUserID equals uam.UserID into uamleft
+                            join uac in db.Users on org.CreateUserID equals uac.ID
+                            join uam in db.Users on org.ModifyUserID equals uam.ID into uamleft
                             from uamEmpty in uamleft.DefaultIfEmpty()
                             select new ResponseOrgnazitionDTO()
                             {
@@ -177,8 +177,9 @@ namespace DocumentManage.Services
             }
         }
 
-        public bool Delete(RequestOrgQDTO request)
+        public bool Delete(RequestOrgQDTO request, string operUserID, out string reason)
         {
+            reason = "";
             using (var db = new DBEntities())
             {
                 var query = db.Orgnazitions.Where(t => t.OrgID == request.OrgID);
@@ -189,6 +190,15 @@ namespace DocumentManage.Services
                 }
 
                 var model = query.FirstOrDefault();
+
+                if (!string.IsNullOrEmpty(model.CreateUserID) && model.CreateUserID != operUserID)
+                {
+                    if (!CommonService.HasOtherDataAuth(operUserID, db))
+                    {
+                        reason = "非本人创建的数据，不允许修改";
+                        return false;
+                    }
+                }
 
                 if (model != null)
                 {

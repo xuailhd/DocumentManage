@@ -44,7 +44,7 @@ namespace DocumentManage.Controllers.API
         [HttpPost]
         public ApiResult UpdatePassword([FromBody]RequestChangePasswordDTO request)
         {
-            request.UserID = SecurityHelper.LoginUser.UserID;
+            request.ID = SecurityHelper.LoginUser.ID;
             var ret = userService.UpdatePassword(request);
 
             if (ret)
@@ -60,7 +60,7 @@ namespace DocumentManage.Controllers.API
         [HttpPost]
         public ApiResult ResetPassword([FromBody]RequestChangePasswordDTO request)
         {
-            request.UserID = SecurityHelper.LoginUser.UserID;
+            request.ID = SecurityHelper.LoginUser.ID;
             var ret = userService.ResetPassword(request);
 
             if (ret)
@@ -76,7 +76,7 @@ namespace DocumentManage.Controllers.API
         [HttpPost]
         public ApiResult LoginOut()
         {
-            var ret = userService.LoginOut(SecurityHelper.LoginUser.UserID);
+            var ret = userService.LoginOut(SecurityHelper.LoginUser.ID);
 
             if (ret)
             {
@@ -91,13 +91,13 @@ namespace DocumentManage.Controllers.API
         [HttpGet]
         public ApiResult GetUserInfo()
         {
-            return userService.GetUserInfo(SecurityHelper.LoginUser.UserID).ToApiResult();
+            return userService.GetUserInfo(SecurityHelper.LoginUser.ID).ToApiResult();
         }
 
         [HttpPost]
         public ApiResult UpdateUserInfo(RequestUserInfoDTO dto)
         {
-            return userService.UpdateUserInfo(dto, SecurityHelper.LoginUser.UserID).ToApiResult();
+            return userService.UpdateUserInfo(dto, SecurityHelper.LoginUser.ID).ToApiResult();
         }
 
         [HttpPost]
@@ -105,6 +105,20 @@ namespace DocumentManage.Controllers.API
         {
             string reason = "";
             if (userService.EditRole(dto, out reason))
+            {
+                return new ApiResult();
+            }
+            else
+            {
+                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = reason };
+            }
+        }
+
+        [HttpPost]
+        public ApiResult DeleteRole([FromBody]RequestRoleDTO dto)
+        {
+            string reason = "";
+            if (userService.DeleteRole(dto, out reason))
             {
                 return new ApiResult();
             }
@@ -165,6 +179,19 @@ namespace DocumentManage.Controllers.API
         {
             string reason = "";
             if (userService.AddAccount(request, out reason))
+            {
+                return new ApiResult();
+            }
+            else
+            {
+                return new ApiResult() { Status = EnumApiStatus.BizError, Msg = reason };
+            }
+        }
+        [HttpPost]
+        public ApiResult DeleteAccount([FromBody]RequestUserInfoDTO request)
+        {
+            string reason = "";
+            if (userService.DeleteAccount(request, out reason))
             {
                 return new ApiResult();
             }

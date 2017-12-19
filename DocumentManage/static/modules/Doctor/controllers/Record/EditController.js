@@ -38,7 +38,7 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         }
                     };
 
-                    $scope.MainPersonpageSize = 2;
+                    $scope.MainPersonpageSize = 10;
                     $scope.MainPersonCurrentPage = 1;
                     $scope.MainPersontotalCount = 0;
 

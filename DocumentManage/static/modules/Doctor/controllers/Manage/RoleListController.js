@@ -59,6 +59,7 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     if ($("#roleForm").valid()) {
                         apiUtil.requestWebApi("User/EditRole", "Post", $scope.Role, function (response) {
                             layer.msg(response.Msg);
+                            $scope.onSearch();
                             $("#modal-EditRole").modal("hide");
                         }, function (response) {
                             layer.msg(response.Msg);
@@ -67,8 +68,8 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     }
                 };
 
-                $scope.onGetRoleAuth = function (roleID) {
-                    apiUtil.requestWebApi("User/GetAuthList", "Post", { RoleID: roleID, Type: 0 }, function (response) {
+                $scope.onGetRoleAuth = function (id) {
+                    apiUtil.requestWebApi("User/GetAuthList", "Post", { ID: id, Type: 0 }, function (response) {
                         $scope.EditRoleAuth.AuthLists = response.Data;
                         $scope.$apply();
                     }, function (response) {
@@ -76,12 +77,12 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     });
                 };
 
-                $scope.onEditAuth = function (roleID) {
+                $scope.onEditAuth = function (id) {
                     $scope.EditRoleAuth = {};
-                    $scope.EditRoleAuth.RoleID = roleID;
+                    $scope.EditRoleAuth.ID = id;
                     $scope.EditRoleAuth.AuthLists = [];
                     $scope.EditRoleAuth.Type = 0;
-                    $scope.onGetRoleAuth(roleID);
+                    $scope.onGetRoleAuth(id);
 
                     $("#modal-EditRoleAuth").modal("show");
                 };
@@ -89,6 +90,7 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                 $scope.onRoleAuthSave = function () {
                     apiUtil.requestWebApi("User/EditRoleAuths", "Post", $scope.EditRoleAuth, function (response) {
                         layer.msg(response.Msg);
+                        $scope.onSearch();
                         $("#modal-EditRoleAuth").modal("hide");
                     }, function (response) {
                         layer.msg(response.Msg);
@@ -96,8 +98,8 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     });
                 };
 
-                $scope.onGetRoleFN = function (roleID) {
-                    apiUtil.requestWebApi("User/GetAuthList", "Post", { RoleID: roleID,Type:1 }, function (response) {
+                $scope.onGetRoleFN = function (id) {
+                    apiUtil.requestWebApi("User/GetAuthList", "Post", { ID: id, Type: 1 }, function (response) {
                         $scope.EditRoleFN.AuthLists = response.Data;
                         $scope.$apply();
                     }, function (response) {
@@ -105,12 +107,12 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     });
                 };
 
-                $scope.onEditFN = function (roleID) {
+                $scope.onEditFN = function (id) {
                     $scope.EditRoleFN = {};
-                    $scope.EditRoleFN.RoleID = roleID;
+                    $scope.EditRoleFN.ID = id;
                     $scope.EditRoleFN.AuthLists = [];
                     $scope.EditRoleFN.Type = 1;
-                    $scope.onGetRoleFN(roleID);
+                    $scope.onGetRoleFN(id);
 
                     $("#modal-EditRoleFN").modal("show");
                 };
@@ -118,6 +120,7 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                 $scope.onRoleFNSave = function () {
                     apiUtil.requestWebApi("User/EditRoleAuths", "Post", $scope.EditRoleFN, function (response) {
                         layer.msg(response.Msg);
+                        $scope.onSearch();
                         $("#modal-EditRoleFN").modal("hide");
                     }, function (response) {
                         layer.msg(response.Msg);
@@ -125,8 +128,8 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     });
                 };
 
-                $scope.onGetRoleLE = function (roleID) {
-                    apiUtil.requestWebApi("User/GetAuthList", "Post", { RoleID: roleID, Type: 2 }, function (response) {
+                $scope.onGetRoleLE = function (id) {
+                    apiUtil.requestWebApi("User/GetAuthList", "Post", { ID: id, Type: 2 }, function (response) {
                         $scope.EditRoleLE.AuthLists = response.Data;
                         $scope.$apply();
                     }, function (response) {
@@ -134,12 +137,12 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     });
                 };
 
-                $scope.onEditLE= function (roleID) {
+                $scope.onEditLE= function (id) {
                     $scope.EditRoleLE = {};
-                    $scope.EditRoleLE.RoleID = roleID;
+                    $scope.EditRoleLE.ID = id;
                     $scope.EditRoleLE.AuthLists = [];
                     $scope.EditRoleLE.Type = 2;
-                    $scope.onGetRoleLE(roleID);
+                    $scope.onGetRoleLE(id);
 
                     $("#modal-EditRoleLE").modal("show");
                 };
@@ -147,6 +150,7 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                 $scope.onRoleLESave = function () {
                     apiUtil.requestWebApi("User/EditRoleAuths", "Post", $scope.EditRoleLE, function (response) {
                         layer.msg(response.Msg);
+                        $scope.onSearch();
                         $("#modal-EditRoleLE").modal("hide");
                     }, function (response) {
                         layer.msg(response.Msg);
@@ -154,7 +158,22 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     });
                 };
 
-                $scope.onSearch();
+                $scope.onDelete = function (id) {
+                    //询问框
+                    layer.confirm($translate.instant('msgConfirmDelete'), {
+                        btn: ['是', '否'] //按钮
+                    }, function () {
+                        var data = { ID: id }
+                        apiUtil.requestWebApi('User/DeleteRole', 'Post', data, function (obj) {
+                            layer.msg($translate.instant('msgDeleteSuccess'));
+                            //刷新数据
+                            $scope.onSearch();
+                        },
+                       function (obj) {
+                           layer.msg(obj.Msg);
+                       });
+                    });
+                };
             }
             ]);
         });

@@ -181,9 +181,10 @@
                     <td>{{item.RoleName}}</td>
                     <td style="text-align:center">
                         <a class="btn btn-sm base" ng-click="onEditRole(item)">编辑</a>
-                        <a class="btn btn-sm base" ng-click="onEditAuth(item.RoleID)">调整模块权限</a>
-                        <a class="btn btn-sm base" ng-click="onEditFN(item.RoleID)">调整操作权限</a>
-                        <a class="btn btn-sm base" ng-click="onEditLE(item.RoleID)">调整角色数据级别</a>
+                        <a class="btn btn-sm base" ng-click="onEditAuth(item.ID)">调整模块权限</a>
+                        <a class="btn btn-sm base" ng-click="onEditFN(item.ID)">调整操作权限</a>
+                        <a class="btn btn-sm base" ng-click="onEditLE(item.ID)">调整角色数据级别</a>
+                        <a class="btn btn-sm base" ng-click="onDelete(item.ID)">删除</a>
                     </td>
                 </tr>
             </tbody>
