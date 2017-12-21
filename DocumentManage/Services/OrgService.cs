@@ -6,6 +6,7 @@ using DocumentManage.EF;
 using DocumentManage.Models;
 using DocumentManage.Dtos;
 using DocumentManage.Common;
+using System.Text;
 
 namespace DocumentManage.Services
 {
@@ -122,13 +123,46 @@ namespace DocumentManage.Services
         }
 
 
-        public PagedList<Orgnazition> GetList(RequestOrgQDTO request)
+        public PagedList<ResponseOrgnazitionDTO> GetList(RequestOrgQDTO request)
         {
             using (var db = new DBEntities())
             {
                 var query = from org in db.Orgnazitions
+                            join uac in db.Users on org.CreateUserID equals uac.ID
+                            join uam in db.Users on org.ModifyUserID equals uam.ID into uamleft
+                            from uamEmpty in uamleft.DefaultIfEmpty()
                             where !org.IsDeleted
-                            select org;
+                            select new ResponseOrgnazitionDTO()
+                            {
+                                Address = org.Address,
+                                ContactPerson1 = org.ContactPerson1,
+                                ContactPerson2 = org.ContactPerson2,
+                                Continent = org.Continent,
+                                Country = org.Country,
+                                CreateTime = org.CreateTime,
+                                CreateUserName = uac.UserName,
+                                Email1 = org.Email1,
+                                Email2 = org.Email2,
+                                FromType = org.FromType,
+                                Level = org.Level,
+                                ModifyTime = org.ModifyTime,
+                                ModifyUserName = uamEmpty.UserName,
+                                OrgBack = org.OrgBack,
+                                OrgID = org.OrgID,
+                                OrgInfo = org.OrgInfo,
+                                OrgName = org.OrgName,
+                                OrgNameEN = org.OrgNameEN,
+                                OrgType = org.OrgType,
+                                Province = org.Province,
+                                Remark = org.Remark,
+                                ShortNameCN = org.ShortNameCN,
+                                ShortNameEN = org.ShortNameEN,
+                                Tag = org.Tag,
+                                Tel1 = org.Tel1,
+                                Tel2 = org.Tel2,
+                                WorkAddress = org.WorkAddress,
+                                WorkTime = org.WorkTime
+                            };
 
                 if (!string.IsNullOrEmpty(request.OrgID))
                 {
@@ -208,6 +242,66 @@ namespace DocumentManage.Services
 
                 return false;
             }
+        }
+
+        public string Export(RequestOrgQDTO request)
+        {
+            var sbHtml = new StringBuilder();
+            sbHtml.Append("<table border='1'  >");
+            sbHtml.Append("<tr>");
+
+            var lstTitle = new List<string> { "来源","机构编码", "机构名称", "中文简称", "英文名称", "英文简称", "标签"
+                , "机构级别" ,"机构地址","洲","国","省","机构性质" ,"机构背景","机构简介","办公地址","办公时间","联系人1"
+                ,"联系人2","联系电话1","联系电话2","邮箱1","邮箱2","备注","创建者","创建日期","最后修改者","最后修改日期"
+                };
+            foreach (var item in lstTitle)
+            {
+                sbHtml.AppendFormat("<td style='font-size: 14px;text-align:center;background-color: #DCE0E2; font-weight:bold;' height='25'>{0}</td>", item);
+            }
+            sbHtml.Append("</tr>");
+
+
+            request.PageIndex = 1;
+            request.PageSize = int.MaxValue;
+            var data = GetList(request);
+
+            foreach (var item in data)
+            {
+                sbHtml.Append("<tr>");
+                sbHtml.AppendFormat("<td >{0}</td>", item.FromType);
+                sbHtml.AppendFormat("<td >{0}</td>", item.OrgID);
+                sbHtml.AppendFormat("<td >{0}</td>", item.OrgName);
+                sbHtml.AppendFormat("<td >{0}</td>", item.ShortNameCN);
+                sbHtml.AppendFormat("<td >{0}</td>", item.OrgNameEN);
+                sbHtml.AppendFormat("<td >{0}</td>", item.ShortNameEN);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Tag);
+
+                sbHtml.AppendFormat("<td >{0}</td>", item.Level);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Address);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Continent);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Country);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Province);
+                sbHtml.AppendFormat("<td >{0}</td>", item.OrgType);
+                sbHtml.AppendFormat("<td >{0}</td>", item.OrgBack);
+                sbHtml.AppendFormat("<td >{0}</td>", item.OrgInfo);
+                sbHtml.AppendFormat("<td >{0}</td>", item.WorkAddress);
+                sbHtml.AppendFormat("<td >{0}</td>", item.WorkTime);
+                sbHtml.AppendFormat("<td >{0}</td>", item.ContactPerson1);
+
+                sbHtml.AppendFormat("<td >{0}</td>", item.ContactPerson2);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Tel1);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Tel2);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Email1);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Email2);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Remark);
+                sbHtml.AppendFormat("<td >{0}</td>", item.CreateUserName);
+                sbHtml.AppendFormat("<td >{0}</td>", item.CreateTime.ToString("yyyy-MM-dd HH:mm"));
+                sbHtml.AppendFormat("<td >{0}</td>", item.ModifyUserName);
+                sbHtml.AppendFormat("<td >{0}</td>", item.ModifyTime.HasValue? item.ModifyTime.Value.ToString("yyyy-MM-dd HH:mm"):"" );
+                sbHtml.Append("</tr>");
+            }
+
+            return sbHtml.ToString();
         }
     }
 }

@@ -128,22 +128,39 @@ namespace DocumentManage.Controllers.API
                 }
 
                 var rootpath = ConfigurationManager.AppSettings["rootpath"].ToString();
-                var filePath = System.IO.Path.Combine(rootpath, visitFile.FileUrl);
 
-                if (visitFile != null &&
-                    File.Exists(filePath) )
+                
+
+                if (visitFile != null)
                 {
-                    var stream = File.OpenRead(filePath);
-                    result.Content = new StreamContent(stream);
-                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                    result.Content.Headers.Add("Content-Disposition", "attachment;filename=\"" + HttpUtility.UrlEncode(visitFile.FileName) + "\"");
-                    return result;
+                    var filePath = System.IO.Path.Combine(rootpath, visitFile.FileUrl);
+                    if(File.Exists(filePath))
+                    {
+                        var stream = File.OpenRead(filePath);
+                        result.Content = new StreamContent(stream);
+                        result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                        result.Content.Headers.Add("Content-Disposition", "attachment;filename=\"" + HttpUtility.UrlEncode(visitFile.FileName) + "\"");
+                        return result;
+                    }
+                    
                 }
-                else
+                else if (visitFile == null)
                 {
-                    throw new HttpException(404, "无效文件");
+                    var filePath = System.IO.Path.Combine(rootpath, id + ".xls");
+                    if (File.Exists(filePath))
+                    {
+                        var stream = File.OpenRead(filePath);
+                        result.Content = new StreamContent(stream);
+                        result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/ms-excel");
+                        result.Content.Headers.Add("Content-Disposition", "attachment;filename=\"" + HttpUtility.UrlEncode(id) + ".xls\"");
+                        return result;
+                    }
                 }
+                throw new HttpException(404, "无效文件");
+                
             });
         }
+
+        
     }
 }

@@ -9,6 +9,7 @@ using DocumentManage.Common;
 using System.IO;
 using System.Configuration;
 using DocumentManage.Dtos.Request;
+using System.Text;
 
 namespace DocumentManage.Services
 {
@@ -194,13 +195,51 @@ namespace DocumentManage.Services
         }
 
 
-        public PagedList<PersonInfo> GetList(RequestPersonQDTO request)
+        public PagedList<RequestPersonDTO> GetList(RequestPersonQDTO request)
         {
             using (var db = new DBEntities())
             {
-                var query = from org in db.PersonInfos
-                            where !org.IsDeleted
-                            select org;
+                var query = from per in db.PersonInfos.Where(t => !t.IsDeleted && t.PersonID == request.PersonID)
+                            join uac in db.Users on per.CreateUserID equals uac.ID
+                            join uam in db.Users on per.ModifyUserID equals uam.ID into uamleft
+                            from uamEmpty in uamleft.DefaultIfEmpty()
+                            select new RequestPersonDTO()
+                            {
+                                Birth = per.Birth,
+                                ContactAddress = per.ContactAddress,
+                                CreateTime = per.CreateTime,
+                                CreateUserID = per.CreateUserID,
+                                CreateUserName = uac.UserName,
+                                Department = per.Department,
+                                Duty = per.Duty,
+                                Email = per.Email,
+                                Fancy = per.Fancy,
+                                FromType = per.FromType,
+                                IDNumber = per.IDNumber,
+                                Mobile1 = per.Mobile1,
+                                Mobile2 = per.Mobile2,
+                                ModifyTime = per.ModifyTime,
+                                ModifyUserName = uamEmpty.UserName,
+                                NameCN = per.NameCN,
+                                NameEN = per.NameEN,
+                                Nationality = per.Nationality,
+                                OrgID = per.OrgID,
+                                OrgName = per.OrgName,
+                                PassportCode = per.PassportCode,
+                                PassportDate = per.PassportDate,
+                                PassportSignAdress = per.PassportSignAdress,
+                                PassportSignDate = per.PassportSignDate,
+                                PassportType = per.PassportType,
+                                PersonID = per.PersonID,
+                                RecLevel = per.RecLevel,
+                                Remark = per.Remark,
+                                Sex = per.Sex,
+                                Taboo = per.Taboo,
+                                Tag = per.Tag,
+                                Tel1 = per.Tel1,
+                                Tel2 = per.Tel2,
+                                Title = per.Title
+                            };
 
                 if (!string.IsNullOrEmpty(request.PersonID))
                 {
@@ -284,6 +323,72 @@ namespace DocumentManage.Services
 
                 return false;
             }
+        }
+
+        public string Export(RequestPersonQDTO request)
+        {
+            var sbHtml = new StringBuilder();
+            sbHtml.Append("<table border='1'  >");
+            sbHtml.Append("<tr>");
+
+            var lstTitle = new List<string> { "来源","人员编号", "机构名称", "中文名", "英文名", "标签", "部门"
+                , "护照号码" ,"护照有效期","签发日期","签发地","护照类别","头衔" ,"主要职务","身份证号","邮箱","电话1","电话2"
+                ,"手机1","手机2","联系地址","出生年月","性别","国籍","喜好","忌讳","接待规格","其他说明","创建者","创建日期"
+                ,"最后修改者","最后修改日期"
+                };
+            foreach (var item in lstTitle)
+            {
+                sbHtml.AppendFormat("<td style='font-size: 14px;text-align:center;background-color: #DCE0E2; font-weight:bold;' height='25'>{0}</td>", item);
+            }
+            sbHtml.Append("</tr>");
+
+
+            request.PageIndex = 1;
+            request.PageSize = int.MaxValue;
+            var data = GetList(request);
+
+            foreach (var item in data)
+            {
+                sbHtml.Append("<tr>");
+                sbHtml.AppendFormat("<td >{0}</td>", item.FromType);
+                sbHtml.AppendFormat("<td >{0}</td>", item.PersonID);
+                sbHtml.AppendFormat("<td >{0}</td>", item.OrgName);
+                sbHtml.AppendFormat("<td >{0}</td>", item.NameCN);
+                sbHtml.AppendFormat("<td >{0}</td>", item.NameEN);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Tag);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Department);
+
+                sbHtml.AppendFormat("<td >{0}</td>", item.PassportCode);
+                sbHtml.AppendFormat("<td >{0}</td>", item.PassportDate);
+                sbHtml.AppendFormat("<td >{0}</td>", item.PassportSignDate);
+                sbHtml.AppendFormat("<td >{0}</td>", item.PassportSignAdress);
+                sbHtml.AppendFormat("<td >{0}</td>", item.PassportType);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Title);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Duty);
+                sbHtml.AppendFormat("<td >{0}</td>", item.IDNumber);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Email);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Tel1);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Tel2);
+
+                sbHtml.AppendFormat("<td >{0}</td>", item.Mobile1);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Mobile2);
+                sbHtml.AppendFormat("<td >{0}</td>", item.ContactAddress);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Birth.HasValue ? item.Birth.Value.ToString("yyyy-MM-dd HH:mm") : "");
+                sbHtml.AppendFormat("<td >{0}</td>", item.Sex);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Nationality);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Fancy);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Taboo);
+                sbHtml.AppendFormat("<td >{0}</td>", item.RecLevel);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Remark);
+                sbHtml.AppendFormat("<td >{0}</td>", item.CreateUserName);
+                sbHtml.AppendFormat("<td >{0}</td>", item.CreateTime.ToString("yyyy-MM-dd HH:mm"));
+
+                sbHtml.AppendFormat("<td >{0}</td>", item.ModifyUserName);
+                sbHtml.AppendFormat("<td >{0}</td>", item.ModifyTime.HasValue ? item.ModifyTime.Value.ToString("yyyy-MM-dd HH:mm") : "");
+                sbHtml.Append("</tr>");
+            }
+
+            return sbHtml.ToString();
         }
     }
 }

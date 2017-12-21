@@ -1,8 +1,9 @@
 ﻿
-<div class="main-content" ng-controller="RecordController"> 
+<div class="main-content" ng-controller="RecordController">
     <h4 class="des border-b">
         档案库
     </h4>
+    <div id="exportdiv"></div>
     <form class="form-horizontal" ng-submit="onSearch()">
         <div class="search-ban">
             <div class="col-label-search">
@@ -68,13 +69,13 @@
                 行程开始日期
             </div>
             <div class="col-date-search">
-                <input id="FromDate" class="form-control" datepicker size="16" type="text" ng-model="Record.FromDate" placeholder="请输入开始日期"/>
+                <input id="FromDate" class="form-control" datepicker size="16" type="text" ng-model="Record.FromDate" placeholder="请输入开始日期" />
             </div>
             <div class="col-label-search">
                 行程结束日期
             </div>
             <div class="col-date-search">
-                <input id="EndDate" class="form-control" datepicker size="16" type="text" ng-model="Record.EndDate" placeholder="行程结束日期"/>
+                <input id="EndDate" class="form-control" datepicker size="16" type="text" ng-model="Record.EndDate" placeholder="行程结束日期" />
             </div>
             <div class="col-label-search">
                 接待/出访人员
@@ -95,7 +96,7 @@
             <div class="col-date-search">
                 <input type="text" class="form-control" id="BeViOrg" ng-model="Record.BeViOrg" placeholder="请输入邀请机构">
             </div>
-            
+
             <div class="col-label-search">
                 访问性质
             </div>
@@ -123,6 +124,9 @@
             </div>
             <div class="col-date-search">
                 <button class="btn base" type="button" ng-click="showEdit()" style="padding:5px 10px;" has-permission="FN03001">录入</button>
+            </div>
+            <div class="col-date-search">
+                <a class="btn base" ng-click="exportexcel()" style="padding:5px 10px;">导出</a>
             </div>
             <div class="div-clear"></div>
         </div>

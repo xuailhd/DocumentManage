@@ -4,7 +4,13 @@ using DocumentManage.Models;
 using DocumentManage.Services;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 
@@ -69,6 +75,33 @@ namespace DocumentManage.Controllers.API
             {
                 return ret.ToApiResult();
             }
+        }
+
+        //[HttpPost]
+        //public HttpResponseMessage Export(RequestOrgQDTO request)
+        //{
+        //    OrgService orgService = new OrgService();
+        //    HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+        //    var stream = new MemoryStream(Encoding.UTF8.GetBytes(orgService.Export(request)));
+        //    result.Content = new StreamContent(stream);
+        //    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+        //    result.Content.Headers.Add("Content-Disposition", "attachment;filename=\"机构列表_" + DateTime.Now.ToString("yyyy-MM-dd") + ".xls\"");
+        //    return result;
+        //}
+
+        [HttpPost]
+        public ApiResult Export(RequestOrgQDTO request)
+        {
+            OrgService orgService = new OrgService();
+
+            var rootpath = ConfigurationManager.AppSettings["rootpath"].ToString();
+            var fileid = "orgList_" + DateTime.Now.ToString("yyyy-MM-dd");
+            var filename = fileid + ".xls";
+
+            var filePath = System.IO.Path.Combine(rootpath, filename);
+
+            File.WriteAllBytes(filePath, Encoding.UTF8.GetBytes(orgService.Export(request)));
+            return fileid.ToApiResult();
         }
     }
 }

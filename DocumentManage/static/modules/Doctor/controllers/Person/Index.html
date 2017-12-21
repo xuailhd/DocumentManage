@@ -1,8 +1,9 @@
 ﻿
-<div class="main-content" ng-controller="PersonController"> 
+<div class="main-content" ng-controller="PersonController">
     <h4 class="des border-b">
         人员资料列表
     </h4>
+    <div id="exportdiv"></div>
     <form class="form-horizontal" ng-submit="onSearch()">
         <div class="search-ban">
             <div class="col-label-search">
@@ -62,12 +63,15 @@
             <div class="col-date-search">
                 <input type="text" class="form-control" id="ContactAddress" ng-model="Record.ContactAddress" placeholder="请输入联系地址">
             </div>
-            
+
             <div class="col-date-search">
                 <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
             </div>
             <div class="col-date-search">
                 <button class="btn base" type="button" ng-click="showEdit()" style="padding:5px 10px;" has-permission="FN02001">新增</button>
+            </div>
+            <div class="col-date-search">
+                <a class="btn base" ng-click="exportexcel()" style="padding:5px 10px;">导出</a>
             </div>
             <div class="div-clear"></div>
         </div>
