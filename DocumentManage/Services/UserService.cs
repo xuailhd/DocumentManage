@@ -308,6 +308,7 @@ namespace DocumentManage.Services
 
                     var olds = (from auths in db.AuthModels.Where(t => t.Type == dto.Type)
                                 join rolemap in db.AuthRoleMaps on auths.AuthID equals rolemap.AuthID
+                                where rolemap.RoleID == dto.ID
                                 select rolemap).ToList();
                     foreach (var item in olds)
                     {

@@ -1,22 +1,23 @@
 ﻿
-<div class="main-content" ng-controller="QueryController"> 
+<div class="main-content" ng-controller="QueryController">
     <h4 class="des border-b">
         综合查询
     </h4>
+    <div id="exportdiv"></div>
     <form class="form-horizontal" ng-submit="onSearch()">
         <div class="search-ban">
-            <div class="col-label-search">
-                档案编号
-            </div>
-            <div class="col-date-search">
-                <input type="text" class="form-control" id="PersonID" ng-model="Record.VisitID" placeholder="档案编号">
-            </div>
-            <div class="col-label-search">
-                档案名称
-            </div>
-            <div class="col-date-search">
-                <input type="text" class="form-control" id="VisitName" ng-model="Record.VisitName" placeholder="档案名称">
-            </div>
+            <!--<div class="col-label-search">
+        档案编号
+    </div>
+    <div class="col-date-search">
+        <input type="text" class="form-control" id="PersonID" ng-model="Record.VisitID" placeholder="档案编号">
+    </div>
+    <div class="col-label-search">
+        档案名称
+    </div>
+    <div class="col-date-search">
+        <input type="text" class="form-control" id="VisitName" ng-model="Record.VisitName" placeholder="档案名称">
+    </div>-->
             <div class="col-label-search">
                 访问类型
             </div>
@@ -47,14 +48,10 @@
             <div class="col-date-search">
                 <select id="MainDepartment" name="MainDepartment" class="form-control" ng-model="Record.MainDepartment" placeholder="">
                     <option value="">请选择主要经办部门</option>
-                    <option value="财政部">财政部</option>
-                    <option value="教育部">教育部</option>
-                    <option value="农业部">农业部</option>
-                    <option value="文化部">文化部</option>
-                    <option value="外交部">外交部</option>
-                    <option value="国防部">国防部</option>
-                    <option value="司法部">司法部</option>
-                    <option value="交通运输部">交通运输部</option>
+                    <option value="海联">海联</option>
+                    <option value="社服">社服</option>
+                    <option value="国宗">国宗</option>
+                    <option value="其他">其他</option>
                 </select>
             </div>
             <div class="div-clear"></div>
@@ -64,49 +61,7 @@
             <div class="col-date-search">
                 <input type="text" class="form-control" id="MianPerson" ng-model="Record.MianPerson" placeholder="主要经办人">
             </div>
-            <div class="col-label-search">
-                行程开始日期
-            </div>
-            <div class="col-date-search">
-                <input id="FromDate" class="form-control" datepicker size="16" type="text" ng-model="Record.FromDate" placeholder="行程开始日期"/>
-            </div>
-            <div class="col-label-search">
-                行程结束日期
-            </div>
-            <div class="col-date-search">
-                <input id="EndDate" class="form-control" datepicker size="16" type="text" ng-model="Record.EndDate" placeholder="行程结束日期"/>
-            </div>
-            <div class="col-label-search">
-                外方单位名称
-            </div>
-            <div class="col-date-search">
-                <input type="text" class="form-control" id="OurPerson" ng-model="Record.TheyOrg" placeholder="中方单位名称">
-            </div>
-            <div class="col-label-search">
-                外方人员名称
-            </div>
-            <div class="col-date-search">
-                <input type="text" class="form-control" id="OurPerson" ng-model="Record.TheyPerson" placeholder="中方人员名称">
-            </div>
-            <div class="div-clear"></div>
-            <div class="col-label-search">
-                中方单位名称
-            </div>
-            <div class="col-date-search">
-                <input type="text" class="form-control" id="OurPerson" ng-model="Record.OurOrg" placeholder="中方单位名称">
-            </div>
-            <div class="col-label-search">
-                中方人员名称
-            </div>
-            <div class="col-date-search">
-                <input type="text" class="form-control" id="OurPerson" ng-model="Record.OurPerson" placeholder="中方人员名称">
-            </div>
-            <div class="col-label-search">
-                邀请机构
-            </div>
-            <div class="col-date-search">
-                <input type="text" class="form-control" id="BeViOrg" ng-model="Record.BeViOrg" placeholder="邀请机构">
-            </div>
+
             <div class="col-label-search">
                 访问性质
             </div>
@@ -129,8 +84,126 @@
                     <option value="自费">自费</option>
                 </select>
             </div>
+            <div class="div-clear"></div>
+            <!--<div class="col-label-search">
+        行程开始日期
+    </div>
+    <div class="col-date-search">
+        <input id="FromDate" class="form-control" datepicker size="16" type="text" ng-model="Record.FromDate" placeholder="行程开始日期"/>
+    </div>
+    <div class="col-label-search">
+        行程结束日期
+    </div>
+    <div class="col-date-search">
+        <input id="EndDate" class="form-control" datepicker size="16" type="text" ng-model="Record.EndDate" placeholder="行程结束日期"/>
+    </div>-->
+            <div class="col-label-search">
+                外方人员
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" ng-model="Record.TheyPerson" placeholder="外方人员">
+            </div>
+            <div class="col-label-search">
+                头衔
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" ng-model="Record.TheyPersonTitle" placeholder="外方人员头衔">
+            </div>
+            <div class="div-clear"></div>
+            <div class="col-label-search">
+                外方机构
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" ng-model="Record.TheyOrg" placeholder="外方机构">
+            </div>
+            <div class="col-label-search">
+                级别
+            </div>
+            <div class="col-date-search">
+                <select id="Level" name="Level" class="form-control" ng-model="Record.TheyOrgLevel">
+                    <option value="">外方机构级别</option>
+                    <option value="国家">国家</option>
+                    <option value="世界">世界</option>
+                </select>
+            </div>
+            <div class="col-label-search">
+                洲
+            </div>
+            <div class="col-date-search">
+                <select id="Continent" name="Continent" class="form-control" ng-model="Record.TheyOrgContinent">
+                    <option value="">外方机构洲</option>
+                    <option value="亚洲">亚洲</option>
+                    <option value="欧洲">欧洲</option>
+                    <option value="美洲">美洲</option>
+                    <option value="非洲">非洲</option>
+                    <option value="大洋洲">大洋洲</option>
+                </select>
+            </div>
+            <div class="col-label-search">
+                国家/地区
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" ng-model="Record.TheyOrgCountry" placeholder="外方机构国家/地区">
+            </div>
+            <div class="div-clear"></div>
+
+            <div class="col-label-search">
+                中方人员
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" ng-model="Record.OurPerson" placeholder="中方人员">
+            </div>
+            <div class="col-label-search">
+                头衔
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" ng-model="Record.OurPersonTitle" placeholder="中方人员头衔">
+            </div>
+            <div class="div-clear"></div>
+            <div class="col-label-search">
+                中方机构
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" ng-model="Record.OurOrg" placeholder="中方机构">
+            </div>
+            <div class="col-label-search">
+                级别
+            </div>
+            <div class="col-date-search">
+                <select id="Level" name="Level" class="form-control" ng-model="Record.OurOrgLevel">
+                    <option value="">中方机构级别</option>
+                    <option value="国家">国家</option>
+                    <option value="世界">世界</option>
+                </select>
+            </div>
+            <div class="col-label-search">
+                国家/地区
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" ng-model="Record.OurOrgCountry" placeholder="中方机构国家/地区">
+            </div>
+            <div class="col-label-search">
+                省市
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" ng-model="Record.OurOrgProvince" placeholder="中方机构省市">
+            </div>
+            <div class="div-clear"></div>
+
+
+
+            <!--<div class="col-label-search">
+        邀请机构
+    </div>
+    <div class="col-date-search">
+        <input type="text" class="form-control" id="BeViOrg" ng-model="Record.BeViOrg" placeholder="邀请机构">
+    </div>-->
+
             <div class="col-date-search">
                 <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+            </div>
+            <div class="col-date-search">
+                <a class="btn base" ng-click="exportexcel()" style="padding:5px 10px;">导出</a>
             </div>
             <div class="div-clear"></div>
         </div>

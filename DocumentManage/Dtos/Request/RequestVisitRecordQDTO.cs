@@ -26,12 +26,19 @@ namespace DocumentManage.Dtos
         public string VisitTag { get; set; }
 
         public string OurPerson { get; set; }
-
+        public string OurPersonTitle { get; set; }
         public string OurOrg { get; set; }
+        public string OurOrgLevel { get; set; }
+        public string OurOrgCountry { get; set; }
+        public string OurOrgProvince { get; set; }
 
 
         public string TheyPerson { get; set; }
+        public string TheyPersonTitle { get; set; }
         public string TheyOrg { get; set; }
+        public string TheyOrgLevel { get; set; }
+        public string TheyOrgContinent { get; set; }
+        public string TheyOrgCountry { get; set; }
 
         public string BeViOrg { get; set; }
 

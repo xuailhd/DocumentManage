@@ -60,7 +60,6 @@ namespace DocumentManage.Controllers.API
         [HttpPost]
         public ApiResult ResetPassword([FromBody]RequestChangePasswordDTO request)
         {
-            request.ID = SecurityHelper.LoginUser.ID;
             var ret = userService.ResetPassword(request);
 
             if (ret)

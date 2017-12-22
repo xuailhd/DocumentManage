@@ -40,6 +40,28 @@ namespace DocumentManage.Dtos
         public string CreateUserName { get; set; }
 
         public DateTime CreateTime { get; set; }
+
+        public string ModifyUserName { get; set; }
+
+        public DateTime? ModifyTime { get; set; }
+
+        public List<string> MainPersons { get; set; }
+
+        public List<string> OurPersons { get; set; }
+
+        public List<string> OurOPersons { get; set; }
+
+        public List<string> TheyPersons { get; set; }
+
+        public List<string> TheyOPersons { get; set; }
+
+        public List<string> OurOrgs { get; set; }
+
+        public List<string> TheyOrgs { get; set; }
+
+        public List<string> VisitTags { get; set; }
+
+        public List<string> BeviOrgs { get; set; }
     }
 
 }

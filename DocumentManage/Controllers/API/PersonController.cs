@@ -83,7 +83,7 @@ namespace DocumentManage.Controllers.API
             PersonService personService = new PersonService();
 
             var rootpath = ConfigurationManager.AppSettings["rootpath"].ToString();
-            var fileid = "orgList_" + DateTime.Now.ToString("yyyy-MM-dd");
+            var fileid = "personList_" + DateTime.Now.ToString("yyyy-MM-dd");
             var filename = fileid + ".xls";
 
             var filePath = System.IO.Path.Combine(rootpath, filename);

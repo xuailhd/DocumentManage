@@ -8,6 +8,7 @@ using DocumentManage.Dtos;
 using DocumentManage.Common;
 using System.IO;
 using System.Configuration;
+using System.Text;
 
 namespace DocumentManage.Services
 {
@@ -445,6 +446,8 @@ namespace DocumentManage.Services
             {
                 var query = from record in db.VisitRecords
                             join ua in db.Users on record.CreateUserID equals ua.ID
+                            join uam in db.Users on record.ModifyUserID equals uam.ID into uamleft
+                            from uamEmpty in uamleft.DefaultIfEmpty()
                             join mperson in db.VisitPersons.Where(t=>t.OwenType == EnumPersonOwenType.MainHanle) on record.VisitID equals mperson.VisitID into mpersonleft
                             from mpersonempty in mpersonleft.DefaultIfEmpty()
                             join mpersoninfo in db.PersonInfos on mpersonempty.PersonID equals mpersoninfo.PersonID into mpersoninfoleft
@@ -483,6 +486,8 @@ namespace DocumentManage.Services
                                 CreateTime = record.CreateTime,
                                 CreateUserID = record.CreateUserID,
                                 CreateUserName = ua.UserName,
+                                ModifyTime = record.ModifyTime,
+                                ModifyUserName = uamEmpty.UserName,
                                 VisitTag = visittagempty.Name,
                                 MainPersonNameCN = mpersoninfoempty.NameCN,
                                 MainPersonNameEN = mpersoninfoempty.NameEN,
@@ -495,65 +500,6 @@ namespace DocumentManage.Services
                                 BeviShortNameCN = beviorginfoempty.ShortNameCN,
                                 BeviShortNameEN = beviorginfoempty.ShortNameEN,
                             };
-                #region tmp
-                //var personQuery = from vp in db.VisitPersons
-                //                  join pe in db.PersonInfos on vp.PersonID equals pe.PersonID
-                //                  select new ResponseVisitPerson()
-                //                  {
-                //                      VisitID = vp.VisitID,
-                //                      Level = vp.Level,
-                //                      NameCN = pe.NameCN,
-                //                      NameEN = pe.NameEN,
-                //                      OwenType = vp.OwenType,
-                //                      PersonID = vp.PersonID,
-                //                      VisitPersonID = vp.VisitPersonID
-                //                  };
-
-                //var orgQuery = from vo in db.VisitOrgs
-                //                  join org in db.Orgnazitions on vo.OrgID equals org.OrgID
-                //                  select new ResponseVisitOrg()
-                //                  {
-                //                      OrgID = org.OrgID,
-                //                      OwenType = vo.OwenType,
-                //                      OrgName = org.OrgName,
-                //                      OrgNameEN = org.OrgNameEN,
-                //                      ShortNameCN = org.ShortNameCN,
-                //                      ShortNameEN = org.ShortNameEN,
-                //                      VisitID = vo.VisitID,
-                //                      VisitOrgID = vo.VisitOrgID
-                //                  };
-
-                //var query = from record in db.VisitRecords
-                //            where !record.IsDeleted 
-                //            select new ResponseVisitRecordDTO()
-                //            {
-                //                VisitID = record.VisitID,
-                //                AnsLevel = record.AnsLevel,
-                //                VisType = record.VisType,
-                //                EndDate = record.EndDate,
-                //                FeeType = record.FeeType,
-                //                FromDate = record.FromDate,
-                //                IsLine = record.IsLine,
-                //                MainDepartment = record.MainDepartment,
-                //                PayType = record.PayType,
-                //                Remark = record.Remark,
-                //                TakeLevel = record.TakeLevel,
-                //                VisitFor = record.VisitFor,
-                //                VisitName = record.VisitName,
-                //                VisitTag = record.VisitTag,
-                //                VisitType = record.VisitType,
-                //                CreateUserID = record.CreateUserID,
-                //                TheyOtherPersons = personQuery.Where(t => t.VisitID == record.VisitID && t.OwenType == EnumPersonOwenType.They && t.Level == 1).ToList(),
-                //                TheyOrgs = orgQuery.Where(t => t.VisitID == request.VisitID && t.OwenType == EnumOrgOwenType.They).ToList(),
-                //                TheyMainPersons = personQuery.Where(t => t.VisitID == record.VisitID && t.OwenType == EnumPersonOwenType.They && t.Level == 0).ToList(),
-                //                MianPersons = personQuery.Where(t => t.VisitID == record.VisitID && t.OwenType == EnumPersonOwenType.MainHanle).ToList(),
-                //                OurOrgs = orgQuery.Where(t => t.VisitID == request.VisitID && t.OwenType == EnumOrgOwenType.Our).ToList(),
-                //                BeViOrgs = orgQuery.Where(t => t.VisitID == record.VisitID && t.OwenType == EnumOrgOwenType.BeVi).ToList(),
-                //                OurOtherPersons = personQuery.Where(t => t.VisitID == record.VisitID && t.OwenType == EnumPersonOwenType.Our && t.Level == 1).ToList(),
-                //                OurPersons = personQuery.Where(t => t.VisitID == record.VisitID && t.OwenType == EnumPersonOwenType.Our && t.Level == 0).ToList(),
-                //                VisitDetails = db.VisitDetails.Where(t => t.VisitID == record.VisitID).ToList(),
-                //            };
-                #endregion
 
                 #region filter
                 if (!string.IsNullOrEmpty(request.VisitID))
@@ -639,7 +585,7 @@ namespace DocumentManage.Services
                 var retquery = from da in query
                                group da by new { da.VisitID, da.AnsLevel, da.VisType,da.EndDate,da.FeeType,da.FromDate,da.IsLine,
                                da.MainDepartment,da.PayType,da.Remark,da.TakeLevel,da.VisitFor,da.VisitName,da.VisitType,
-                               da.CreateTime,da.CreateUserID,da.CreateUserName} into gro
+                               da.CreateTime,da.CreateUserID,da.CreateUserName,da.ModifyTime,da.ModifyUserName} into gro
                                select new ResponseVisitListDTO()
                                {
                                    VisitID = gro.Key.VisitID,
@@ -658,7 +604,9 @@ namespace DocumentManage.Services
                                    VisitType = gro.Key.VisitType,
                                    CreateTime = gro.Key.CreateTime,
                                    CreateUserID = gro.Key.CreateUserID,
-                                   CreateUserName = gro.Key.CreateUserName
+                                   CreateUserName = gro.Key.CreateUserName,
+                                   ModifyTime = gro.Key.ModifyTime,
+                                   ModifyUserName = gro.Key.ModifyUserName
                                };
 
                 retquery = retquery.OrderByDescending(t => t.CreateTime);
@@ -673,6 +621,8 @@ namespace DocumentManage.Services
             {
                 var query = from record in db.VisitRecords
                             join ua in db.Users on record.CreateUserID equals ua.ID
+                            join uam in db.Users on record.ModifyUserID equals uam.ID into uamleft
+                            from uamEmpty in uamleft.DefaultIfEmpty()
                             join mperson in db.VisitPersons.Where(t => t.OwenType == EnumPersonOwenType.MainHanle) on record.VisitID equals mperson.VisitID into mpersonleft
                             from mpersonempty in mpersonleft.DefaultIfEmpty()
                             join mpersoninfo in db.PersonInfos on mpersonempty.PersonID equals mpersoninfo.PersonID into mpersoninfoleft
@@ -681,10 +631,18 @@ namespace DocumentManage.Services
                             from ourpersonempty in ourpersonleft.DefaultIfEmpty()
                             join ourpersoninfo in db.PersonInfos on ourpersonempty.PersonID equals ourpersoninfo.PersonID into ourpersoninfoleft
                             from ourpersoninfoempty in ourpersoninfoleft.DefaultIfEmpty()
+                            join ouroperson in db.VisitPersons.Where(t => t.OwenType == EnumPersonOwenType.Our && t.Level == 1) on record.VisitID equals ouroperson.VisitID into ouropersonleft
+                            from ouropersonempty in ouropersonleft.DefaultIfEmpty()
+                            join ouropersoninfo in db.PersonInfos on ouropersonempty.PersonID equals ouropersoninfo.PersonID into ouropersoninfoleft
+                            from ouropersoninfoempty in ouropersoninfoleft.DefaultIfEmpty()
                             join theymperson in db.VisitPersons.Where(t => t.OwenType == EnumPersonOwenType.They && t.Level == 0) on record.VisitID equals theymperson.VisitID into theympersonleft
                             from theympersonempty in theympersonleft.DefaultIfEmpty()
                             join theympersoninfo in db.PersonInfos on theympersonempty.PersonID equals theympersoninfo.PersonID into theympersoninfoleft
                             from theympersoninfoempty in theympersoninfoleft.DefaultIfEmpty()
+                            join theyoperson in db.VisitPersons.Where(t => t.OwenType == EnumPersonOwenType.They && t.Level == 0) on record.VisitID equals theyoperson.VisitID into theyopersonleft
+                            from theyopersonempty in theyopersonleft.DefaultIfEmpty()
+                            join theyopersoninfo in db.PersonInfos on theyopersonempty.PersonID equals theyopersoninfo.PersonID into theyopersoninfoleft
+                            from theyopersoninfoempty in theyopersoninfoleft.DefaultIfEmpty()
                             join ourorg in db.VisitOrgs.Where(t => t.OwenType == EnumOrgOwenType.Our) on record.VisitID equals ourorg.VisitID into ourorgleft
                             from ourorgempty in ourorgleft.DefaultIfEmpty()
                             join ourorginfo in db.Orgnazitions on ourorgempty.OrgID equals ourorginfo.OrgID into ourorginfoleft
@@ -720,25 +678,40 @@ namespace DocumentManage.Services
                                 CreateTime = record.CreateTime,
                                 CreateUserID = record.CreateUserID,
                                 CreateUserName = ua.UserName,
+                                ModifyTime = record.ModifyTime,
+                                ModifyUserName = uamEmpty.UserName,
                                 MainPersonNameCN = mpersoninfoempty.NameCN,
                                 MainPersonNameEN = mpersoninfoempty.NameEN,
                                 TheyPersonNameCN = theympersoninfoempty.NameCN,
                                 TheyPersonNameEN = theympersoninfoempty.NameEN,
+                                TheyPersonTitle = theympersoninfoempty.Title,
+                                TheyOPersonNameCN = theyopersoninfoempty.NameCN,
+                                TheyOPersonNameEN = theyopersoninfoempty.NameEN,
+                                TheyOPersonTitle = theyopersoninfoempty.Title,
                                 TheyOrgName = theyorginfoempty.OrgName,
                                 TheyOrgNameEN = theyorginfoempty.OrgNameEN,
                                 TheyShortNameCN = theyorginfoempty.ShortNameCN,
                                 TheyShortNameEN = theyorginfoempty.ShortNameEN,
+                                TheyOrgLevel = theyorginfoempty.Level,
+                                TheyOrgContinent = theyorginfoempty.Continent,
+                                TheyOrgCountry = theyorginfoempty.Country,
                                 OurOrgName = ourorginfoempty.OrgName,
                                 OurOrgNameEN = ourorginfoempty.OrgNameEN,
                                 OurShortNameCN = ourorginfoempty.ShortNameCN,
                                 OurShortNameEN = ourorginfoempty.ShortNameEN,
+                                OurOrgLevel = ourorginfoempty.Level,
+                                OurOrgCountry = ourorginfoempty.Country,
+                                OurOrgProvince = ourorginfoempty.Province,
                                 OurPersonNameCN = ourpersoninfoempty.NameCN,
                                 OurPersonNameEN = ourpersoninfoempty.NameEN,
+                                OurPersonTitle = ourpersoninfoempty.Title,
+                                OurOPersonNameCN = ouropersoninfoempty.NameCN,
+                                OurOPersonNameEN = ouropersoninfoempty.NameEN,
+                                OurOPersonTitle = ouropersoninfoempty.Title,
                                 BeviOrgName = beviorginfoempty.OrgName,
                                 BeviOrgNameEN = beviorginfoempty.OrgNameEN,
                                 BeviShortNameCN = beviorginfoempty.ShortNameCN,
                                 BeviShortNameEN = beviorginfoempty.ShortNameEN,
-                                TheyOrgCountry = theyorginfoempty.Country,
                             };
 
                 #region filter
@@ -782,42 +755,54 @@ namespace DocumentManage.Services
                     query = query.Where(t => t.FeeType == request.FeeType);
                 }
 
-                if (!string.IsNullOrEmpty(request.BeViOrg))
-                {
-                    query = query.Where(t => t.BeviOrgName.Contains(request.BeViOrg) || t.BeviOrgNameEN.Contains(request.BeViOrg)
-                        || t.BeviShortNameCN.Contains(request.BeViOrg) || t.BeviShortNameEN.Contains(request.BeViOrg));
-                }
+                //if (!string.IsNullOrEmpty(request.BeViOrg))
+                //{
+                //    query = query.Where(t => t.BeviOrgName.Contains(request.BeViOrg) || t.BeviOrgNameEN.Contains(request.BeViOrg)
+                //        || t.BeviShortNameCN.Contains(request.BeViOrg) || t.BeviShortNameEN.Contains(request.BeViOrg));
+                //}
 
-                if (request.EndDate.HasValue)
-                {
-                    var endDate = request.EndDate.Value;
-                    query = query.Where(t => t.FromDate.Value.CompareTo(endDate) <= 0);
-                }
+                //if (request.EndDate.HasValue)
+                //{
+                //    var endDate = request.EndDate.Value;
+                //    query = query.Where(t => t.FromDate.Value.CompareTo(endDate) <= 0);
+                //}
 
-                if (request.FromDate.HasValue)
-                {
-                    var fromDate = request.FromDate.Value;
-                    query = query.Where(t => t.EndDate.Value.CompareTo(fromDate) >= 0);
-                }
+                //if (request.FromDate.HasValue)
+                //{
+                //    var fromDate = request.FromDate.Value;
+                //    query = query.Where(t => t.EndDate.Value.CompareTo(fromDate) >= 0);
+                //}
 
                 if (!string.IsNullOrEmpty(request.MainDepartment))
                 {
                     query = query.Where(t => t.MainDepartment.Contains(request.MainDepartment));
                 }
 
-                if (!string.IsNullOrEmpty(request.MianPerson))
-                {
-                    query = query.Where(t => t.MainPersonNameCN.Contains(request.MianPerson) || t.MainPersonNameEN.Contains(request.MianPerson));
-                }
+                //if (!string.IsNullOrEmpty(request.MianPerson))
+                //{
+                //    query = query.Where(t => t.MainPersonNameCN.Contains(request.MianPerson) || t.MainPersonNameEN.Contains(request.MianPerson));
+                //}
 
                 if (!string.IsNullOrEmpty(request.OurPerson))
                 {
-                    query = query.Where(t => t.OurPersonNameCN.Contains(request.OurPerson) || t.OurPersonNameEN.Contains(request.OurPerson));
+                    query = query.Where(t => t.OurPersonNameCN.Contains(request.OurPerson) || t.OurPersonNameEN.Contains(request.OurPerson)
+                        || t.OurOPersonNameCN.Contains(request.OurPerson) || t.OurOPersonNameEN.Contains(request.OurPerson));
+                }
+
+                if (!string.IsNullOrEmpty(request.OurPersonTitle))
+                {
+                    query = query.Where(t => t.OurPersonTitle.Contains(request.OurPersonTitle) || t.OurOPersonTitle.Contains(request.OurPersonTitle));
                 }
 
                 if (!string.IsNullOrEmpty(request.TheyPerson))
                 {
-                    query = query.Where(t => t.TheyPersonNameCN.Contains(request.TheyPerson) || t.TheyPersonNameEN.Contains(request.TheyPerson));
+                    query = query.Where(t => t.TheyPersonNameCN.Contains(request.TheyPerson) || t.TheyPersonNameEN.Contains(request.TheyPerson)
+                        || t.TheyOPersonNameCN.Contains(request.OurPerson) || t.TheyOPersonNameEN.Contains(request.OurPerson));
+                }
+
+                if (!string.IsNullOrEmpty(request.TheyPersonTitle))
+                {
+                    query = query.Where(t => t.TheyPersonTitle.Contains(request.TheyPersonTitle) || t.TheyOPersonTitle.Contains(request.TheyPersonTitle));
                 }
 
                 if (!string.IsNullOrEmpty(request.OurOrg))
@@ -826,11 +811,42 @@ namespace DocumentManage.Services
                         ||t.OurShortNameCN.Contains(request.OurOrg) || t.OurShortNameEN.Contains(request.OurOrg));
                 }
 
+                if (!string.IsNullOrEmpty(request.OurOrgLevel))
+                {
+                    query = query.Where(t => t.OurOrgLevel == request.OurOrgLevel);
+                }
+
+                if (!string.IsNullOrEmpty(request.OurOrgCountry))
+                {
+                    query = query.Where(t => t.OurOrgCountry.Contains(request.OurOrgCountry));
+                }
+
+                if (!string.IsNullOrEmpty(request.OurOrgProvince))
+                {
+                    query = query.Where(t => t.OurOrgProvince.Contains(request.OurOrgProvince));
+                }
+
                 if (!string.IsNullOrEmpty(request.TheyOrg))
                 {
                     query = query.Where(t => t.TheyOrgName.Contains(request.TheyOrg) || t.TheyOrgNameEN.Contains(request.TheyOrg)
                         || t.TheyShortNameCN.Contains(request.TheyOrg) || t.TheyShortNameEN.Contains(request.TheyOrg));
                 }
+
+                if (!string.IsNullOrEmpty(request.TheyOrgLevel))
+                {
+                    query = query.Where(t => t.TheyOrgLevel == request.TheyOrgLevel);
+                }
+
+                if (!string.IsNullOrEmpty(request.TheyOrgContinent))
+                {
+                    query = query.Where(t => t.TheyOrgContinent == request.TheyOrgContinent);
+                }
+
+                if (!string.IsNullOrEmpty(request.TheyOrgCountry))
+                {
+                    query = query.Where(t => t.TheyOrgCountry.Contains(request.TheyOrgCountry));
+                }
+
                 #endregion
 
                 var retquery = from da in query
@@ -852,7 +868,9 @@ namespace DocumentManage.Services
                                    da.VisitType,
                                    da.CreateTime,
                                    da.CreateUserID,
-                                   da.CreateUserName
+                                   da.CreateUserName,
+                                   da.ModifyTime,
+                                   da.ModifyUserName
                                } into gro
                                select new ResponseVisitListDTO()
                                {
@@ -872,7 +890,9 @@ namespace DocumentManage.Services
                                    VisitType = gro.Key.VisitType,
                                    CreateTime = gro.Key.CreateTime,
                                    CreateUserID = gro.Key.CreateUserID,
-                                   CreateUserName = gro.Key.CreateUserName
+                                   CreateUserName = gro.Key.CreateUserName,
+                                   ModifyTime = gro.Key.ModifyTime,
+                                   ModifyUserName = gro.Key.ModifyUserName
                                };
 
                 retquery = retquery.OrderByDescending(t => t.CreateTime);
@@ -934,6 +954,418 @@ namespace DocumentManage.Services
 
                 return false;
             }
+        }
+
+        public string ExportQuery(RequestVisitRecordQDTO request)
+        {
+            var sbHtml = new StringBuilder();
+            sbHtml.Append("<table border='1'  >");
+            sbHtml.Append("<tr>");
+
+            var lstTitle = new List<string> { "来源","档案编号", "档案名称", "访问目的", "主要经办部门", "主要经办人", "接待机构"
+                , "主要接待人员" ,"其他接待人员","来访机构","领队","其他人员","邀请机构" ,"访问性质","费用承担","支付方式","接待标准"
+                ,"是否成行","外方评分","访问标注","备注","总行程","创建者","创建日期","最后修改者","最后修改日期"};
+            foreach (var item in lstTitle)
+            {
+                sbHtml.AppendFormat("<td style='font-size: 14px;text-align:center;background-color: #DCE0E2; font-weight:bold;' height='25'>{0}</td>", item);
+            }
+            sbHtml.Append("</tr>");
+
+
+            using (var db = new DBEntities())
+            {
+                #region 查询
+                var query = from record in db.VisitRecords
+                            join ua in db.Users on record.CreateUserID equals ua.ID
+                            join uam in db.Users on record.ModifyUserID equals uam.ID into uamleft
+                            from uamEmpty in uamleft.DefaultIfEmpty()
+                            join mperson in db.VisitPersons.Where(t => t.OwenType == EnumPersonOwenType.MainHanle) on record.VisitID equals mperson.VisitID into mpersonleft
+                            from mpersonempty in mpersonleft.DefaultIfEmpty()
+                            join mpersoninfo in db.PersonInfos on mpersonempty.PersonID equals mpersoninfo.PersonID into mpersoninfoleft
+                            from mpersoninfoempty in mpersoninfoleft.DefaultIfEmpty()
+                            join ourperson in db.VisitPersons.Where(t => t.OwenType == EnumPersonOwenType.Our && t.Level == 0) on record.VisitID equals ourperson.VisitID into ourpersonleft
+                            from ourpersonempty in ourpersonleft.DefaultIfEmpty()
+                            join ourpersoninfo in db.PersonInfos on ourpersonempty.PersonID equals ourpersoninfo.PersonID into ourpersoninfoleft
+                            from ourpersoninfoempty in ourpersoninfoleft.DefaultIfEmpty()
+                            join ouroperson in db.VisitPersons.Where(t => t.OwenType == EnumPersonOwenType.Our && t.Level == 1) on record.VisitID equals ouroperson.VisitID into ouropersonleft
+                            from ouropersonempty in ouropersonleft.DefaultIfEmpty()
+                            join ouropersoninfo in db.PersonInfos on ouropersonempty.PersonID equals ouropersoninfo.PersonID into ouropersoninfoleft
+                            from ouropersoninfoempty in ouropersoninfoleft.DefaultIfEmpty()
+                            join theymperson in db.VisitPersons.Where(t => t.OwenType == EnumPersonOwenType.They && t.Level == 0) on record.VisitID equals theymperson.VisitID into theympersonleft
+                            from theympersonempty in theympersonleft.DefaultIfEmpty()
+                            join theympersoninfo in db.PersonInfos on theympersonempty.PersonID equals theympersoninfo.PersonID into theympersoninfoleft
+                            from theympersoninfoempty in theympersoninfoleft.DefaultIfEmpty()
+                            join theyoperson in db.VisitPersons.Where(t => t.OwenType == EnumPersonOwenType.They && t.Level == 0) on record.VisitID equals theyoperson.VisitID into theyopersonleft
+                            from theyopersonempty in theyopersonleft.DefaultIfEmpty()
+                            join theyopersoninfo in db.PersonInfos on theyopersonempty.PersonID equals theyopersoninfo.PersonID into theyopersoninfoleft
+                            from theyopersoninfoempty in theyopersoninfoleft.DefaultIfEmpty()
+                            join ourorg in db.VisitOrgs.Where(t => t.OwenType == EnumOrgOwenType.Our) on record.VisitID equals ourorg.VisitID into ourorgleft
+                            from ourorgempty in ourorgleft.DefaultIfEmpty()
+                            join ourorginfo in db.Orgnazitions on ourorgempty.OrgID equals ourorginfo.OrgID into ourorginfoleft
+                            from ourorginfoempty in ourorginfoleft.DefaultIfEmpty()
+                            join theyorg in db.VisitOrgs.Where(t => t.OwenType == EnumOrgOwenType.They) on record.VisitID equals theyorg.VisitID into theyorgleft
+                            from theyorgempty in theyorgleft.DefaultIfEmpty()
+                            join theyorginfo in db.Orgnazitions on theyorgempty.OrgID equals theyorginfo.OrgID into theyorginfoleft
+                            from theyorginfoempty in theyorginfoleft.DefaultIfEmpty()
+                            join beviorg in db.VisitOrgs.Where(t => t.OwenType == EnumOrgOwenType.BeVi) on record.VisitID equals beviorg.VisitID into beviorgleft
+                            from beviorgempty in beviorgleft.DefaultIfEmpty()
+                            join beviorginfo in db.Orgnazitions on beviorgempty.OrgID equals beviorginfo.OrgID into beviorginfoleft
+                            from beviorginfoempty in beviorginfoleft.DefaultIfEmpty()
+                            join visittag in db.VisitTags on record.VisitID equals visittag.VisitID into visittagleft
+                            from visittagempty in visittagleft.DefaultIfEmpty()
+                            where !record.IsDeleted
+                            select new
+                            {
+                                VisitID = record.VisitID,
+                                AnsLevel = record.AnsLevel,
+                                VisType = record.VisType,
+                                EndDate = record.EndDate,
+                                FeeType = record.FeeType,
+                                FromDate = record.FromDate,
+                                IsLine = record.IsLine,
+                                MainDepartment = record.MainDepartment,
+                                PayType = record.PayType,
+                                Remark = record.Remark,
+                                TakeLevel = record.TakeLevel,
+                                VisitFor = record.VisitFor,
+                                VisitName = record.VisitName,
+                                VisitTag = visittagempty.Name,
+                                VisitType = record.VisitType,
+                                CreateTime = record.CreateTime,
+                                CreateUserID = record.CreateUserID,
+                                CreateUserName = ua.UserName,
+                                ModifyTime = record.ModifyTime,
+                                ModifyUserName = uamEmpty.UserName,
+                                MainPersonNameCN = mpersoninfoempty.NameCN,
+                                MainPersonNameEN = mpersoninfoempty.NameEN,
+                                TheyPersonNameCN = theympersoninfoempty.NameCN,
+                                TheyPersonNameEN = theympersoninfoempty.NameEN,
+                                TheyPersonTitle = theympersoninfoempty.Title,
+                                TheyOPersonNameCN = theyopersoninfoempty.NameCN,
+                                TheyOPersonNameEN = theyopersoninfoempty.NameEN,
+                                TheyOPersonTitle = theyopersoninfoempty.Title,
+                                TheyOrgName = theyorginfoempty.OrgName,
+                                TheyOrgNameEN = theyorginfoempty.OrgNameEN,
+                                TheyShortNameCN = theyorginfoempty.ShortNameCN,
+                                TheyShortNameEN = theyorginfoempty.ShortNameEN,
+                                TheyOrgLevel = theyorginfoempty.Level,
+                                TheyOrgContinent = theyorginfoempty.Continent,
+                                TheyOrgCountry = theyorginfoempty.Country,
+                                OurOrgName = ourorginfoempty.OrgName,
+                                OurOrgNameEN = ourorginfoempty.OrgNameEN,
+                                OurShortNameCN = ourorginfoempty.ShortNameCN,
+                                OurShortNameEN = ourorginfoempty.ShortNameEN,
+                                OurOrgLevel = ourorginfoempty.Level,
+                                OurOrgCountry = ourorginfoempty.Country,
+                                OurOrgProvince = ourorginfoempty.Province,
+                                OurPersonNameCN = ourpersoninfoempty.NameCN,
+                                OurPersonNameEN = ourpersoninfoempty.NameEN,
+                                OurPersonTitle = ourpersoninfoempty.Title,
+                                OurOPersonNameCN = ouropersoninfoempty.NameCN,
+                                OurOPersonNameEN = ouropersoninfoempty.NameEN,
+                                OurOPersonTitle = ouropersoninfoempty.Title,
+                                BeviOrgName = beviorginfoempty.OrgName,
+                                BeviOrgNameEN = beviorginfoempty.OrgNameEN,
+                                BeviShortNameCN = beviorginfoempty.ShortNameCN,
+                                BeviShortNameEN = beviorginfoempty.ShortNameEN,
+                            };
+
+                #region filter
+                if (!string.IsNullOrEmpty(request.VisitID))
+                {
+                    query = query.Where(t => t.VisitID.Contains(request.VisitID));
+                }
+
+                if (!string.IsNullOrEmpty(request.UserID))
+                {
+                    query = query.Where(t => t.CreateUserID == request.UserID);
+                }
+
+                if (!string.IsNullOrEmpty(request.VisitFor))
+                {
+                    query = query.Where(t => t.VisitFor == request.VisitFor);
+                }
+
+                if (!string.IsNullOrEmpty(request.VisitName))
+                {
+                    query = query.Where(t => t.VisitName.Contains(request.VisitName));
+                }
+
+                if (!string.IsNullOrEmpty(request.VisitTag))
+                {
+                    query = query.Where(t => t.VisitTag == request.VisitTag);
+                }
+
+                if (!string.IsNullOrEmpty(request.VisitType))
+                {
+                    query = query.Where(t => t.VisitType == request.VisitType);
+                }
+
+                if (!string.IsNullOrEmpty(request.VisType))
+                {
+                    query = query.Where(t => t.VisType == request.VisType);
+                }
+
+                if (!string.IsNullOrEmpty(request.FeeType))
+                {
+                    query = query.Where(t => t.FeeType == request.FeeType);
+                }
+
+                //if (!string.IsNullOrEmpty(request.BeViOrg))
+                //{
+                //    query = query.Where(t => t.BeviOrgName.Contains(request.BeViOrg) || t.BeviOrgNameEN.Contains(request.BeViOrg)
+                //        || t.BeviShortNameCN.Contains(request.BeViOrg) || t.BeviShortNameEN.Contains(request.BeViOrg));
+                //}
+
+                //if (request.EndDate.HasValue)
+                //{
+                //    var endDate = request.EndDate.Value;
+                //    query = query.Where(t => t.FromDate.Value.CompareTo(endDate) <= 0);
+                //}
+
+                //if (request.FromDate.HasValue)
+                //{
+                //    var fromDate = request.FromDate.Value;
+                //    query = query.Where(t => t.EndDate.Value.CompareTo(fromDate) >= 0);
+                //}
+
+                if (!string.IsNullOrEmpty(request.MainDepartment))
+                {
+                    query = query.Where(t => t.MainDepartment.Contains(request.MainDepartment));
+                }
+
+                //if (!string.IsNullOrEmpty(request.MianPerson))
+                //{
+                //    query = query.Where(t => t.MainPersonNameCN.Contains(request.MianPerson) || t.MainPersonNameEN.Contains(request.MianPerson));
+                //}
+
+                if (!string.IsNullOrEmpty(request.OurPerson))
+                {
+                    query = query.Where(t => t.OurPersonNameCN.Contains(request.OurPerson) || t.OurPersonNameEN.Contains(request.OurPerson)
+                        || t.OurOPersonNameCN.Contains(request.OurPerson) || t.OurOPersonNameEN.Contains(request.OurPerson));
+                }
+
+                if (!string.IsNullOrEmpty(request.OurPersonTitle))
+                {
+                    query = query.Where(t => t.OurPersonTitle.Contains(request.OurPersonTitle) || t.OurOPersonTitle.Contains(request.OurPersonTitle));
+                }
+
+                if (!string.IsNullOrEmpty(request.TheyPerson))
+                {
+                    query = query.Where(t => t.TheyPersonNameCN.Contains(request.TheyPerson) || t.TheyPersonNameEN.Contains(request.TheyPerson)
+                        || t.TheyOPersonNameCN.Contains(request.OurPerson) || t.TheyOPersonNameEN.Contains(request.OurPerson));
+                }
+
+                if (!string.IsNullOrEmpty(request.TheyPersonTitle))
+                {
+                    query = query.Where(t => t.TheyPersonTitle.Contains(request.TheyPersonTitle) || t.TheyOPersonTitle.Contains(request.TheyPersonTitle));
+                }
+
+                if (!string.IsNullOrEmpty(request.OurOrg))
+                {
+                    query = query.Where(t => t.OurOrgName.Contains(request.OurOrg) || t.OurOrgNameEN.Contains(request.OurOrg)
+                        || t.OurShortNameCN.Contains(request.OurOrg) || t.OurShortNameEN.Contains(request.OurOrg));
+                }
+
+                if (!string.IsNullOrEmpty(request.OurOrgLevel))
+                {
+                    query = query.Where(t => t.OurOrgLevel == request.OurOrgLevel);
+                }
+
+                if (!string.IsNullOrEmpty(request.OurOrgCountry))
+                {
+                    query = query.Where(t => t.OurOrgCountry.Contains(request.OurOrgCountry));
+                }
+
+                if (!string.IsNullOrEmpty(request.OurOrgProvince))
+                {
+                    query = query.Where(t => t.OurOrgProvince.Contains(request.OurOrgProvince));
+                }
+
+                if (!string.IsNullOrEmpty(request.TheyOrg))
+                {
+                    query = query.Where(t => t.TheyOrgName.Contains(request.TheyOrg) || t.TheyOrgNameEN.Contains(request.TheyOrg)
+                        || t.TheyShortNameCN.Contains(request.TheyOrg) || t.TheyShortNameEN.Contains(request.TheyOrg));
+                }
+
+                if (!string.IsNullOrEmpty(request.TheyOrgLevel))
+                {
+                    query = query.Where(t => t.TheyOrgLevel == request.TheyOrgLevel);
+                }
+
+                if (!string.IsNullOrEmpty(request.TheyOrgContinent))
+                {
+                    query = query.Where(t => t.TheyOrgContinent == request.TheyOrgContinent);
+                }
+
+                if (!string.IsNullOrEmpty(request.TheyOrgCountry))
+                {
+                    query = query.Where(t => t.TheyOrgCountry.Contains(request.TheyOrgCountry));
+                }
+
+                #endregion
+
+                var retquery = from da in query
+                               group da by new
+                               {
+                                   da.VisitID,
+                                   da.AnsLevel,
+                                   da.VisType,
+                                   da.EndDate,
+                                   da.FeeType,
+                                   da.FromDate,
+                                   da.IsLine,
+                                   da.MainDepartment,
+                                   da.PayType,
+                                   da.Remark,
+                                   da.TakeLevel,
+                                   da.VisitFor,
+                                   da.VisitName,
+                                   da.VisitType,
+                                   da.CreateTime,
+                                   da.CreateUserID,
+                                   da.CreateUserName,
+                                   da.ModifyTime,
+                                   da.ModifyUserName
+                               } into gro
+                               select new ResponseVisitListDTO()
+                               {
+                                   VisitID = gro.Key.VisitID,
+                                   AnsLevel = gro.Key.AnsLevel,
+                                   VisType = gro.Key.VisType,
+                                   EndDate = gro.Key.EndDate,
+                                   FeeType = gro.Key.FeeType,
+                                   FromDate = gro.Key.FromDate,
+                                   IsLine = gro.Key.IsLine,
+                                   MainDepartment = gro.Key.MainDepartment,
+                                   PayType = gro.Key.PayType,
+                                   Remark = gro.Key.Remark,
+                                   TakeLevel = gro.Key.TakeLevel,
+                                   VisitFor = gro.Key.VisitFor,
+                                   VisitName = gro.Key.VisitName,
+                                   VisitType = gro.Key.VisitType,
+                                   CreateTime = gro.Key.CreateTime,
+                                   CreateUserID = gro.Key.CreateUserID,
+                                   CreateUserName = gro.Key.CreateUserName,
+                                   ModifyTime = gro.Key.ModifyTime,
+                                   ModifyUserName = gro.Key.ModifyUserName,
+                                   //MainPersons = gro.Where(t => t.VisitID == gro.Key.VisitID).GroupBy(t => t.MainPersonNameCN).Select(t => t.Key).ToList(),
+                                   //OurPersons = gro.Where(t => t.VisitID == gro.Key.VisitID).GroupBy(t => t.OurPersonNameCN).Select(t => t.Key).ToList(),
+                                   //OurOPersons = gro.Where(t => t.VisitID == gro.Key.VisitID).GroupBy(t => t.OurOPersonNameCN).Select(t => t.Key).ToList(),
+                                   //OurOrgs = gro.Where(t => t.VisitID == gro.Key.VisitID).GroupBy(t => t.OurOrgName).Select(t => t.Key).ToList(),
+                                   //TheyPersons = gro.Where(t => t.VisitID == gro.Key.VisitID).GroupBy(t => t.TheyPersonNameCN).Select(t => t.Key).ToList(),
+                                   //TheyOPersons = gro.Where(t => t.VisitID == gro.Key.VisitID).GroupBy(t => t.TheyOPersonNameCN).Select(t => t.Key).ToList(),
+                                   //TheyOrgs = gro.Where(t => t.VisitID == gro.Key.VisitID).GroupBy(t => t.TheyOrgName).Select(t => t.Key).ToList(),
+                               };
+
+                retquery = retquery.OrderByDescending(t => t.CreateTime);
+
+                var data = retquery.ToList();
+
+                var visitIDs = data.Select(t => t.VisitID).ToList();
+
+                var allorgs = (from rorg in db.VisitOrgs
+                              join org in db.Orgnazitions on rorg.OrgID equals org.OrgID
+                              where visitIDs.Contains(rorg.VisitID)
+                              select new {
+                                  org.OrgID,
+                                  org.OrgName,
+                                  rorg.OwenType,
+                                  rorg.VisitID,
+                              }).ToList();
+
+                var allpersons = (from rperson in db.VisitPersons
+                                 join person in db.PersonInfos on rperson.PersonID equals person.PersonID
+                                 where visitIDs.Contains(rperson.VisitID)
+                                 select new
+                                 {
+                                     person.PersonID,
+                                     person.NameCN,
+                                     rperson.OwenType,
+                                     rperson.VisitID,
+                                     rperson.Level
+                                 }).ToList();
+
+                var allTags = (from tag in db.VisitTags
+                                  where visitIDs.Contains(tag.VisitID)
+                                  select new
+                                  {
+                                      tag.VisitID,
+                                      tag.Name
+                                  }).ToList();
+
+
+                #endregion
+                if (data != null && data.Count > 0)
+                {
+                    foreach (var item in data)
+                    {
+                        item.MainPersons = allpersons.Where(t => t.VisitID == item.VisitID && t.OwenType == EnumPersonOwenType.MainHanle)
+                            .GroupBy(t => t.NameCN).Select(t=>t.Key) .ToList();
+
+                        item.OurPersons = allpersons.Where(t => t.VisitID == item.VisitID && t.OwenType == EnumPersonOwenType.Our && t.Level == 0)
+                            .GroupBy(t => t.NameCN).Select(t => t.Key).ToList();
+
+                        item.OurOPersons = allpersons.Where(t => t.VisitID == item.VisitID && t.OwenType == EnumPersonOwenType.Our && t.Level == 1)
+                            .GroupBy(t => t.NameCN).Select(t => t.Key).ToList();
+
+                        item.TheyPersons = allpersons.Where(t => t.VisitID == item.VisitID && t.OwenType == EnumPersonOwenType.They && t.Level == 0)
+                            .GroupBy(t => t.NameCN).Select(t => t.Key).ToList();
+
+                        item.TheyPersons = allpersons.Where(t => t.VisitID == item.VisitID && t.OwenType == EnumPersonOwenType.They && t.Level == 1)
+                            .GroupBy(t => t.NameCN).Select(t => t.Key).ToList();
+
+
+                        item.OurOrgs = allorgs.Where(t => t.VisitID == item.VisitID && t.OwenType ==  EnumOrgOwenType.Our)
+                            .GroupBy(t => t.OrgName).Select(t => t.Key).ToList();
+
+                        item.TheyOrgs = allorgs.Where(t => t.VisitID == item.VisitID && t.OwenType == EnumOrgOwenType.They)
+                            .GroupBy(t => t.OrgName).Select(t => t.Key).ToList();
+
+                        item.BeviOrgs = allorgs.Where(t => t.VisitID == item.VisitID && t.OwenType == EnumOrgOwenType.BeVi)
+                            .GroupBy(t => t.OrgName).Select(t => t.Key).ToList();
+
+                        item.VisitTags = allTags.Where(t=>t.VisitID == item.VisitID).GroupBy(t => t.Name).Select(t => t.Key).ToList();
+
+
+                        sbHtml.Append("<tr>");
+                        sbHtml.AppendFormat("<td >{0}</td>", item.VisitType);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.VisitID);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.VisitName);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.VisitFor);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.MainDepartment);
+
+                        sbHtml.AppendFormat("<td >{0}</td>", item.MainPersons == null? "" : string.Join(",", item.MainPersons));
+                        sbHtml.AppendFormat("<td >{0}</td>", item.OurOrgs == null ? "" : string.Join(",", item.OurOrgs));
+
+                        sbHtml.AppendFormat("<td >{0}</td>", item.OurPersons == null ? "" : string.Join(",", item.OurPersons));
+                        sbHtml.AppendFormat("<td >{0}</td>", item.OurOPersons == null ? "" : string.Join(",", item.OurOPersons));
+                        sbHtml.AppendFormat("<td >{0}</td>", item.TheyOrgs == null ? "" : string.Join(",", item.TheyOrgs));
+                        sbHtml.AppendFormat("<td >{0}</td>", item.TheyPersons == null ? "" : string.Join(",", item.TheyPersons));
+                        sbHtml.AppendFormat("<td >{0}</td>", item.TheyOPersons == null ? "" : string.Join(",", item.TheyOPersons));
+                        sbHtml.AppendFormat("<td >{0}</td>", item.BeviOrgs == null ? "" : string.Join(",", item.BeviOrgs));
+                        sbHtml.AppendFormat("<td >{0}</td>", item.VisType);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.FeeType);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.PayType);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.TakeLevel);
+
+                        sbHtml.AppendFormat("<td >{0}</td>", item.IsLine);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.AnsLevel);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.VisitTags == null ? "" : string.Join(",", item.VisitTags));
+                        sbHtml.AppendFormat("<td >{0}</td>", item.Remark);
+                        var dt = item.FromDate.HasValue ? item.FromDate.Value.ToString("yyyy-MM-dd HH:mm") : "";
+                        dt = dt + "--" + (item.EndDate.HasValue ? item.EndDate.Value.ToString("yyyy-MM-dd HH:mm") : "");
+                        sbHtml.AppendFormat("<td >{0}</td>", dt);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.CreateUserName);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.CreateTime.ToString("yyyy-MM-dd HH:mm"));
+                        sbHtml.AppendFormat("<td >{0}</td>", item.ModifyUserName);
+                        sbHtml.AppendFormat("<td >{0}</td>", item.ModifyTime.HasValue ? item.ModifyTime.Value.ToString("yyyy-MM-dd HH:mm") : "");
+                        sbHtml.Append("</tr>");
+                    }
+                    return sbHtml.ToString();
+                }
+            }
+            return "";
         }
     }
 }

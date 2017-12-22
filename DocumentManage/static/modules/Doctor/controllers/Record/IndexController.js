@@ -49,8 +49,10 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                     }
 
                     $scope.exportexcel = function () {
+                        var loading = layer.load(0, { shade: [0.1, '#000'] });
                         //请求
                         apiUtil.requestWebApi("Record/Export", "Post", $scope.Record, function (response) {
+                            layer.close(loading);
                             if (response.Status == 0) {
                                 $("#submitForm").remove();
                                 var path = "api/store/download/" + response.Data;
@@ -67,6 +69,7 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                             }
                         }, function (response) {
                             layer.msg(response.Msg);
+                            layer.close(loading);
                         });
                     };
 

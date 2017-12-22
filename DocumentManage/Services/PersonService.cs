@@ -199,7 +199,7 @@ namespace DocumentManage.Services
         {
             using (var db = new DBEntities())
             {
-                var query = from per in db.PersonInfos.Where(t => !t.IsDeleted && t.PersonID == request.PersonID)
+                var query = from per in db.PersonInfos.Where(t => !t.IsDeleted)
                             join uac in db.Users on per.CreateUserID equals uac.ID
                             join uam in db.Users on per.ModifyUserID equals uam.ID into uamleft
                             from uamEmpty in uamleft.DefaultIfEmpty()

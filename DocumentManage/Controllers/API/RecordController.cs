@@ -5,7 +5,10 @@ using DocumentManage.Models;
 using DocumentManage.Services;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 
@@ -80,6 +83,21 @@ namespace DocumentManage.Controllers.API
             {
                 return ret.ToApiResult();
             }
+        }
+
+        [HttpPost]
+        public ApiResult Export(RequestVisitRecordQDTO request)
+        {
+            PersonService personService = new PersonService();
+
+            var rootpath = ConfigurationManager.AppSettings["rootpath"].ToString();
+            var fileid = "recordList_" + DateTime.Now.ToString("yyyy-MM-dd");
+            var filename = fileid + ".xls";
+
+            var filePath = System.IO.Path.Combine(rootpath, filename);
+
+            File.WriteAllBytes(filePath, Encoding.UTF8.GetBytes(recordService.ExportQuery(request)));
+            return fileid.ToApiResult();
         }
     }
 }

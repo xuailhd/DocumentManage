@@ -52,6 +52,31 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                         });
                     }
 
+                    $scope.exportexcel = function () {
+                        //请求
+                        var loading = layer.load(0, { shade: [0.1, '#000'] });
+                        apiUtil.requestWebApi("Record/Export", "Post", $scope.Record, function (response) {
+                            layer.close(loading);
+                            if (response.Status == 0) {
+                                $("#submitForm").remove();
+                                var path = "api/store/download/" + response.Data;
+
+                                var html = '<form method="get" id="submitForm" action="' + path + '" >';
+                                html += '<input name="fileName" type="hidden"/>';
+                                html += '</form>';
+
+                                $("#exportdiv").append(html);
+                                $("#submitForm").submit();
+                            }
+                            else {
+                                layer.msg(response.Msg);
+                            }
+                        }, function (response) {
+                            layer.msg(response.Msg);
+                            layer.close(loading);
+                        });
+                    };
+
                     //患者详细页面
                     $scope.showEdit = function () {
                         $state.go("Index.RecordEdit");
