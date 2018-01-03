@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
-                            <span style="float:right">来源</span>
+                            <span style="float:right"><em>*</em>来源</span>
                         </div>
                         <div class="col-md-8">
                             <select id="VisitType" name="VisitType" class="form-control" ng-model="Record.VisitType" ng-change="getWaterNo()">
@@ -22,7 +22,7 @@
                     </div>
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
-                            <span style="float:right"><em>*</em>档案编号</span>
+                            <span style="float:right">档案编号</span>
                         </div>
                         <div class="col-md-8">
                             <input id="VisitID" class="form-control" name="VisitID" type="text" ng-model="Record.VisitID" disabled />
@@ -33,282 +33,293 @@
                             <span style="float:right"><em>*</em>档案名称</span>
                         </div>
                         <div class="col-md-8">
-                            <input id="VisitName" class="form-control" name="VisitName" type="text" ng-model="Record.VisitName" 
-                                   validate="{required:true, messages:{required:'请输入档案名称'}}"/>
+                            <input id="VisitName" class="form-control" name="VisitName" type="text" ng-model="Record.VisitName"
+                                   validate="{required:true, messages:{required:'请输入档案名称'}}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>访问目的</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="VisitFor" name="VisitFor" class="form-control" ng-model="Record.VisitFor" 
+                                    validate="{required:true,selected:true,messages:{required:'请选择访问目的',selected:'请选择访问目的'}}">
+                                <option value="友好访问">友好访问</option>
+                                <option value="会议">会议</option>
+                                <option value="特别活动">特别活动</option>
+                                <option value="培训">培训</option>
+                                <option value="讲课">讲课</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>主要经办部门</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="MainDepartment" name="MainDepartment" class="form-control" ng-model="Record.MainDepartment"
+                                    validate="{required:true,selected:true,messages:{required:'请选择主要经办部门',selected:'请选择主要经办部门'}}">
+                                <option value="海联">海联</option>
+                                <option value="社服">社服</option>
+                                <option value="国宗">国宗</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>主要经办人</span>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="MianPersonStr" class="form-control" name="MianPersonStr" type="text" ng-model="Record.MianPersonStr" 
+                                   validate="{required:true,messages:{required:'请选择主要经办人'}}"/>
+                        </div>
+                        <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                            <a ng-click="onAddMianPerson()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                            <a ng-click="onCleanMianPerson()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>接待机构</span>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="OurOrgStr" class="form-control" name="OurOrgStr" type="text" ng-model="Record.OurOrgStr" 
+                                   validate="{required:true,messages:{required:'请选择接待机构'}}"/>
+                        </div>
+                        <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                            <a ng-click="onAddOurOrg()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                            <a ng-click="onCleanOurOrg()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">接待人员</span>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="OurPersonStr" class="form-control" name="OurPersonStr" type="text" ng-model="Record.OurPersonStr" />
+                        </div>
+                        <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                            <a ng-click="onAddOurPerson()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                            <a ng-click="onCleanOurPerson()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">其他接待人员</span>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="OurOtherPersonStr" class="form-control" name="OurOtherPersonStr" type="text" ng-model="Record.OurOtherPersonStr" />
+                        </div>
+                        <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                            <a ng-click="onAddOurOtherPerson()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                            <a ng-click="onCleanOurOtherPerson()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>来访机构</span>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="TheyOrgStr" class="form-control" name="TheyOrgStr" type="text" ng-model="Record.TheyOrgStr" 
+                                   validate="{required:true,messages:{required:'请选择来访机构'}}"/>
+                        </div>
+                        <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                            <a ng-click="onAddTheyOrg()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                            <a ng-click="onCleanTheyOrg()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">领队</span>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="TheyPersonStr" class="form-control" name="TheyPersonStr" type="text" ng-model="Record.TheyPersonStr" />
+                        </div>
+                        <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                            <a ng-click="onAddTheyPerson()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                            <a ng-click="onCleanTheyPerson()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">其他来访人员</span>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="TheyOtherPersonStr" class="form-control" name="TheyOtherPersonStr" type="text" ng-model="Record.TheyOtherPersonStr" />
+                        </div>
+                        <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                            <a ng-click="onAddTheyOtherPerson()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                            <a ng-click="onCleanTheyOtherPerson()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>邀请机构</span>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="BeViOrgStr" class="form-control" name="BeViOrgStr" type="text" ng-model="Record.BeViOrgStr" 
+                                   validate="{required:true,messages:{required:'请选择邀请机构'}}"/>
+                        </div>
+                        <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                            <a ng-click="onAddBeViOrg()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                            <a ng-click="onCleanBeViOrg()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>访问性质</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="VisType" name="VisType" class="form-control" ng-model="Record.VisType"
+                                    validate="{required:true,selected:true,messages:{required:'请选择访问性质',selected:'请选择访问性质'}}">
+                                <option value="正式">正式</option>
+                                <option value="散客">散客</option>
+                                <option value="上级安排">上级安排</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>费用承担</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="FeeType" name="FeeType" class="form-control" ng-model="Record.FeeType"
+                                    validate="{required:true,selected:true,messages:{required:'请选择费用承担',selected:'请选择费用承担'}}">
+                                <option value="公费">公费</option>
+                                <option value="自费">自费</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">支付方式</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="PayType" name="PayType" class="form-control" ng-model="Record.PayType">
+                                <option value="报销">报销</option>
+                                <option value="预付">预付</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">接待标准</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="TakeLevel" name="TakeLevel" class="form-control" ng-model="Record.TakeLevel">
+                                <option value="一级">一级</option>
+                                <option value="二级">二级</option>
+                                <option value="三级">三级</option>
+                                <option value="四级">四级</option>
+                                <option value="五级">五级</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>是否成行</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="IsLine" name="IsLine" class="form-control" ng-model="Record.IsLine"
+                                    validate="{required:true,selected:true,messages:{required:'请选择是否成行',selected:'请选择是否成行'}}">
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">外方评分</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="AnsLevel" name="AnsLevel" class="form-control" ng-model="Record.AnsLevel">
+                                <option value="一星">一星</option>
+                                <option value="二星">二星</option>
+                                <option value="三星">三星</option>
+                                <option value="四星">四星</option>
+                                <option value="五星">五星</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>访问标注</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="selectpicker" ng-model="Record.VisitTags" 
+                                    validate="{required:true,selected:true,messages:{required:'请选择访问标注',selected:'请选择访问标注'}}"
+                                     multiple>
+                                <option ng-repeat="item in VisitTagOps" ng-value="item" on-finish-render-filters>{{item}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">备注</span>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea rows="4" id="Remark" class="form-control" name="Remark" type="text" ng-model="Record.Remark" />
                         </div>
                     </div>
                 </div>
             </form>
-            <div class="row">
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right"><em>*</em>访问目的</span>
-                    </div>
-                    <div class="col-md-8">
-                        <select id="VisitFor" name="VisitFor" class="form-control" ng-model="Record.VisitFor">
-                            <option value="友好访问">友好访问</option>
-                            <option value="会议">会议</option>
-                            <option value="特别活动">特别活动</option>
-                            <option value="培训">培训</option>
-                            <option value="讲课">讲课</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">主要经办部门</span>
-                    </div>
-                    <div class="col-md-8">
-                        <select id="MainDepartment" name="MainDepartment" class="form-control" ng-model="Record.MainDepartment">    
-                            <option value="海联">海联</option>
-                            <option value="社服">社服</option>
-                            <option value="国宗">国宗</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">主要经办人</span>
-                    </div>
-                    <div class="col-md-7">
-                        <input id="MianPersonStr" class="form-control" name="MianPersonStr" type="text" ng-model="Record.MianPersonStr" />
-                    </div>
-                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
-                        <a ng-click="onAddMianPerson()">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </a>
-                        <a ng-click="onCleanMianPerson()">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">接待机构</span>
-                    </div>
-                    <div class="col-md-7">
-                        <input id="OurOrgStr" class="form-control" name="OurOrgStr" type="text" ng-model="Record.OurOrgStr" />
-                    </div>
-                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
-                        <a ng-click="onAddOurOrg()">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </a>
-                        <a ng-click="onCleanOurOrg()">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">接待人员</span>
-                    </div>
-                    <div class="col-md-7">
-                        <input id="OurPersonStr" class="form-control" name="OurPersonStr" type="text" ng-model="Record.OurPersonStr" />
-                    </div>
-                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
-                        <a ng-click="onAddOurPerson()">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </a>
-                        <a ng-click="onCleanOurPerson()">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">其他接待人员</span>
-                    </div>
-                    <div class="col-md-7">
-                        <input id="OurOtherPersonStr" class="form-control" name="OurOtherPersonStr" type="text" ng-model="Record.OurOtherPersonStr" />
-                    </div>
-                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
-                        <a ng-click="onAddOurOtherPerson()">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </a>
-                        <a ng-click="onCleanOurOtherPerson()">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">来访机构</span>
-                    </div>
-                    <div class="col-md-7">
-                        <input id="TheyOrgStr" class="form-control" name="TheyOrgStr" type="text" ng-model="Record.TheyOrgStr" />
-                    </div>
-                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
-                        <a ng-click="onAddTheyOrg()">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </a>
-                        <a ng-click="onCleanTheyOrg()">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">来访领队</span>
-                    </div>
-                    <div class="col-md-7">
-                        <input id="TheyPersonStr" class="form-control" name="TheyPersonStr" type="text" ng-model="Record.TheyPersonStr" />
-                    </div>
-                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
-                        <a ng-click="onAddTheyPerson()">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </a>
-                        <a ng-click="onCleanTheyPerson()">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">其他来访人员</span>
-                    </div>
-                    <div class="col-md-7">
-                        <input id="TheyOtherPersonStr" class="form-control" name="TheyOtherPersonStr" type="text" ng-model="Record.TheyOtherPersonStr" />
-                    </div>
-                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
-                        <a ng-click="onAddTheyOtherPerson()">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </a>
-                        <a ng-click="onCleanTheyOtherPerson()">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">邀请机构</span>
-                    </div>
-                    <div class="col-md-7">
-                        <input id="BeViOrgStr" class="form-control" name="BeViOrgStr" type="text" ng-model="Record.BeViOrgStr" />
-                    </div>
-                    <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
-                        <a ng-click="onAddBeViOrg()">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </a>
-                        <a ng-click="onCleanBeViOrg()">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">访问性质</span>
-                    </div>
-                    <div class="col-md-8">
-                        <select id="VisType" name="VisType" class="form-control" ng-model="Record.VisType">
-                            <option value="正式">正式</option>
-                            <option value="散客">散客</option>
-                            <option value="上级安排">上级安排</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">费用承担</span>
-                    </div>
-                    <div class="col-md-8">
-                        <select id="FeeType" name="FeeType" class="form-control" ng-model="Record.FeeType">
-                            <option value="公费">公费</option>
-                            <option value="自费">自费</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">支付方式</span>
-                    </div>
-                    <div class="col-md-8">
-                        <select id="PayType" name="PayType" class="form-control" ng-model="Record.PayType">
-                            <option value="报销">报销</option>
-                            <option value="预付">预付</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">接待标准</span>
-                    </div>
-                    <div class="col-md-8">
-                        <select id="TakeLevel" name="TakeLevel" class="form-control" ng-model="Record.TakeLevel">
-                            <option value="一级">一级</option>
-                            <option value="二级">二级</option>
-                            <option value="三级">三级</option>
-                            <option value="四级">四级</option>
-                            <option value="五级">五级</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">是否成行</span>
-                    </div>
-                    <div class="col-md-8">
-                        <select id="IsLine" name="IsLine" class="form-control" ng-model="Record.IsLine">
-                            <option value="是">是</option>
-                            <option value="否">否</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">外方评分</span>
-                    </div>
-                    <div class="col-md-8">
-                        <select id="AnsLevel" name="AnsLevel" class="form-control" ng-model="Record.AnsLevel">
-                            <option value="一星">一星</option>
-                            <option value="二星">二星</option>
-                            <option value="三星">三星</option>
-                            <option value="四星">四星</option>
-                            <option value="五星">五星</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">访问标注</span>
-                    </div>
-                    <div class="col-md-8">
-                        <select class="selectpicker" ng-model="Record.VisitTags" multiple>
-                            <option ng-repeat="item in VisitTagOps" ng-value="item" on-finish-render-filters>{{item}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">备注</span>
-                    </div>
-                    <div class="col-md-8">
-                        <textarea id="Remark" class="form-control" name="Remark" type="text" ng-model="Record.Remark" />
-                    </div>
-                </div>
-            </div>
-
             <div class="row col-md-offset-1 col-md-10">
                 <label>
-                    总行程： {{Record.FromDate}}----{{Record.EndDate}}
+                    总行程： {{Record.FromDate}}~~{{Record.EndDate}}
                 </label>
                 <form form-validate id="myForm1">
                     <table class="table table-responsive table-bordered">

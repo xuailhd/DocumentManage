@@ -21,6 +21,9 @@ namespace DocumentManage.Dtos
         public DateTime? FromDate { get; set; }
         public DateTime? EndDate { get; set; }
 
+        public string MianPersonStr { get; set; }
+        public string TheyPersonStr { get; set; }
+
         public string VisType { get; set; }
 
         public string FeeType { get; set; }

@@ -92,6 +92,7 @@ namespace DocumentManage.Services
                                 CreateUserName = uac.UserName,
                                 Email1 = org.Email1,
                                 Email2 = org.Email2,
+                                Tax = org.Tax,
                                 FromType = org.FromType,
                                 Level = org.Level,
                                 ModifyTime = org.ModifyTime,

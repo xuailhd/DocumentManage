@@ -73,6 +73,15 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                         });
                     };
 
+                    $scope.VisitTagOps = ['全国两会', '国宗', '统战部', '政府机构', '访问院校', '其他'];
+                    $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+                        // 下拉菜单多选
+                        $('.selectpicker').selectpicker({
+                            size: 'auto',
+                            noneSelectedText: '请选择访问标注'
+                        })
+                    });
+
                     //患者详细页面
                     $scope.showEdit = function () {
                         $state.go("Index.RecordEdit");

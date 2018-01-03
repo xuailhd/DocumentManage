@@ -607,11 +607,41 @@ namespace DocumentManage.Services
                                    CreateUserName = gro.Key.CreateUserName,
                                    ModifyTime = gro.Key.ModifyTime,
                                    ModifyUserName = gro.Key.ModifyUserName
+                                    
                                };
 
                 retquery = retquery.OrderByDescending(t => t.CreateTime);
 
-                return retquery.ToPagedList(request.PageIndex, request.PageSize);
+                var ret = retquery.ToPagedList(request.PageIndex, request.PageSize);
+
+                if(ret!=null && ret.Count > 0)
+                {
+                    var visitIDs = ret.Select(t => t.VisitID).ToList();
+
+                    var allpersons = (from rperson in db.VisitPersons
+                                      join person in db.PersonInfos on rperson.PersonID equals person.PersonID
+                                      where visitIDs.Contains(rperson.VisitID)
+                                      select new
+                                      {
+                                          person.PersonID,
+                                          person.NameCN,
+                                          rperson.OwenType,
+                                          rperson.VisitID,
+                                          rperson.Level
+                                      }).ToList();
+
+                    ret.ForEach(t =>
+                    {
+                        t.MianPersonStr = string.Join(",", allpersons.Where(q => q.VisitID == t.VisitID && q.OwenType == EnumPersonOwenType.MainHanle)
+                            .Select(q => q.NameCN).ToList());
+
+                        t.TheyPersonStr = string.Join(",", allpersons.Where(q => q.VisitID == t.VisitID && q.OwenType == EnumPersonOwenType.They && q.Level == 0)
+                            .Select(q => q.NameCN).ToList());
+                    });
+
+                }
+
+                return ret;
             }
         }
 

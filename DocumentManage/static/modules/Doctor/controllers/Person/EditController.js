@@ -123,10 +123,10 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                     }
 
                     $scope.onSubmit = function () {
-                        if (!$("#OrgName").valid()) {
+                        if (!$("#myForm").valid()) {
                             return;
                         }
-                        if (!$("#NameCN").valid()) {
+                        if (!$("#myForm2").valid()) {
                             return;
                         }
 

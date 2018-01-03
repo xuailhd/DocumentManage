@@ -79,14 +79,13 @@
             <thead>
                 <tr>
                     <th>来源</th>
-                    <th>人员编号</th>
                     <th>人员名</th>
                     <th>英文名</th>
+                    <th>性别</th>
                     <th>机构名称</th>
                     <th>标签</th>
                     <th>电话</th>
-                    <th>手机号</th>
-                    <th>出生年月</th>
+                    <th>邮箱</th>
                     <th>国籍</th>
                     <th style="text-align:center">{{'lblOperator'|translate}}</th>
                 </tr>
@@ -99,14 +98,13 @@
             <tbody>
                 <tr ng-repeat="item in ListItems">
                     <td>{{item.FromType}}</td>
-                    <td>{{item.PersonID}}</td>
                     <td>{{item.NameCN}}</td>
                     <td>{{item.NameEN}}</td>
+                    <td>{{item.Sex}}</td>
                     <td>{{item.OrgName}}</td>
                     <td class="TagClass{{item.Tag}}"></td>
                     <td>{{item.Tel1}}</td>
-                    <td>{{item.Mobile1}}</td>
-                    <td>{{item.Birth}}</td>
+                    <td>{{item.Email1}}</td>
                     <td>{{item.Nationality}}</td>
                     <td style="text-align:center">
                         <a class="btn btn-info" ui-sref='Index.PersonEdit({PersonID:"{{item.PersonID}}"})' has-permission="FN02001">

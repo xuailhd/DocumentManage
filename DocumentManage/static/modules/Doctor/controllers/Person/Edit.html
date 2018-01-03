@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
-                            <span style="float:right"><em>*</em>人员编号</span>
+                            <span style="float:right">人员编号</span>
                         </div>
                         <div class="col-md-8">
                             <input id="OrgID" class="form-control" name="OrgID" type="text" ng-model="Record.PersonID" disabled />
@@ -60,10 +60,11 @@
                     </div>
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
-                            <span style="float:right">英文名</span>
+                            <span style="float:right"><em>*</em>英文名</span>
                         </div>
                         <div class="col-md-8">
-                            <input id="NameEN" class="form-control" name="NameEN" type="text" ng-model="Record.NameEN" />
+                            <input id="NameEN" class="form-control" name="NameEN" type="text" ng-model="Record.NameEN" 
+                                   validate="{required:true, messages:{required:'请输入英文名'}}"/>
                         </div>
                     </div>
                     <div class="col-xs-4 form-group">
@@ -228,91 +229,94 @@
                     </div>
                 </div>
             </div>
+            <form form-validate id="myForm2">
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>邮箱</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="Email" class="form-control" name="Email" type="text" ng-model="Record.Email"
+                                   validate="{required:true, messages:{required:'请输入邮箱'}}" />
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">电话1</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="Tel1" class="form-control" name="Tel1" type="text" ng-model="Record.Tel1" />
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">电话2</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="Tel2" class="form-control" name="Tel2" type="text" ng-model="Record.Tel2" />
+                        </div>
+                    </div>
+                </div>
 
-            <div class="row">
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">邮箱</span>
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">手机1</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="Mobile1" class="form-control" name="Mobile1" type="text" ng-model="Record.Mobile1" />
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <input id="Email" class="form-control" name="Email" type="text" ng-model="Record.Email" />
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">手机2</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="Mobile2" class="form-control" name="Mobile2" type="text" ng-model="Record.Mobile2" />
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">联系地址</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="ContactAddress" class="form-control" name="ContactAddress" type="text" ng-model="Record.ContactAddress" />
+                        </div>
                     </div>
                 </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">电话1</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input id="Tel1" class="form-control" name="Tel1" type="text" ng-model="Record.Tel1" />
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">电话2</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input id="Tel2" class="form-control" name="Tel2" type="text" ng-model="Record.Tel2" />
-                    </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">手机1</span>
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">出生年月</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="Birth" class="form-control" name="Birth" datepicker size="16" ng-model="Record.Birth" />
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <input id="Mobile1" class="form-control" name="Mobile1" type="text" ng-model="Record.Mobile1" />
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>性别</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="Sex" name="Sex" class="form-control" ng-model="Record.Sex"
+                                    validate="{required:true,selected:true,messages:{required:'请选择性别',selected:'请选择性别'}}">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">手机2</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input id="Mobile2" class="form-control" name="Mobile2" type="text" ng-model="Record.Mobile2" />
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">联系地址</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input id="ContactAddress" class="form-control" name="ContactAddress" type="text" ng-model="Record.ContactAddress" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">出生年月</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input id="Birth" class="form-control" name="Birth" datepicker size="16" ng-model="Record.Birth" />
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>国籍</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="Nationality" class="form-control" name="Nationality" type="text" ng-model="Record.Nationality"
+                                   validate="{required:true, messages:{required:'请输入国籍'}}" />
+                        </div>
                     </div>
                 </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">性别</span>
-                    </div>
-                    <div class="col-md-8">
-                        <select id="Sex" name="Sex" class="form-control" ng-model="Record.Sex">
-                            <option value="男">男</option>
-                            <option value="女">女</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-4 form-group">
-                    <div class="col-md-4" style="line-height:30px">
-                        <span style="float:right">国籍</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input id="Nationality" class="form-control" name="Nationality" type="text" ng-model="Record.Nationality" />
-                    </div>
-                </div>
-            </div>
-
+            </form>
             <div class="row">
                 <div class="col-xs-4 form-group">
                     <div class="col-md-4" style="line-height:30px">
@@ -352,11 +356,11 @@
                         <span style="float:right">其他说明</span>
                     </div>
                     <div class="col-md-8">
-                        <textarea id="Remark" class="form-control" name="Remark" type="text" ng-model="Record.Remark" />
+                        <textarea rows="4" id="Remark" class="form-control" name="Remark" type="text" ng-model="Record.Remark" />
                     </div>
                 </div>
             </div>
-        </div>
+</div>
     </div>
     <div class="text-center">
         <input type="button" class="btn btn-info m-r-5" value="{{'btnSave'|translate}}" ng-click="onSubmit()" has-permission="FN02001"/>

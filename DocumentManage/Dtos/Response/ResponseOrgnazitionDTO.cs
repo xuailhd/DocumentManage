@@ -55,7 +55,7 @@ namespace DocumentManage.Dtos
         public string Email1 { get; set; }
 
         public string Email2 { get; set; }
-
+        public string Tax { get; set; }
         public string Remark { get; set; }
 
         public string CreateUserID { get; set; }

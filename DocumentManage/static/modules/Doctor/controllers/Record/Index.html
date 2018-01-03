@@ -115,6 +115,20 @@
                     <option value="自费">自费</option>
                 </select>
             </div>
+            <div class="col-label-search">
+                访问标注
+            </div>
+            <div class="col-date-search">
+                <select id="VisitTag" name="VisitTag" class="form-control" ng-model="Record.VisitTag">
+                    <option value="">请选择访问标注</option>
+                    <option value="全国两会">全国两会</option>
+                    <option value="国宗">国宗</option>
+                    <option value="统战部">统战部</option>
+                    <option value="政府机构">政府机构</option>
+                    <option value="访问院校">访问院校</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
             <div class="col-date-search">
                 <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
             </div>
@@ -129,11 +143,12 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>访问类型</th>
-                    <th>档案编号</th>
+                    <th>访问类型</th>   
                     <th>档案名称</th>
                     <th>访问目的</th>
                     <th>主要经办部门</th>
+                    <th>主要经办人</th>
+                    <th>领队</th>
                     <th>总行程</th>
                     <th>访问性质</th>
                     <th>费用承担</th>
@@ -148,11 +163,12 @@
             <tbody>
                 <tr ng-repeat="item in ListItems">
                     <td>{{item.VisitType}}</td>
-                    <td>{{item.VisitID}}</td>
                     <td>{{item.VisitName}}</td>
                     <td>{{item.VisitFor}}</td>
                     <td>{{item.MainDepartment}}</td>
-                    <td>{{item.FromDate}}-{{item.EndDate}}</td>
+                    <td>{{item.MianPersonStr}}</td>
+                    <td>{{item.TheyPersonStr}}</td>
+                    <td>{{item.FromDate}}~~{{item.EndDate}}</td>
                     <td>{{item.VisType}}</td>
                     <td>{{item.FeeType}}</td>
                     <td style="text-align:center">
