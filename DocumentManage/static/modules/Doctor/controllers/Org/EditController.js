@@ -146,6 +146,9 @@ define(["module-services-apiUtil","jquery-validate"], function (apiUtil) {
                     }
 
                     $scope.onSubmit = function () {
+                        if (!$("#myForm").valid()) {
+                            return;
+                        }
                         //请求
                         apiUtil.requestWebApi("Org/Edit", "Post", $scope.Record, function (response) {
                             if (response.Status == 0) {
@@ -203,7 +206,7 @@ define(["module-services-apiUtil","jquery-validate"], function (apiUtil) {
                         $scope.onLoad();
                     }
                     else {
-                        $scope.Record = { FromType: '外方', Continent: '亚洲', Tag: '' };
+                        $scope.Record = { FromType: '外方', Continent: '亚洲', Tag: '', Level: '国家' };
                         $scope.onTagChange();
                         $scope.getWaterNo();
                     }

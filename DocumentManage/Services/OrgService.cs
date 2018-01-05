@@ -40,7 +40,9 @@ namespace DocumentManage.Services
                     model.ShortNameCN = request.ShortNameCN;
                     model.ShortNameEN = request.ShortNameEN;
                     model.Tag = request.Tag;
-                    model.Tel1 = request.Tel2;
+                    model.Tel1 = request.Tel1;
+                    model.Tel2 = request.Tel2;
+                    model.Tax = request.Tax;
                     model.WorkAddress = request.WorkAddress;
                     model.WorkTime = request.WorkTime;
                     model.Address = request.Address;
