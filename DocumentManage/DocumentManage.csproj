@@ -2596,8 +2596,10 @@
     <Content Include="static\modules\Doctor\app.js" />
     <Content Include="static\modules\Doctor\bootstrap.js" />
     <Content Include="static\modules\Doctor\controllers\Manage\RoleList.html" />
+    <Content Include="static\modules\Doctor\controllers\Manage\LoginLog.html" />
     <Content Include="static\modules\Doctor\controllers\Manage\UserList.html" />
     <Content Include="static\modules\Doctor\controllers\Manage\RoleListController.js" />
+    <Content Include="static\modules\Doctor\controllers\Manage\LoginLogController.js" />
     <Content Include="static\modules\Doctor\controllers\Manage\UserListController.js" />
     <Content Include="static\modules\Doctor\controllers\Manage\Index.html" />
     <Content Include="static\modules\Doctor\controllers\Manage\IndexController.js" />

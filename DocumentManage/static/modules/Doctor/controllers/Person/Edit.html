@@ -8,7 +8,7 @@
     
     <div class="form-horizontal">
         <div class="doctor-input add-form m-t-25">
-            <form form-validate id="myForm">
+            <form formvalidate id="myForm">
                 <div class="row">
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
@@ -229,7 +229,7 @@
                     </div>
                 </div>
             </div>
-            <form form-validate id="myForm2">
+            <form formvalidate id="myForm2">
                 <div class="row">
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
@@ -301,6 +301,7 @@
                         <div class="col-md-8">
                             <select id="Sex" name="Sex" class="form-control" ng-model="Record.Sex"
                                     validate="{required:true,selected:true,messages:{required:'请选择性别',selected:'请选择性别'}}">
+                                <option value=""></option>
                                 <option value="男">男</option>
                                 <option value="女">女</option>
                             </select>

@@ -47,6 +47,7 @@
                         <div class="col-md-8">
                             <select id="VisitFor" name="VisitFor" class="form-control" ng-model="Record.VisitFor" 
                                     validate="{required:true,selected:true,messages:{required:'请选择访问目的',selected:'请选择访问目的'}}">
+                                <option value=""></option>
                                 <option value="友好访问">友好访问</option>
                                 <option value="会议">会议</option>
                                 <option value="特别活动">特别活动</option>
@@ -63,6 +64,7 @@
                         <div class="col-md-8">
                             <select id="MainDepartment" name="MainDepartment" class="form-control" ng-model="Record.MainDepartment"
                                     validate="{required:true,selected:true,messages:{required:'请选择主要经办部门',selected:'请选择主要经办部门'}}">
+                                <option value=""></option>
                                 <option value="海联">海联</option>
                                 <option value="社服">社服</option>
                                 <option value="国宗">国宗</option>
@@ -218,6 +220,7 @@
                         <div class="col-md-8">
                             <select id="VisType" name="VisType" class="form-control" ng-model="Record.VisType"
                                     validate="{required:true,selected:true,messages:{required:'请选择访问性质',selected:'请选择访问性质'}}">
+                                <option value=""></option>
                                 <option value="正式">正式</option>
                                 <option value="散客">散客</option>
                                 <option value="上级安排">上级安排</option>
@@ -232,6 +235,7 @@
                         <div class="col-md-8">
                             <select id="FeeType" name="FeeType" class="form-control" ng-model="Record.FeeType"
                                     validate="{required:true,selected:true,messages:{required:'请选择费用承担',selected:'请选择费用承担'}}">
+                                <option value=""></option>
                                 <option value="公费">公费</option>
                                 <option value="自费">自费</option>
                             </select>
@@ -258,6 +262,7 @@
                         </div>
                         <div class="col-md-8">
                             <select id="TakeLevel" name="TakeLevel" class="form-control" ng-model="Record.TakeLevel">
+                                <option value=""></option>
                                 <option value="一级">一级</option>
                                 <option value="二级">二级</option>
                                 <option value="三级">三级</option>
@@ -273,6 +278,7 @@
                         <div class="col-md-8">
                             <select id="IsLine" name="IsLine" class="form-control" ng-model="Record.IsLine"
                                     validate="{required:true,selected:true,messages:{required:'请选择是否成行',selected:'请选择是否成行'}}">
+                                <option value=""></option>
                                 <option value="是">是</option>
                                 <option value="否">否</option>
                             </select>
@@ -295,13 +301,13 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-4 form-group">
+                    <div class="col-xs-4 form-group" id="VisitTag">
                         <div class="col-md-4" style="line-height:30px">
                             <span style="float:right"><em>*</em>访问标注</span>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8" id="VisitTagDiv">
                             <select class="selectpicker" ng-model="Record.VisitTags" 
-                                    validate="{required:true,selected:true,messages:{required:'请选择访问标注',selected:'请选择访问标注'}}"
+                                    validate="{required:true,checktag:true,messages:{required:'请选择访问标注',checktag:'请选择访问标注'}}"
                                      multiple>
                                 <option ng-repeat="item in VisitTagOps" ng-value="item" on-finish-render-filters>{{item}}</option>
                             </select>

@@ -14,7 +14,7 @@
 
                         $.validator.addMethod("selected", function (value, element, params) {
 
-                            if (value != "string:" && value != "?" && value != "") {
+                            if (value != "string:" && value != "?" && value != "" && value.length>0) {
                                 return true;
                             }
                             else {
@@ -36,6 +36,19 @@
                                 value = "";
                             return this.optional(element) || (isIdNumber(value.toUpperCase()));
                         }, "身份证号不正确");
+
+                        $.validator.addMethod("checktag", function (value, element, params) {
+                            debugger;
+                            if (value == undefined || value.length > 0) {
+                                return false;
+                            }
+                            else {
+                                return true;
+                            }
+                        });
+                        
+
+
                         //身份证号码验证
                         function isIdNumber(num) {
                             var factorArr = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2, 1);

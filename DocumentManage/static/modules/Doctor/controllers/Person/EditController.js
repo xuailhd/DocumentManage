@@ -124,6 +124,7 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
 
                     $scope.onSubmit = function () {
                         if (!$("#myForm").valid()) {
+                            $("#myForm2").valid();
                             return;
                         }
                         if (!$("#myForm2").valid()) {

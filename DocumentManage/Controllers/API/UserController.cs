@@ -174,6 +174,12 @@ namespace DocumentManage.Controllers.API
         }
 
         [HttpPost]
+        public ApiResult GetLoginLog([FromBody]RequestUserQDTO request)
+        {
+            return userService.GetLoginLog(request).ToApiResult();
+        }
+
+        [HttpPost]
         public ApiResult AddAccount([FromBody]RequestUserInfoDTO request)
         {
             string reason = "";

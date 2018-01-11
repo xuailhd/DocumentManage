@@ -23,6 +23,15 @@ namespace DocumentManage.Services
                 {
                     model.UserToken = Guid.NewGuid().ToString("N");
                     model.LastTime = DateTime.Now;
+
+                    LoginLog log = new LoginLog()
+                    {
+                        LogID = Guid.NewGuid().ToString("N"),
+                        LoginAccount = model.UserID,
+                        LoginName = model.UserName,
+                        LoginTime = model.LastTime.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                    };
+                    db.LoginLogs.Add(log);
                     db.SaveChanges();
 
                     return new ResponseLoginDTO() { UserToken = model.UserToken };
@@ -390,6 +399,25 @@ namespace DocumentManage.Services
                     t.RolesStr = string.Join(",", t.Roles.Select(q=>q.RoleName).ToList());
                 });
 
+                return ret;
+            }
+        }
+
+        public PagedList<LoginLog> GetLoginLog(RequestUserQDTO request)
+        {
+            using (var db = new DBEntities())
+            {
+                var query = from log in db.LoginLogs
+                            select log;
+
+                if (!string.IsNullOrEmpty(request.UserName))
+                {
+                    query = query.Where(t => t.LoginName.Contains(request.UserName) || t.LoginAccount.Contains(request.UserName));
+                }
+
+                query = query.OrderByDescending(t => t.LoginTime);
+
+                var ret = query.ToPagedList(request.PageIndex, request.PageSize);
                 return ret;
             }
         }

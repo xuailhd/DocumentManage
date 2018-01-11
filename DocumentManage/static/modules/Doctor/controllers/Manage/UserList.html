@@ -136,15 +136,15 @@
             </thead>
             <tbody ng-show="ListItems == null || ListItems.length == 0">
                 <tr>
-                    <td colspan="8">{{'msgNoData'|translate}}</td>
+                    <td colspan="5">{{'msgNoData'|translate}}</td>
                 </tr>
             </tbody>
             <tbody>
                 <tr ng-repeat="item in ListItems">
                     <td>{{item.UserID}}</td>
                     <td>{{item.UserName}}</td>
-                    <th>{{item.RolesStr}}</th>
-                    <th>{{item.LastTime}}</th>
+                    <td>{{item.RolesStr}}</td>
+                    <td>{{item.LastTime}}</td>
                     <td style="text-align:center">
                         <a class="btn btn-sm base" ng-click="onResetPassword(item.ID)">重置密码</a>
                         <a class="btn btn-sm base" ng-click="onEditUserRole(item.ID)">调整所属角色</a>

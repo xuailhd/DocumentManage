@@ -833,7 +833,11 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         $('.selectpicker').selectpicker({
                             size: 'auto',
                             noneSelectedText: '请选择访问标注'
-                        })
+                        });
+                        $('.selectpicker').on('changed.bs.select', function (e) {
+                            checktag();
+                        });
+                        
                     });
 
                     $scope.onLoad = function () {
@@ -921,11 +925,36 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                         });
                     }
 
+                    var checktag = function () {
+                        if ($scope.Record.VisitTags == undefined || $scope.Record.VisitTags.length < 1) {
+                            $('#VisitTag').removeClass("has-success");
+                            $('#VisitTag').addClass("has-error");
+                            var errorHtml = '<label id="VisitTagError" class="error">请选择访问标注</label>'
+                            $('#VisitTagDiv').append(errorHtml);
+                            return false;
+                        }
+                        else
+                        {
+                            $('#VisitTag').removeClass("has-error");
+                            $('#VisitTag').addClass("has-success");
+                            $('#VisitTagError').remove();
+                            return true;
+                        }
+                    };
+
                     $scope.onSubmit = function () {
                         if (!$("#myForm").valid()) {
+
+                            $("#myForm1").valid();
+                            checktag();
                             return;
                         }
                         if (!$("#myForm1").valid()) {
+                            checktag();
+                            return;
+                        }
+
+                        if (!checktag()) {
                             return;
                         }
 
