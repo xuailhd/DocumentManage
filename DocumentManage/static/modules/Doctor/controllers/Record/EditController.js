@@ -927,6 +927,8 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
 
                     var checktag = function () {
                         if ($scope.Record.VisitTags == undefined || $scope.Record.VisitTags.length < 1) {
+                            $('#VisitTag').removeClass("has-error");
+                            $('#VisitTagError').remove();
                             $('#VisitTag').removeClass("has-success");
                             $('#VisitTag').addClass("has-error");
                             var errorHtml = '<label id="VisitTagError" class="error">请选择访问标注</label>'
