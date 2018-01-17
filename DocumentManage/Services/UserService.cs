@@ -17,7 +17,7 @@ namespace DocumentManage.Services
             {
                 var password = StringEncrypt.EncryptWithMD5(dto.Password);
                 var model = db.Users.Where(t => t.Password == password 
-                    && t.ID == dto.UserID && !t.IsDeleted).FirstOrDefault();
+                    && t.UserID == dto.UserID && !t.IsDeleted).FirstOrDefault();
 
                 if(model != null)
                 {
