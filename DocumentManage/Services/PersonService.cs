@@ -83,6 +83,7 @@ namespace DocumentManage.Services
                 else
                 {
                     model = request.Map<RequestPersonDTO, PersonInfo>();
+                    model.CreateTime = DateTime.Now;
                     model.CreateUserID = operUserID;
 
                     CommonService.HandleFiles(null, request.PassportFiles, oldFiles, model.PersonID, "1", copyfiles, db);
