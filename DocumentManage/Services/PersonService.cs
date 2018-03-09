@@ -66,6 +66,8 @@ namespace DocumentManage.Services
                     model.Tel1 = request.Tel1;
                     model.Tel2 = request.Tel2;
                     model.Title = request.Title;
+                    model.Remark = request.Remark;
+                    model.Intro = request.Intro;
 
                     var passportFiles = db.VisitFiles.Where(t => t.OutID == model.PersonID && t.Type == "1").ToList();
                     CommonService.FindNewAndOld(passportFiles, request.PassportFiles, needDelete, needNew);
@@ -162,6 +164,7 @@ namespace DocumentManage.Services
                                 PassportType = per.PassportType,
                                 PersonID = per.PersonID,
                                 RecLevel = per.RecLevel,
+                                Intro = per.Intro,
                                 Remark = per.Remark,
                                 Sex = per.Sex,
                                 Taboo = per.Taboo,
@@ -233,6 +236,7 @@ namespace DocumentManage.Services
                                 PassportType = per.PassportType,
                                 PersonID = per.PersonID,
                                 RecLevel = per.RecLevel,
+                                Intro = per.Intro,
                                 Remark = per.Remark,
                                 Sex = per.Sex,
                                 Taboo = per.Taboo,
@@ -334,7 +338,7 @@ namespace DocumentManage.Services
 
             var lstTitle = new List<string> { "来源","人员编号", "机构名称", "中文名", "英文名", "标签", "部门"
                 , "护照号码" ,"护照有效期","签发日期","签发地","护照类别","头衔" ,"主要职务","身份证号","邮箱","电话1","电话2"
-                ,"手机1","手机2","联系地址","出生年月","性别","国籍","喜好","忌讳","接待规格","其他说明","创建者","创建日期"
+                ,"手机1","手机2","联系地址","出生年月","性别","国籍","喜好","忌讳","接待规格","人员介绍","其他说明","创建者","创建日期"
                 ,"最后修改者","最后修改日期"
                 };
             foreach (var item in lstTitle)
@@ -380,6 +384,7 @@ namespace DocumentManage.Services
                 sbHtml.AppendFormat("<td >{0}</td>", item.Fancy);
                 sbHtml.AppendFormat("<td >{0}</td>", item.Taboo);
                 sbHtml.AppendFormat("<td >{0}</td>", item.RecLevel);
+                sbHtml.AppendFormat("<td >{0}</td>", item.Intro);
                 sbHtml.AppendFormat("<td >{0}</td>", item.Remark);
                 sbHtml.AppendFormat("<td >{0}</td>", item.CreateUserName);
                 sbHtml.AppendFormat("<td >{0}</td>", item.CreateTime.ToString("yyyy-MM-dd HH:mm"));

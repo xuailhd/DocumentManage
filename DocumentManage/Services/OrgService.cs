@@ -32,6 +32,7 @@ namespace DocumentManage.Services
 
                     model.OrgID = request.OrgID;
                     model.OrgInfo = request.OrgInfo;
+                    model.OrgHistory = request.OrgHistory;
                     model.OrgName = request.OrgName;
                     model.OrgNameEN = request.OrgNameEN;
                     model.OrgType = request.OrgType;
@@ -102,6 +103,7 @@ namespace DocumentManage.Services
                                 OrgBack = org.OrgBack,
                                 OrgID = org.OrgID,
                                 OrgInfo = org.OrgInfo,
+                                OrgHistory = org.OrgHistory,
                                 OrgName = org.OrgName,
                                 OrgNameEN = org.OrgNameEN,
                                 OrgType = org.OrgType,
@@ -153,6 +155,7 @@ namespace DocumentManage.Services
                                 OrgBack = org.OrgBack,
                                 OrgID = org.OrgID,
                                 OrgInfo = org.OrgInfo,
+                                OrgHistory = org.OrgHistory,
                                 OrgName = org.OrgName,
                                 OrgNameEN = org.OrgNameEN,
                                 OrgType = org.OrgType,
@@ -254,7 +257,7 @@ namespace DocumentManage.Services
             sbHtml.Append("<tr>");
 
             var lstTitle = new List<string> { "来源","机构编码", "机构名称", "中文简称", "英文名称", "英文简称", "标签"
-                , "机构级别" ,"机构地址","洲","国","省","机构性质" ,"机构背景","机构简介","办公地址","办公时间","联系人1"
+                , "机构级别" ,"机构地址","洲","国","省","机构性质" ,"机构背景","交往历史","机构简介","办公地址","办公时间","联系人1"
                 ,"联系人2","联系电话1","联系电话2","邮箱1","邮箱2","备注","创建者","创建日期","最后修改者","最后修改日期"
                 };
             foreach (var item in lstTitle)
@@ -286,6 +289,7 @@ namespace DocumentManage.Services
                 sbHtml.AppendFormat("<td >{0}</td>", item.Province);
                 sbHtml.AppendFormat("<td >{0}</td>", item.OrgType);
                 sbHtml.AppendFormat("<td >{0}</td>", item.OrgBack);
+                sbHtml.AppendFormat("<td >{0}</td>", item.OrgHistory);
                 sbHtml.AppendFormat("<td >{0}</td>", item.OrgInfo);
                 sbHtml.AppendFormat("<td >{0}</td>", item.WorkAddress);
                 sbHtml.AppendFormat("<td >{0}</td>", item.WorkTime);

@@ -861,12 +861,12 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                                     }
                                 }
 
-                                if ($scope.Record.OurOtherPersons && $scope.Record.OurOtherPersons.length > 0) {
-                                    $scope.Record.OurOtherPersonStr = '';
-                                    for (var i = 0; i < $scope.Record.OurOtherPersons.length; i++) {
-                                        $scope.Record.OurOtherPersonStr += $scope.Record.OurOtherPersons[i].NameCN + ',';
-                                    }
-                                }
+                                //if ($scope.Record.OurOtherPersons && $scope.Record.OurOtherPersons.length > 0) {
+                                //    $scope.Record.OurOtherPersonStr = '';
+                                //    for (var i = 0; i < $scope.Record.OurOtherPersons.length; i++) {
+                                //        $scope.Record.OurOtherPersonStr += $scope.Record.OurOtherPersons[i].NameCN + ',';
+                                //    }
+                                //}
 
                                 if ($scope.Record.TheyPersons && $scope.Record.TheyPersons.length > 0) {
                                     $scope.Record.TheyPersonStr = '';
@@ -875,12 +875,12 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                                     }
                                 }
 
-                                if ($scope.Record.TheyOtherPersons && $scope.Record.TheyOtherPersons.length > 0) {
-                                    $scope.Record.TheyOtherPersonStr = '';
-                                    for (var i = 0; i < $scope.Record.TheyOtherPersons.length; i++) {
-                                        $scope.Record.TheyOtherPersonStr += $scope.Record.TheyOtherPersons[i].NameCN + ',';
-                                    }
-                                }
+                                //if ($scope.Record.TheyOtherPersons && $scope.Record.TheyOtherPersons.length > 0) {
+                                //    $scope.Record.TheyOtherPersonStr = '';
+                                //    for (var i = 0; i < $scope.Record.TheyOtherPersons.length; i++) {
+                                //        $scope.Record.TheyOtherPersonStr += $scope.Record.TheyOtherPersons[i].NameCN + ',';
+                                //    }
+                                //}
 
                                 if ($scope.Record.OurOrgs && $scope.Record.OurOrgs.length > 0) {
                                     $scope.Record.OurOrgStr = '';

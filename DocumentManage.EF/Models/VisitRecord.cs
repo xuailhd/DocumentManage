@@ -59,5 +59,9 @@ namespace DocumentManage.Models
         public string AnsLevel { get; set; }
 
         public string Remark { get; set; }
+
+        public string TheyOtherPersonStr { get; set; }
+
+        public string OurOtherPersonStr { get; set; }
     }
 }

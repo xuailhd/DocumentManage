@@ -52,11 +52,13 @@ namespace DocumentManage.Dtos
 
         public List<string> OurPersons { get; set; }
 
-        public List<string> OurOPersons { get; set; }
+        //public List<string> OurOPersons { get; set; }
+        public string OurOtherPersonStr { get; set; }
 
         public List<string> TheyPersons { get; set; }
 
-        public List<string> TheyOPersons { get; set; }
+        //public List<string> TheyOPersons { get; set; }
+        public string TheyOtherPersonStr { get; set; }
 
         public List<string> OurOrgs { get; set; }
 

@@ -178,15 +178,23 @@
                     </div>
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">交往历史</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="OrgHistory" class="form-control" name="OrgHistory" type="text" ng-model="Record.OrgHistory" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
                             <span style="float:right">机构简介</span>
                         </div>
                         <div class="col-md-8">
                             <textarea rows="4" id="OrgInfo" class="form-control" name="OrgInfo" type="text" ng-model="Record.OrgInfo" />
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
                             <span style="float:right">办公地址</span>
@@ -203,18 +211,18 @@
                             <input id="WorkTime" class="form-control" name="WorkTime" type="text" ng-model="Record.WorkTime" />
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
                             <span style="float:right"><em>*</em>联系人1</span>
                         </div>
                         <div class="col-md-8">
-                            <input id="ContactPerson1" class="form-control" name="ContactPerson1" type="text" ng-model="Record.ContactPerson1" 
-                                   validate="{required:true,messages:{required:'请录入机构联系人'}}"/>
+                            <input id="ContactPerson1" class="form-control" name="ContactPerson1" type="text" ng-model="Record.ContactPerson1"
+                                   validate="{required:true,messages:{required:'请录入机构联系人'}}" />
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
                             <span style="float:right">联系人2</span>
@@ -228,10 +236,13 @@
                             <span style="float:right"><em>*</em>联系电话1</span>
                         </div>
                         <div class="col-md-8">
-                            <input id="Tel1" class="form-control" name="Tel1" type="text" ng-model="Record.Tel1" 
-                                   validate="{required:true,messages:{required:'请录入机构联系电话'}}"/>
+                            <input id="Tel1" class="form-control" name="Tel1" type="text" ng-model="Record.Tel1"
+                                   validate="{required:true,messages:{required:'请录入机构联系电话'}}" />
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
                             <span style="float:right">联系电话2</span>
@@ -240,16 +251,13 @@
                             <input id="Tel2" class="form-control" name="Tel2" type="text" ng-model="Record.Tel2" />
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
                             <span style="float:right"><em>*</em>邮箱1</span>
                         </div>
                         <div class="col-md-8">
-                            <input id="Email1" class="form-control" name="Email1" type="text" ng-model="Record.Email1" 
-                                   validate="{required:true,messages:{required:'请录入机构邮箱'}}"/>
+                            <input id="Email1" class="form-control" name="Email1" type="text" ng-model="Record.Email1"
+                                   validate="{required:true,messages:{required:'请录入机构邮箱'}}" />
                         </div>
                     </div>
                     <div class="col-xs-4 form-group">
@@ -260,6 +268,8 @@
                             <input id="Email2" class="form-control" name="Email2" type="text" ng-model="Record.Email2" />
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
                             <span style="float:right">传真</span>
@@ -268,8 +278,6 @@
                             <input id="Tax" class="form-control" name="Tax" type="text" ng-model="Record.Tax" />
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
                             <span style="float:right">备注</span>

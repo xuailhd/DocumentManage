@@ -57,7 +57,8 @@ namespace DocumentManage.Dtos
         /// <summary>
         /// 其他人员（中方）
         /// </summary>
-        public List<VisitPerson> OurOtherPersons { get; set; }
+        //public List<VisitPerson> OurOtherPersons { get; set; }
+        public string OurOtherPersonStr { get; set; }
 
         /// <summary>
         /// 来访机构（外方）
@@ -69,7 +70,9 @@ namespace DocumentManage.Dtos
         /// </summary>
         public List<VisitPerson> TheyPersons { get; set; }
 
-        public List<VisitPerson> TheyOtherPersons { get; set; }
+        //public List<VisitPerson> TheyOtherPersons { get; set; }
+        public string TheyOtherPersonStr { get; set; }
+
 
         public List<VisitOrg>  BeViOrgs { get; set; }
 

@@ -41,6 +41,11 @@ namespace DocumentManage.Models
 
         public string OrgInfo { get; set; }
 
+        /// <summary>
+        /// 交往历史
+        /// </summary>
+        public string OrgHistory { get; set; }
+
         public string WorkAddress { get; set; }
 
         public string WorkTime { get; set; }

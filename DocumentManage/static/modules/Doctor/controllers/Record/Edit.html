@@ -129,17 +129,17 @@
                         <div class="col-md-4" style="line-height:30px">
                             <span style="float:right">其他接待人员</span>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-8">
                             <input id="OurOtherPersonStr" class="form-control" name="OurOtherPersonStr" type="text" ng-model="Record.OurOtherPersonStr" />
                         </div>
-                        <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                        <!--<div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
                             <a ng-click="onAddOurOtherPerson()">
                                 <span class="glyphicon glyphicon-search"></span>
                             </a>
                             <a ng-click="onCleanOurOtherPerson()">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
 
@@ -181,17 +181,17 @@
                         <div class="col-md-4" style="line-height:30px">
                             <span style="float:right">其他来访人员</span>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-8">
                             <input id="TheyOtherPersonStr" class="form-control" name="TheyOtherPersonStr" type="text" ng-model="Record.TheyOtherPersonStr" />
                         </div>
-                        <div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
+                        <!--<div class="col-md-1" style="line-height:30px;padding-left:0px;padding-right:0px">
                             <a ng-click="onAddTheyOtherPerson()">
                                 <span class="glyphicon glyphicon-search"></span>
                             </a>
                             <a ng-click="onCleanTheyOtherPerson()">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
 
@@ -526,7 +526,7 @@
                             <input type="text" class="form-control" ng-model="Record.MainPersonName" placeholder="请输入人员名称">
                         </div>
                         <div class="col-date-search">
-                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                            <button class="btn base" type="button" ng-click="onGetMainPerson()" style="padding:5px 10px;">过滤</button>
                         </div>
                         <table class="table table-responsive table-bordered table-hover table">
                             <thead>
@@ -586,7 +586,7 @@
                             <input type="text" class="form-control" ng-model="Record.OurPersonName" placeholder="请输入人员名称">
                         </div>
                         <div class="col-date-search">
-                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                            <button class="btn base" type="button" ng-click="onGetOurPerson()" style="padding:5px 10px;">过滤</button>
                         </div>
                         <table class="table table-responsive table-bordered table-hover table">
                             <thead>
@@ -646,7 +646,7 @@
                             <input type="text" class="form-control" ng-model="Record.OurOtherPersonName" placeholder="请输入人员名称">
                         </div>
                         <div class="col-date-search">
-                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                            <button class="btn base" type="button" ng-click="onGetOurOtherPerson()" style="padding:5px 10px;">过滤</button>
                         </div>
                         <table class="table table-responsive table-bordered table-hover table">
                             <thead>
@@ -706,7 +706,7 @@
                             <input type="text" class="form-control" ng-model="Record.TheyPersonName" placeholder="请输入人员名称">
                         </div>
                         <div class="col-date-search">
-                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                            <button class="btn base" type="button" ng-click="onGetTheyPerson()" style="padding:5px 10px;">过滤</button>
                         </div>
                         <table class="table table-responsive table-bordered table-hover table">
                             <thead>
@@ -766,7 +766,7 @@
                             <input type="text" class="form-control" ng-model="Record.TheyOtherPersonName" placeholder="请输入人员名称">
                         </div>
                         <div class="col-date-search">
-                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                            <button class="btn base" type="button" ng-click="onGetTheyOtherPerson()" style="padding:5px 10px;">过滤</button>
                         </div>
                         <table class="table table-responsive table-bordered table-hover table">
                             <thead>
@@ -826,7 +826,7 @@
                             <input type="text" class="form-control" ng-model="Record.OurOrgName" placeholder="请输入机构姓名">
                         </div>
                         <div class="col-date-search">
-                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                            <button class="btn base" type="button" ng-click="onGetOurOrg()" style="padding:5px 10px;">过滤</button>
                         </div>
                         <table class="table table-responsive table-bordered table-hover table">
                             <thead>
@@ -886,7 +886,7 @@
                             <input type="text" class="form-control" ng-model="Record.TheyOrgName" placeholder="请输入机构姓名">
                         </div>
                         <div class="col-date-search">
-                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                            <button class="btn base" type="button" ng-click="onGetTheyOrg()" style="padding:5px 10px;">过滤</button>
                         </div>
                         <table class="table table-responsive table-bordered table-hover table">
                             <thead>
@@ -946,7 +946,7 @@
                             <input type="text" class="form-control" ng-model="Record.BeViOrgName" placeholder="请输入机构姓名">
                         </div>
                         <div class="col-date-search">
-                            <button class="btn base" type="submit" style="padding:5px 10px;">过滤</button>
+                            <button class="btn base" type="button" ng-click="onGetBeViOrg()" style="padding:5px 10px;">过滤</button>
                         </div>
                         <table class="table table-responsive table-bordered table-hover table">
                             <thead>

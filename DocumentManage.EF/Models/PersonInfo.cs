@@ -58,6 +58,10 @@ namespace DocumentManage.Models
 
         public string RecLevel { get; set; }
 
+        /// <summary>
+        /// 人员介绍
+        /// </summary>
+        public string Intro { get; set; }
         public string Remark { get; set; }
     }
 }

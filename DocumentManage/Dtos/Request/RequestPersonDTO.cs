@@ -63,6 +63,10 @@ namespace DocumentManage.Dtos.Request
 
         public string RecLevel { get; set; }
 
+        /// <summary>
+        /// 人员介绍
+        /// </summary>
+        public string Intro { get; set; }
         public string Remark { get; set; }
 
         public string CreateUserID { get; set; }
