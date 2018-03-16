@@ -41,6 +41,8 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                     $scope.MainPersonpageSize = 10;
                     $scope.MainPersonCurrentPage = 1;
                     $scope.MainPersontotalCount = 0;
+                    $scope.Record = {};
+                    $scope.Record.MainPersonName = "";
 
                     $scope.onGetMainPerson = function () {
                         apiUtil.requestWebApi("Person/GetList", "Post",
@@ -96,6 +98,7 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                     $scope.OurPersonpageSize = 10;
                     $scope.OurPersonCurrentPage = 1;
                     $scope.OurPersontotalCount = 0;
+                    $scope.Record.OurPersonName = "";
 
                     $scope.onGetOurPerson = function () {
                         apiUtil.requestWebApi("Person/GetList", "Post",
@@ -145,6 +148,7 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                     $scope.OurOtherPersonpageSize = 10;
                     $scope.OurOtherPersonCurrentPage = 1;
                     $scope.OurOtherPersontotalCount = 0;
+                    $scope.Record.OurOtherPersonName = "";
 
                     $scope.onGetOurOtherPerson = function () {
                         apiUtil.requestWebApi("Person/GetList", "Post",
@@ -194,6 +198,7 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                     $scope.TheyPersonpageSize = 10;
                     $scope.TheyPersonCurrentPage = 1;
                     $scope.TheyPersontotalCount = 0;
+                    $scope.Record.TheyPersonName = "";
 
                     $scope.onGetTheyPerson = function () {
                         apiUtil.requestWebApi("Person/GetList", "Post",
@@ -243,6 +248,7 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                     $scope.TheyOtherPersonpageSize = 10;
                     $scope.TheyOtherPersonCurrentPage = 1;
                     $scope.TheyOtherPersontotalCount = 0;
+                    $scope.Record.TheyOtherPersonName = "";
 
                     $scope.onGetTheyOtherPerson = function () {
                         apiUtil.requestWebApi("Person/GetList", "Post",
@@ -315,6 +321,7 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                     $scope.OurOrgpageSize = 10;
                     $scope.OurOrgCurrentPage = 1;
                     $scope.OurOrgtotalCount = 0;
+                    $scope.Record.OurOrgName = "";
 
                     $scope.onGetOurOrg = function () {
                         apiUtil.requestWebApi("Org/GetList", "Post",
@@ -364,6 +371,7 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                     $scope.TheyOrgpageSize = 10;
                     $scope.TheyOrgCurrentPage = 1;
                     $scope.TheyOrgtotalCount = 0;
+                    $scope.Record.TheyOrgName = "";
 
                     $scope.onGetTheyOrg = function () {
                         apiUtil.requestWebApi("Org/GetList", "Post",
@@ -413,6 +421,7 @@ define(["module-services-apiUtil", "module-Services-uploader", "plugins-extend-d
                     $scope.BeViOrgpageSize = 10;
                     $scope.BeViOrgCurrentPage = 1;
                     $scope.BeViOrgtotalCount = 0;
+                    $scope.Record.BeViOrgName = "";
 
                     $scope.onGetBeViOrg = function () {
                         apiUtil.requestWebApi("Org/GetList", "Post",
