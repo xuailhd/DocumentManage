@@ -797,17 +797,17 @@ namespace DocumentManage.Services
                 //        || t.BeviShortNameCN.Contains(request.BeViOrg) || t.BeviShortNameEN.Contains(request.BeViOrg));
                 //}
 
-                //if (request.EndDate.HasValue)
-                //{
-                //    var endDate = request.EndDate.Value;
-                //    query = query.Where(t => t.FromDate.Value.CompareTo(endDate) <= 0);
-                //}
+                if (request.EndDate.HasValue)
+                {
+                    var endDate = request.EndDate.Value;
+                    query = query.Where(t => t.FromDate.Value.CompareTo(endDate) <= 0);
+                }
 
-                //if (request.FromDate.HasValue)
-                //{
-                //    var fromDate = request.FromDate.Value;
-                //    query = query.Where(t => t.EndDate.Value.CompareTo(fromDate) >= 0);
-                //}
+                if (request.FromDate.HasValue)
+                {
+                    var fromDate = request.FromDate.Value;
+                    query = query.Where(t => t.EndDate.Value.CompareTo(fromDate) >= 0);
+                }
 
                 if (!string.IsNullOrEmpty(request.MainDepartment))
                 {
