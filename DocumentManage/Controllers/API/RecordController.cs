@@ -88,8 +88,6 @@ namespace DocumentManage.Controllers.API
         [HttpPost]
         public ApiResult Export(RequestVisitRecordQDTO request)
         {
-            PersonService personService = new PersonService();
-
             var rootpath = ConfigurationManager.AppSettings["rootpath"].ToString();
             var fileid = "recordList_" + DateTime.Now.ToString("yyyy-MM-dd");
             var filename = fileid + ".xls";
@@ -97,6 +95,81 @@ namespace DocumentManage.Controllers.API
             var filePath = System.IO.Path.Combine(rootpath, filename);
 
             File.WriteAllBytes(filePath, Encoding.UTF8.GetBytes(recordService.ExportQuery(request)));
+            return fileid.ToApiResult();
+        }
+
+        [HttpPost]
+        public ApiResult ExportOne(RequestVisitRecordQDTO request)
+        {
+            List<string> files = new List<string>();
+
+            var rootpath = ConfigurationManager.AppSettings["rootpath"].ToString();
+            var fileid = "record_" + request.VisitID;
+            var filename = fileid + ".xls";
+            var filePath = System.IO.Path.Combine(rootpath, filename);
+            File.WriteAllBytes(filePath, Encoding.UTF8.GetBytes(recordService.ExportQuery(request)));
+            files.Add(filePath);
+
+            var ret = recordService.GetDetail(request);
+            if (ret != null)
+            {
+                foreach (var file in ret.SJWLFiles)
+                {
+                    if (File.Exists(System.IO.Path.Combine(rootpath, file.FileUrl)))
+                    {
+                        File.Copy(System.IO.Path.Combine(rootpath, file.FileUrl), System.IO.Path.Combine(rootpath, file.FileName), true);
+                        files.Add(System.IO.Path.Combine(rootpath, file.FileName));
+                    }
+                }
+
+                foreach (var file in ret.LBWLFiles)
+                {
+                    if (File.Exists(System.IO.Path.Combine(rootpath, file.FileUrl)))
+                    {
+                        File.Copy(System.IO.Path.Combine(rootpath, file.FileUrl), System.IO.Path.Combine(rootpath, file.FileName), true);
+                        files.Add(System.IO.Path.Combine(rootpath, file.FileName));
+                    }
+                }
+
+                foreach (var file in ret.NBGLFiles)
+                {
+                    if (File.Exists(System.IO.Path.Combine(rootpath, file.FileUrl)))
+                    {
+                        File.Copy(System.IO.Path.Combine(rootpath, file.FileUrl), System.IO.Path.Combine(rootpath, file.FileName), true);
+                        files.Add(System.IO.Path.Combine(rootpath, file.FileName));
+                    }
+                }
+
+                foreach (var file in ret.HYXGFiles)
+                {
+                    if (File.Exists(System.IO.Path.Combine(rootpath, file.FileUrl)))
+                    {
+                        File.Copy(System.IO.Path.Combine(rootpath, file.FileUrl), System.IO.Path.Combine(rootpath, file.FileName), true);
+                        files.Add(System.IO.Path.Combine(rootpath, file.FileName));
+                    }
+                }
+
+                foreach (var file in ret.NewsFiles)
+                {
+                    if (File.Exists(System.IO.Path.Combine(rootpath, file.FileUrl)))
+                    {
+                        File.Copy(System.IO.Path.Combine(rootpath, file.FileUrl), System.IO.Path.Combine(rootpath, file.FileName), true);
+                        files.Add(System.IO.Path.Combine(rootpath, file.FileName));
+                    }
+                }
+
+                foreach (var file in ret.OtherFiles)
+                {
+                    if (File.Exists(System.IO.Path.Combine(rootpath, file.FileUrl)))
+                    {
+                        File.Copy(System.IO.Path.Combine(rootpath, file.FileUrl), System.IO.Path.Combine(rootpath, file.FileName), true);
+                        files.Add(System.IO.Path.Combine(rootpath, file.FileName));
+                    }
+                }
+
+            }
+            CommonService.CompressFiles(files, System.IO.Path.Combine(rootpath, fileid + ".zip"));
+
             return fileid.ToApiResult();
         }
     }

@@ -178,5 +178,28 @@ define(["module-services-apiUtil", "module-directive-bundling-all"], function (a
                            });
                         });
                     };
+
+                    $scope.onExport = function (id) {
+                        var data = { OrgID: id }
+                        //请求
+                        apiUtil.requestWebApi("Org/ExportOne", "Post", data, function (response) {
+                            if (response.Status == 0) {
+                                $("#submitForm").remove();
+                                var path = "api/store/download/" + response.Data;
+
+                                var html = '<form method="get" id="submitForm" action="' + path + '" >';
+                                html += '<input name="fileName" type="hidden"/>';
+                                html += '</form>';
+
+                                $("#exportdiv").append(html);
+                                $("#submitForm").submit();
+                            }
+                            else {
+                                layer.msg(response.Msg);
+                            }
+                        }, function (response) {
+                            layer.msg(response.Msg);
+                        });
+                    };
                 }]);
         });

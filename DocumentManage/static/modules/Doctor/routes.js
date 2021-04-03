@@ -11,7 +11,7 @@
             return angularAMD.route({
                 url: url,
                 templateUrl: function ($stateParams) {
-                    return "/static/modules/" + view + ".html"
+                    return "/static/modules/" + view + ".html?bust = V1.0" + Math.random();
                 },
                 controllerUrl: "/static/modules/" + controller + "Controller.js",
                 onEnter: onEnter || function () { },

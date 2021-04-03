@@ -7,6 +7,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace DocumentManage.Services
 {
@@ -101,6 +102,38 @@ namespace DocumentManage.Services
                         select roleauth;
 
             return query.Any();
+        }
+
+        public static void CompressFiles(List<string> files, string zipfilename)
+        {
+            using (ZipOutputStream s = new ZipOutputStream(File.Create(zipfilename)))
+            {
+
+                s.SetLevel(9); // 0 - store only to 9 - means best compression
+                byte[] buffer = new byte[4096];
+                foreach (string file in files)
+                {
+                    if (!File.Exists(file))
+                    {
+                        continue;
+                    }
+                    ZipEntry entry = new ZipEntry(Path.GetFileName(file));
+                    entry.DateTime = DateTime.Now;
+                    s.PutNextEntry(entry);
+
+                    using (FileStream fs = File.OpenRead(file))
+                    {
+                        int sourceBytes;
+                        do
+                        {
+                            sourceBytes = fs.Read(buffer, 0, buffer.Length);
+                            s.Write(buffer, 0, sourceBytes);
+                        } while (sourceBytes > 0);
+                    }
+                }
+                s.Finish();
+                s.Close();
+            }
         }
     }
 }

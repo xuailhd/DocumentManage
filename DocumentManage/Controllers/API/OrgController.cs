@@ -1,4 +1,5 @@
 ﻿using DocumentManage.Dtos;
+using DocumentManage.Dtos.Request;
 using DocumentManage.Filters;
 using DocumentManage.Models;
 using DocumentManage.Services;
@@ -19,7 +20,7 @@ namespace DocumentManage.Controllers.API
     public class OrgController : ApiController
     {
         [HttpPost]
-        public ApiResult Edit([FromBody]Orgnazition request)
+        public ApiResult Edit([FromBody]RequestOrgDTO request)
         {
             OrgService orgService = new OrgService();
             string reason;
@@ -101,6 +102,45 @@ namespace DocumentManage.Controllers.API
             var filePath = System.IO.Path.Combine(rootpath, filename);
 
             File.WriteAllBytes(filePath, Encoding.UTF8.GetBytes(orgService.Export(request)));
+            return fileid.ToApiResult();
+        }
+
+        public ApiResult ExportOne(RequestOrgQDTO request)
+        {
+            OrgService orgService = new OrgService();
+            List<string> files = new List<string>();
+
+            var rootpath = ConfigurationManager.AppSettings["rootpath"].ToString();
+            var fileid = "org_" + request.OrgID;
+            var filename = fileid + ".xls";
+            var filePath = System.IO.Path.Combine(rootpath, filename);
+            File.WriteAllBytes(filePath, Encoding.UTF8.GetBytes(orgService.Export(request)));
+            files.Add(filePath);
+
+            var ret = orgService.GetDetail(request);
+            if (ret != null)
+            {
+                foreach (var file in ret.BJFiles)
+                {
+                    if (File.Exists(System.IO.Path.Combine(rootpath, file.FileUrl)))
+                    {
+                        File.Copy(System.IO.Path.Combine(rootpath, file.FileUrl), System.IO.Path.Combine(rootpath, file.FileName), true);
+                        files.Add(System.IO.Path.Combine(rootpath, file.FileName));
+                    }
+                }
+
+                foreach (var file in ret.OtherFiles)
+                {
+                    if (File.Exists(System.IO.Path.Combine(rootpath, file.FileUrl)))
+                    {
+                        File.Copy(System.IO.Path.Combine(rootpath, file.FileUrl), System.IO.Path.Combine(rootpath, file.FileName), true);
+                        files.Add(System.IO.Path.Combine(rootpath, file.FileName));
+                    }
+                }
+
+            }
+            CommonService.CompressFiles(files, System.IO.Path.Combine(rootpath, fileid + ".zip"));
+
             return fileid.ToApiResult();
         }
     }

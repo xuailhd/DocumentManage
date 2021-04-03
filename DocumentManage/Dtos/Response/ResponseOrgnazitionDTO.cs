@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using DocumentManage.Models;
 
 namespace DocumentManage.Dtos
 {
@@ -72,5 +73,15 @@ namespace DocumentManage.Dtos
         public string ModifyUserName { get; set; }
 
         public DateTime? ModifyTime { get; set; }
+
+        /// <summary>
+        /// 背景文件
+        /// </summary>
+        public List<VisitFile> BJFiles { get; set; }
+
+        /// <summary>
+        /// 其他文件
+        /// </summary>
+        public List<VisitFile> OtherFiles { get; set; }
     }
 }

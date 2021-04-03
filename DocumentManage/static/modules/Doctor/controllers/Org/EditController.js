@@ -1,5 +1,5 @@
 ﻿"use strict";
-define(["module-services-apiUtil","jquery-validate"], function (apiUtil) {
+define(["module-services-apiUtil", "module-Services-uploader", "jquery-validate"], function (apiUtil, uploader) {
 
             var app = angular.module("myApp", [
           "pascalprecht.translate",
@@ -162,7 +162,97 @@ define(["module-services-apiUtil","jquery-validate"], function (apiUtil) {
                         }, function (response) {
                             layer.msg(response.Msg);
                         });
-                    }
+                    };
+
+                    $scope.delBJUrl = function (fileUrl, idindex) {
+                        var index = -1;
+                        for (var i = 0; i < $scope.Record.BJFiles.length; i++) {
+                            if ($scope.Record.BJFiles[i].FileUrl == fileUrl) {
+                                index = i;
+                                break;
+                            }
+                        }
+                        if (index >= 0) {
+                            $scope.Record.BJFiles.splice(index, 1);
+                            $('#BJFile' + idindex).remove();
+                        }
+                    };
+
+                    $(document).on("change", "#BJUrl_file", function (event) {
+                        var uploadFile = event.currentTarget
+                        //触发文件上传
+                        uploader.onFileUpload(uploadFile.files[0], function (params, process) {
+                            //执行
+                            process(function (uploadResp) {
+                                //上传成功
+                                var flag = false;
+                                if ($scope.Record.BJFiles == undefined) {
+                                    $scope.Record.BJFiles = [];
+                                }
+
+                                for (var i = 0; i < $scope.Record.BJFiles.length; i++) {
+                                    if ($scope.Record.BJFiles[i].FileUrl == uploadResp.Data) {
+                                        flag = true;
+                                        break;
+                                    }
+                                }
+                                if (!flag) {
+                                    $scope.Record.BJFiles.push({
+                                        FileName: uploadFile.files[0].name, FileUrl: uploadResp.Data
+                                    });
+                                    $scope.$apply();
+                                }
+                            }, function (resp) {
+                                console.log(resp.Msg);
+                            })
+
+                        });
+                    });
+
+                    $scope.delOtherUrl = function (fileUrl, idindex) {
+                        var index = -1;
+                        for (var i = 0; i < $scope.Record.OtherFiles.length; i++) {
+                            if ($scope.Record.OtherFiles[i].FileUrl == fileUrl) {
+                                index = i;
+                                break;
+                            }
+                        }
+                        if (index >= 0) {
+                            $scope.Record.OtherFiles.splice(index, 1);
+                            $('#OtherFile' + idindex).remove();
+                        }
+                    };
+
+                    $(document).on("change", "#OtherUrl_file", function (event) {
+                        var uploadFile = event.currentTarget
+                        //触发文件上传
+                        uploader.onFileUpload(uploadFile.files[0], function (params, process) {
+                            //执行
+                            process(function (uploadResp) {
+                                //上传成功
+                                var flag = false;
+                                if ($scope.Record.OtherFiles == undefined) {
+                                    $scope.Record.OtherFiles = [];
+                                }
+
+                                for (var i = 0; i < $scope.Record.OtherFiles.length; i++) {
+                                    if ($scope.Record.OtherFiles[i].FileUrl == uploadResp.Data) {
+                                        flag = true;
+                                        break;
+                                    }
+                                }
+                                if (!flag) {
+                                    $scope.Record.OtherFiles.push({
+                                        FileName: uploadFile.files[0].name, FileUrl: uploadResp.Data
+                                    });
+                                    $scope.$apply();
+                                }
+                            }, function (resp) {
+                                console.log(resp.Msg);
+                            })
+
+                        });
+                    });
 
                     //获取字符串长度
                     $scope.GetStringLength = function (str) {

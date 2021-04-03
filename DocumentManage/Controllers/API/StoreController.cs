@@ -146,8 +146,18 @@ namespace DocumentManage.Controllers.API
                 }
                 else if (visitFile == null)
                 {
+                    
                     var filePath = System.IO.Path.Combine(rootpath, id + ".xls");
-                    if (File.Exists(filePath))
+                    var filezipPath = System.IO.Path.Combine(rootpath, id + ".zip");
+                    if (File.Exists(filezipPath))
+                    {
+                        var stream = File.OpenRead(filezipPath);
+                        result.Content = new StreamContent(stream);
+                        result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                        result.Content.Headers.Add("Content-Disposition", "attachment;filename=\"" + HttpUtility.UrlEncode(id) + ".zip\"");
+                        return result;
+                    }
+                    else if (File.Exists(filePath))
                     {
                         var stream = File.OpenRead(filePath);
                         result.Content = new StreamContent(stream);

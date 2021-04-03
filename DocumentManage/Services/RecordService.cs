@@ -821,9 +821,10 @@ namespace DocumentManage.Services
 
                 if (!string.IsNullOrEmpty(request.OurPerson))
                 {
-                    //query = query.Where(t => t.OurPersonNameCN.Contains(request.OurPerson) || t.OurPersonNameEN.Contains(request.OurPerson)
-                    //    || t.OurOPersonNameCN.Contains(request.OurPerson) || t.OurOPersonNameEN.Contains(request.OurPerson));
-                    query = query.Where(t => t.OurPersonNameCN.Contains(request.OurPerson) || t.OurPersonNameEN.Contains(request.OurPerson)
+
+                    query = query.Where(t => t.TheyPersonNameCN.Contains(request.OurPerson) || t.TheyPersonNameEN.Contains(request.OurPerson)
+                        || t.TheyOtherPersonStr.Contains(request.OurPerson) || t.VisitName.Contains(request.OurPerson) || t.MainPersonNameCN.Contains(request.OurPerson)
+                        || t.MainPersonNameEN.Contains(request.OurPerson) || t.OurPersonNameCN.Contains(request.OurPerson) || t.OurPersonNameEN.Contains(request.OurPerson)
                         || t.OurOtherPersonStr.Contains(request.OurPerson));
                 }
 
@@ -835,10 +836,10 @@ namespace DocumentManage.Services
 
                 if (!string.IsNullOrEmpty(request.TheyPerson))
                 {
-                    //query = query.Where(t => t.TheyPersonNameCN.Contains(request.TheyPerson) || t.TheyPersonNameEN.Contains(request.TheyPerson)
-                    //    || t.TheyOPersonNameCN.Contains(request.OurPerson) || t.TheyOPersonNameEN.Contains(request.OurPerson));
                     query = query.Where(t => t.TheyPersonNameCN.Contains(request.TheyPerson) || t.TheyPersonNameEN.Contains(request.TheyPerson)
-                        || t.TheyOtherPersonStr.Contains(request.OurPerson));
+                        || t.TheyOtherPersonStr.Contains(request.TheyPerson) || t.VisitName.Contains(request.TheyPerson) || t.MainPersonNameCN.Contains(request.TheyPerson)
+                        || t.MainPersonNameEN.Contains(request.TheyPerson) || t.OurPersonNameCN.Contains(request.TheyPerson) || t.OurPersonNameEN.Contains(request.TheyPerson)
+                        || t.OurOtherPersonStr.Contains(request.TheyPerson));
                 }
 
                 if (!string.IsNullOrEmpty(request.TheyPersonTitle))

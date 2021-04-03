@@ -7,14 +7,22 @@ using DocumentManage.Models;
 using DocumentManage.Dtos;
 using DocumentManage.Common;
 using System.Text;
+using DocumentManage.Dtos.Request;
+using System.IO;
 
 namespace DocumentManage.Services
 {
     public class OrgService
     {
-        public bool Edit(Orgnazition request, string operUserID, out string reason)
+        public bool Edit(RequestOrgDTO request, string operUserID, out string reason)
         {
             reason = "";
+
+            List<string> oldFiles = new List<string>();
+            Dictionary<string, string> copyfiles = new Dictionary<string, string>();
+            var needDelete = new List<VisitFile>();
+            var needNew = new List<VisitFile>();
+
             using (var db = new DBEntities())
             {
                 var model = db.Orgnazitions.Where(t => t.OrgID == request.OrgID).FirstOrDefault();
@@ -58,6 +66,14 @@ namespace DocumentManage.Services
                     model.OrgBack = request.OrgBack;
                     model.ModifyUserID = operUserID;
                     model.ModifyTime = DateTime.Now;
+
+                    var bjFiles = db.VisitFiles.Where(t => t.OutID == model.OrgID && t.Type == "20").ToList();
+                    CommonService.FindNewAndOld(bjFiles, request.BJFiles, needDelete, needNew);
+                    CommonService.HandleFiles(needDelete, needNew, oldFiles, model.OrgID, "20", copyfiles, db);
+
+                    var otherFiles = db.VisitFiles.Where(t => t.OutID == model.OrgID && t.Type == "16").ToList();
+                    CommonService.FindNewAndOld(otherFiles, request.OtherFiles, needDelete, needNew);
+                    CommonService.HandleFiles(needDelete, needNew, oldFiles, model.OrgID, "16", copyfiles, db);
                 }
                 else
                 {
@@ -69,10 +85,42 @@ namespace DocumentManage.Services
                         return false;
                     }
 
+                    CommonService.HandleFiles(null, request.BJFiles, oldFiles, request.OrgID, "20", copyfiles, db);
+                    CommonService.HandleFiles(null, request.OtherFiles, oldFiles, request.OrgID, "16", copyfiles, db);
+
                     request.CreateUserID = operUserID;
                     db.Orgnazitions.Add(request);
                 }
-                return db.SaveChanges() > 0;
+
+                var ret = db.SaveChanges() > 0;
+                if (ret)
+                {
+                    foreach (var item in oldFiles)
+                    {
+                        try
+                        {
+                            File.Delete(item);
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+
+                    foreach (var item in copyfiles)
+                    {
+                        try
+                        {
+                            File.Move(item.Key, item.Value);
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+                }
+
+                return ret;
             }
         }
 
@@ -122,8 +170,18 @@ namespace DocumentManage.Services
                 {
                     query = query.Where(t => t.CreateUserID == request.UserID);
                 }
+                 var ret = query.FirstOrDefault();
 
-                return query.FirstOrDefault();
+                if (ret != null)
+                {
+                    var fileq = from vifile in db.VisitFiles
+                                select vifile;
+
+                    ret.OtherFiles = fileq.Where(t => t.Type == "16" && t.OutID == ret.OrgID).ToList();
+                    ret.BJFiles = fileq.Where(t => t.Type == "20" && t.OutID == ret.OrgID).ToList();
+                }
+
+                return ret;
             }
         }
 

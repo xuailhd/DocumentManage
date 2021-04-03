@@ -1,7 +1,7 @@
 ﻿require.config({
     baseUrl: '/static/',
     waitSeconds: 0,
-    urlArgs: "bust=V4.2.0" + Math.random(),
+    urlArgs: "bust=V1.0" + Math.random(),
     packages: [
     {
         name: 'echarts',
