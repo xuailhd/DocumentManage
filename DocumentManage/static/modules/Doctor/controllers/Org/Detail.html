@@ -259,6 +259,32 @@
                 <div class="row">
                     <div class="col-xs-4 form-group">
                         <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">背景</span>
+                        </div>
+                        <div class="col-md-8">
+                            <ul ng-repeat="item in Record.BJFiles">
+                                <li id="BJFile{{$index}}">
+                                    <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right">其他</span>
+                        </div>
+                        <div class="col-md-8">
+                            <ul ng-repeat="item in Record.OtherFiles">
+                                <li id="OtherFile{{$index}}">
+                                    <a target="_blank" href="api/store/download/{{item.FileID}}">{{item.FileName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
                             <span style="float:right">创建日期</span>
                         </div>
                         <div class="col-md-8">
