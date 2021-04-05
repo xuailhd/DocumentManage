@@ -88,8 +88,11 @@ namespace DocumentManage.Services
                     CommonService.HandleFiles(null, request.BJFiles, oldFiles, request.OrgID, "20", copyfiles, db);
                     CommonService.HandleFiles(null, request.OtherFiles, oldFiles, request.OrgID, "16", copyfiles, db);
 
-                    request.CreateUserID = operUserID;
-                    db.Orgnazitions.Add(request);
+                    model = request.Map<RequestOrgDTO, Orgnazition>();
+
+                    model.CreateUserID = operUserID;
+                    model.CreateTime = DateTime.Now;
+                    db.Orgnazitions.Add(model);
                 }
 
                 var ret = db.SaveChanges() > 0;
